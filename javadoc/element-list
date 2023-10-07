@@ -1,0 +1,13 @@
+info.oais.infomodel.implementation
+info.oais.infomodel.implementation.pdi
+info.oais.infomodel.implementation.representationinformation
+info.oais.infomodel.implementation.utility
+info.oais.infomodel.interfaces
+info.oais.infomodel.interfaces.pdi
+info.oais.infomodel.interfaces.representationinformation
+info.oais.infomodel.interfaces.utility
+info.oais.oaisif.genericadapter
+info.oais.oaisif.genericadapter.swagger
+info.oais.oaisif.rrori
+info.oais.oaisif.specificAdapter
+info.oais.oaisif.switchBoard

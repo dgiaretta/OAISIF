@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: info.oais.oaisif.switchBoard.SwitchBoardApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.34 s <<< FAILURE! - in info.oais.oaisif.switchBoard.SwitchBoardApplicationTests
+info.oais.oaisif.switchBoard.SwitchBoardApplicationTests  Time elapsed: 0.339 s  <<< ERROR!
+java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
+

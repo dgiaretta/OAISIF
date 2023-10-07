@@ -1,0 +1,74 @@
+package info.oais.infomodel.interfaces;
+
+
+/**
+ * An Information Object is a Data Object together with its Representation Information [OAIS]
+ * 
+ * <b>Information</b>: Any type of knowledge that can be exchanged. In an
+ * exchange, it is represented by data. <br/> NOTE - An example of Information is
+ * a string of bits (the data) accompanied by a description of how to interpret
+ * the string of bits as numbers representing temperature observations measured in
+ * degrees Celsius (the Representation Information).  [OAIS]<br/>
+ * @author David
+ * @version 1.0
+ * @since 06-Sep-2021 15:59:46
+ */
+public interface InformationObject  {
+
+	/**
+	 * Get the DataObject of the InformationObject.
+	 * If the DataObject is an instance of an Identifier then it
+	 * points to the actual Data Object
+	 * 
+	 * @return The DataObject of the InformationObject.
+	 */
+	public DataObject getDataObject();
+	/**
+	 * Get the RepresentationInformation of the informationObject.
+	 * 
+	 * @return The RepInfo of the InformationObject.
+	 */
+	public RepresentationInformation getRepresentationInformation();
+
+	/**
+	 * Set the DataObject of the InformationObject.
+	 * 
+	 * @param dataObj    The DataObject for the InfoObject.
+	 */
+	public void setDataObject(DataObject dataObj);
+
+	/**
+	 * Set the RepresentationInformation of the InformationObject.
+	 * 
+	 * @param repInfo    The RepInfo for the InfoObject.
+	 */
+	public void setRepresentationInformation(RepresentationInformation repInfo);
+
+	/**
+	 * Get the Identifier of the Information Object
+	 * 
+	 * @return Identifier for the Info Object
+	 */
+	public Identifier getIdentifier();
+	
+	/**
+	 * Set the Identifier for the Info Object
+	 * 
+	 * @param id Identifier for the Info Object
+	 */
+	public void setIdentifier(Identifier id);
+	
+	/**
+	 * Get the Identifier of the Information Object
+	 * 
+	 * @return Identifier for the Info Object
+	 */
+	public ObjVersion getObjVersion();
+	
+	/**
+	 * Set the version for the Info Object
+	 * 
+	 * @param v version for the Info Object
+	 */
+	public void setObjVersion(ObjVersion v);
+}

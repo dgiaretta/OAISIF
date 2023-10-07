@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"info.oais.oaisif.genericadapter","l":"FindAips"},{"p":"info.oais.oaisif.genericadapter","l":"FindRrori"},{"p":"info.oais.oaisif.genericadapter","l":"GenericadapterApplication"},{"p":"info.oais.oaisif.genericadapter","l":"GenericadapterApplicationTests"}];updateSearchResults();
