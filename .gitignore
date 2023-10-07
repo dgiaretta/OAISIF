@@ -1,1 +1,4 @@
 /.metadata/
+target/
+bin/
+!.mvn/wrapper/maven-wrapper.jar
