@@ -1,4 +1,5 @@
 package info.oais.oaisif.rrori;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,15 +33,16 @@ public class RroriService {
 		int numrows = -1;
 
 		
-		InputStream inputStream = this.getClass().getClassLoader()
-                .getResourceAsStream("rrori.properties");
-
+		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		String appConfigPath = rootPath + "rrori.properties";
         Properties sbprop = new Properties();
         RroriEntry sbe = new RroriEntry();
-        System.out.println("InputStream is: " + inputStream);
+        
+        System.out.println("InputStream is: " + appConfigPath);
 
+        // load the inputStream using the Properties
         try {
-			sbprop.load(inputStream);
+			sbprop.load(new FileInputStream(appConfigPath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

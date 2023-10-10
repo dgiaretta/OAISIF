@@ -37,7 +37,7 @@ public class FindRrori {
 //	@Autowired
 //	RestTemplate restTemplate;
 
-   @GetMapping(value = "ArchiveName?name=RRORI")
+   @GetMapping(value = "/ArchiveName?name=RRORI")
    /**
     * 
     * @param switchboardUrl The URL for the Switchboard

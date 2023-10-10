@@ -37,7 +37,7 @@ public class FindAips {
 //	@Autowired
 //	RestTemplate restTemplate;
 
-   @GetMapping(value = "AIPAll")
+   @GetMapping(value = "/AIPAll")
    /**
     * 
     * @param specificAdapterUrl The URL of the Specific Adapter to use

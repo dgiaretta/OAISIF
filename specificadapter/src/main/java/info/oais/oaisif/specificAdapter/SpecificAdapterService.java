@@ -1,15 +1,12 @@
 package info.oais.oaisif.specificAdapter;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
@@ -30,16 +27,15 @@ public class SpecificAdapterService {
 		//for (int i=0; i<7; i++)
 		//	data[i] = new ArrayList<String>();
 		
-		InputStream inputStream = this.getClass().getClassLoader()
-                .getResourceAsStream("specificadapter.properties");
-
+		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		String appConfigPath = rootPath + "specificadapter.properties";
         Properties sbprop = new Properties();
-        //SwitchBoardEntry sbe = new SwitchBoardEntry();
-        System.out.println("InputStream is: " + inputStream);
+        
+        System.out.println("InputStream is: " + appConfigPath);
 
         // load the inputStream using the Properties
         try {
-			sbprop.load(inputStream);
+			sbprop.load(new FileInputStream(appConfigPath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
