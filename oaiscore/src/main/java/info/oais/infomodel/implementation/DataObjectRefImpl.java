@@ -6,6 +6,8 @@ package info.oais.infomodel.implementation;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import info.oais.infomodel.interfaces.DataObject;
@@ -17,7 +19,7 @@ import info.oais.infomodel.interfaces.ObjVersion;
  * 
  * The DataObject has an Identifier, so that it can be found.
  * 
- * The DataObject content is an Object. THis Object may be 
+ * The DataObject content is an Object. This Object may be 
  * hold the bytes or it may be an instance of an Identifier, 
  * in which can it may point to the location of the bytes, 
  * or may point to a physical object.
@@ -25,19 +27,23 @@ import info.oais.infomodel.interfaces.ObjVersion;
  * @author david
  *
  */
+@JsonPropertyOrder({"Object", "Identifier", "IdType" } )
 public class DataObjectRefImpl implements DataObject {
 	/**
 	 * Internal value of Data Object
 	 */
+	@JsonIgnore
 	Object m_DATA = null;
 	/**
 	 * Internal value of the Identifier
 	 */
+	@JsonIgnore
 	Identifier m_ID = null;
 	/**
 	 * Internal value of Version
 	 */
-	ObjVersion m_ObjVer = null;
+	@JsonIgnore
+	ObjVersion m_ObjVer = new ObjVersionRefImpl();
 
 	/**
 	 * Create new DataObject
@@ -48,7 +54,7 @@ public class DataObjectRefImpl implements DataObject {
 		/**
 		 * Generate an initial UUID 
 		 */
-		m_ID = new IdentifierRefImpl((UUID.randomUUID()).toString(), "UUID");
+		//m_ID = new IdentifierRefImpl((UUID.randomUUID()).toString(), "UUID");
 	}
 	/**
 	 * Create new DataObject
@@ -62,7 +68,7 @@ public class DataObjectRefImpl implements DataObject {
 		/**
 		 * Generate an initial UUID 
 		 */
-		m_ID = new IdentifierRefImpl((UUID.randomUUID()).toString(), "UUID");
+		//m_ID = new IdentifierRefImpl((UUID.randomUUID()).toString(), "UUID");
 		
 	}
 
@@ -121,7 +127,7 @@ public class DataObjectRefImpl implements DataObject {
 	public void setIdentifier(Identifier id) {
 		m_ID = id;
 	}
-
+	@JsonIgnore
 	public String toString() {
 		return (String)m_DATA;
 	}
@@ -131,6 +137,7 @@ public class DataObjectRefImpl implements DataObject {
 	 * 
 	 * @return version
 	 */
+	@JsonGetter("Version")
 	public ObjVersion getObjVersion() {
 		
 		return m_ObjVer;
@@ -141,6 +148,7 @@ public class DataObjectRefImpl implements DataObject {
 	 * 
 	 * @param ver The version to set
 	 */
+	@JsonSetter("Version")
 	public void setObjVersion(ObjVersion ver) {
 		m_ObjVer = ver;
 	}

@@ -2,6 +2,10 @@ package info.oais.infomodel.implementation.representationinformation;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import info.oais.infomodel.implementation.RepresentationInformationRefImpl;
 import info.oais.infomodel.interfaces.RepresentationInformation;
 import info.oais.infomodel.interfaces.representationinformation.RepInfoGroup;
@@ -16,9 +20,24 @@ import info.oais.infomodel.interfaces.representationinformation.RepInfoGroup;
  * @author David
  *
  */
-
+@JsonIgnoreType
 public class RepInfoGroupRefImpl extends RepresentationInformationRefImpl implements RepInfoGroup {
 
+	ArrayList<RepresentationInformation> m_Group = null;
+	/**
+	 * Empty Constructor
+	 */
+	public RepInfoGroupRefImpl() {
+		super();
+	}
+	
+	/**
+	 * Constructor
+	 */
+	public RepInfoGroupRefImpl(ArrayList<RepresentationInformation> group) {
+		m_Group = group;
+	}
+	
 	/**
 	 * For array of objects
 	 */
@@ -29,8 +48,10 @@ public class RepInfoGroupRefImpl extends RepresentationInformationRefImpl implem
 	 * 
 	 * @return The array of Info in the Group
 	 */
+	//@JsonProperty("RepInfoGroup")
+	@JsonIgnore
 	public ArrayList<RepresentationInformation> getGroup(){
-		return this.group;
+		return m_Group;
 	}
 	
 	/**
@@ -38,8 +59,9 @@ public class RepInfoGroupRefImpl extends RepresentationInformationRefImpl implem
 	 * 
 	 * @param group An ArrayList of RepInfo
 	 */
+	@JsonIgnore
 	public void setGroup(ArrayList<RepresentationInformation> group) {
-		this.group = group;
+		m_Group = group;
 	}
 
 }

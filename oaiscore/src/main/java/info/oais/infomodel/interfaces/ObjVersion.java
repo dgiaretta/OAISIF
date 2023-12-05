@@ -12,6 +12,20 @@ package info.oais.infomodel.interfaces;
 public interface ObjVersion extends Comparable<ObjVersion> {
 
 	/**
+	 * Get ObjVersion as a String
+	 * @param ver Version as a String
+	 * 
+	 */
+	void setObjVersionString(String ver);
+	
+	/**
+	 * Set ObjVersion as a String
+	 * @returns Version as a String
+	 * 
+	 */
+	String getObjVersionString();
+	
+	/**
 	 * Compare one with another
 	 * 
 	 * @param o the version to be compared.

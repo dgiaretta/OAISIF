@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -17,10 +19,13 @@ import info.oais.infomodel.interfaces.Identifier;
  * @author david
  *
  */
+//DG XXXX
+//@JsonIgnoreType
 @JsonPropertyOrder({"IdName", "IdType" } )
 public class IdentifierRefImpl implements Identifier {
-	
+	@JsonIgnore
 	String m_idName = null;
+	@JsonIgnore
 	String m_idType = null;
 	/**
 	 * Create new Identifier

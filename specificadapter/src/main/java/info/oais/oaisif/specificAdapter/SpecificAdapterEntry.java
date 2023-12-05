@@ -36,11 +36,11 @@ import lombok.*;
 		/**
 		 * PDI ID   xxx,yyy
 		 */
-		public String pDi 	= null;
+		public String pdiDoid	= null;
 		/**
 		 * Info Object ID
 		 */
-		public String infoObject 			= null;
+		public String ioDoid 			= null;
 		
 		public SpecificAdapterEntry() {
 			super();
@@ -103,8 +103,8 @@ import lombok.*;
 		 * 
 		 * @return The description of the archive
 		 */
-		public String getpDi() {
-			return pDi;
+		public String getPdiDoid() {
+			return pdiDoid;
 		}
 
 		/**
@@ -112,8 +112,8 @@ import lombok.*;
 		 * 
 		 * @param pDi - the ID of the PDI
 		 */
-		public void setpDi(String pDi) {
-			this.pDi = pDi;
+		public void setPdiDoid(String pDi) {
+			this.pdiDoid = pDi;
 		}
 
 		/**
@@ -121,8 +121,8 @@ import lombok.*;
 		 * 
 		 * @return The String for the URL to use to access the archive
 		 */	
-		public String getInfoObject() {
-			return infoObject;
+		public String getIoDoid() {
+			return ioDoid;
 		}
 
 		/**
@@ -130,8 +130,8 @@ import lombok.*;
 		 * 
 		 * @param infoObject ID of the infoObject
 		 */	
-		public void setInfoObject(String infoObject) {
-			this.infoObject = infoObject;
+		public void setIoDoid(String infoObject) {
+			this.ioDoid = infoObject;
 		}
 
 
@@ -140,7 +140,7 @@ import lombok.*;
 		public String toString() {
 			return  "AIP DOID: " + aipDoid + "\n" +
 					"IsComplete: "+ isComplete + "\n" +
-					"PDI: " + pDi + "\n" +
-					"InfoObject: " + infoObject + "\n" ;
+					"PDI: " + pdiDoid + "\n" +
+					"InfoObject: " + ioDoid + "\n" ;
 		}	
 }

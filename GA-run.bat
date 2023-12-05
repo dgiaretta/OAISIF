@@ -1,0 +1,1 @@
+start "Generic Adapter" /d C:\Users\david\OneDrive\OAISIFTest\genericadapter mvn spring-boot:run

@@ -47,42 +47,42 @@ public interface RepresentationInformation extends InformationObject {
 	 * 
 	 * @return The SemanticRepInfo
 	 */
-	public SemanticRepInfo getSemanticRepInfo();
+	public RepresentationInformation getSemanticRepInfo();
 	
 	/**
 	 * Get the StructureRepInfo component
 	 * 
 	 * @return The StructureRepInfo
 	 */
-	public StructureRepInfo getStructureRepInfo();
+	public RepresentationInformation getStructureRepInfo();
 	
 	/**
 	 * Get the OtherRepInfo component
 	 * 
 	 * @return The OtherRepInfo
 	 */
-	public OtherRepInfo getOtherRepInfo();
+	public RepresentationInformation getOtherRepInfo();
 	
 	/**
 	 * Put the SemanticRepInfo component
 	 * 
 	 * @param semRI The SemanticRepInfo
 	 */
-	public void putSemanticRepInfo(SemanticRepInfo semRI);
+	public void putSemanticRepInfo(RepresentationInformation semRI);
 	
 	/**
 	 * Put the StructureRepInfo component
 	 * 
 	 * @param strRI The StructureRepInfo
 	 */
-	public void putStructureRepInfo(StructureRepInfo strRI);
+	public void putStructureRepInfo(RepresentationInformation strRI);
 	
 	/**
 	 * Put the OtherRepInfo component
 	 * 
 	 * @param otherRI The OtherRepInfo
 	 */
-	public void putOtherRepInfo(OtherRepInfo otherRI);
+	public void putOtherRepInfo(RepresentationInformation otherRI);
 	
 
 }

@@ -2,11 +2,16 @@ package info.oais.oaisif.specificAdapter;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SpecificAdapterRepository extends CrudRepository<SpecificAdapterEntry, Long> {
 	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
 	List<SpecificAdapterEntry> findByAipDoid(String name);
 	//List<SpecificAdapterEntry> findByArchiveNameLike(String name);
+
+	List<SpecificAdapterEntry> findByPdiDoid(String name);
+
+	List<SpecificAdapterEntry> findByIoDoid(String name);
+
+	//List<SpecificAdapterEntry> findByDoDoid(String name);
 }

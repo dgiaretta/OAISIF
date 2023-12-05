@@ -3,6 +3,8 @@
  */
 package info.oais.infomodel.implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import info.oais.infomodel.interfaces.AccessRightsInformation;
 
 /**
@@ -37,6 +39,7 @@ public class AccessRightsInformationRefImpl extends InformationObjectRefImpl imp
 	 * @return String for the Access Rights Information.
 	 * 
 	 */	
+	@JsonIgnore
 	public String getString() {
 		return getDataObject().toString();
 	}

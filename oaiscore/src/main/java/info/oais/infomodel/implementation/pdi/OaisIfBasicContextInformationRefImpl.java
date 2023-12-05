@@ -7,16 +7,16 @@ import info.oais.infomodel.interfaces.pdi.OaisIfContextInformation;
  * Context with some convenience methods.
  * 
  */
-public class OaisIfContextInformationRefImpl extends ContextInformationRefImpl implements OaisIfContextInformation {
+public class OaisIfBasicContextInformationRefImpl extends ContextInformationRefImpl implements OaisIfContextInformation {
 
 	private String m_cont = null;
 	
 	/**
-	 * Constructor for OaisIfAccessRightsInformationRefImpl
+	 * Constructor for OaisIfBasicAccessRightsInformationRefImpl
 	 * 
 	 * @param contextStr The text string of Access Rights
 	 */
-	public OaisIfContextInformationRefImpl(String contextStr) {
+	public OaisIfBasicContextInformationRefImpl(String contextStr) {
 		super(contextStr);
 		m_cont = contextStr;
 	}

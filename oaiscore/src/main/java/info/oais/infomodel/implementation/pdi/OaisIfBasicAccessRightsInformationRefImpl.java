@@ -10,16 +10,16 @@ import info.oais.infomodel.interfaces.pdi.OaisIfAccessRightsInformation;
  * Access Rights with some convenience methods.
  * 
  */
-public class OaisIfAccessRightsInformationRefImpl extends AccessRightsInformationRefImpl implements OaisIfAccessRightsInformation {
+public class OaisIfBasicAccessRightsInformationRefImpl extends AccessRightsInformationRefImpl implements OaisIfAccessRightsInformation {
 
 	private String m_art = null;
 	
 	/**
-	 * Constructor for OaisIfAccessRightsInformationRefImpl
+	 * Constructor for OaisIfBasicAccessRightsInformationRefImpl
 	 * 
 	 * @param ariStr The text string of Access Rights
 	 */
-	public OaisIfAccessRightsInformationRefImpl(String ariStr) {
+	public OaisIfBasicAccessRightsInformationRefImpl(String ariStr) {
 		super(ariStr);
 		m_art = ariStr;
 	}

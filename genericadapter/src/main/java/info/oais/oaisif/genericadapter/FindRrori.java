@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import info.oais.oaisif.switchBoard.SwitchBoardEntry;
+//import info.oais.oaisif.switchBoard.SwitchBoardEntry;
 
 /**
  * Get the details of the RRORI
@@ -44,7 +44,7 @@ public class FindRrori {
     * @return  The info from RRORI as a String
     */
    public String getRrori(String switchboardUrl) {
-	  String loc = switchboardUrl+"/ArchiveName?name=RRORI";
+	  String loc = null; //switchboardUrl+"/ArchiveName?name=RRORI";
       System.out.println("Switchboard is:" + loc);
 	  HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import info.oais.oaisif.switchBoard.SwitchBoardEntry;
+// import info.oais.oaisif.switchBoard.SwitchBoardEntry;
 
 /**
  * Get a list of all the AIPs 
@@ -44,7 +44,7 @@ public class FindAips {
     * @return the AIPs
     */
    public String getAllAips(String specificAdapterUrl) {
-	  String loc = specificAdapterUrl+"/AIPAll";
+	  String loc = null;   // specificAdapterUrl+"/AIPAll";
       System.out.println("SpecificAdapter is:" + loc);
 	  HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

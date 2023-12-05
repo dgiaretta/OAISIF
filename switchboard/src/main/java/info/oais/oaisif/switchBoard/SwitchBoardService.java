@@ -59,11 +59,11 @@ public class SwitchBoardService {
 	        sbe.setId(System.currentTimeMillis());   
 	        sbe.setArchiveName(lines[0]);
 	        sbe.setArchiveDescription(lines[1]);
-	        sbe.setArchiveURL(lines[2]);
-	        sbe.setArchiveAuth(lines[3]);
-	        sbe.setArchiveSerialisation(lines[4]);
-	        sbe.setArchiveComms(lines[5]);
-	        sbe.setArchiveQL(lines[6]);
+	        //sbe.setArchiveURL(lines[2]);
+	        //sbe.setArchiveAuth(lines[3]);
+	        //sbe.setArchiveSerialisation(lines[4]);
+	        //sbe.setArchiveComms(lines[5]);
+	        //sbe.setArchiveQL(lines[6]);
 	        switchBoardRepository.save(sbe);
         }
         log.info("switchBoardRepository is:" + switchBoardRepository);

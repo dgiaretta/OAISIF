@@ -3,6 +3,8 @@
  */
 package info.oais.infomodel.implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import info.oais.infomodel.interfaces.DataObject;
 import info.oais.infomodel.interfaces.OtherRepInfo;
 import info.oais.infomodel.interfaces.RepresentationInformation;
@@ -15,16 +17,35 @@ import info.oais.infomodel.interfaces.representationinformation.RepInfoCategory;
  *
  */
 public class RepresentationInformationRefImpl extends InformationObjectRefImpl implements RepresentationInformation {
+	@JsonIgnore
 	RepInfoCategory m_repCat = null;
-	public OtherRepInfo m_OtherRepInfo;
-	public SemanticRepInfo m_SemanticRepInfo;
-	public StructureRepInfo m_StructureRepInfo;
+	@JsonIgnore
+	public RepresentationInformation m_OtherRepInfo;
+	@JsonIgnore
+	public RepresentationInformation m_SemanticRepInfo;
+	@JsonIgnore
+	public RepresentationInformation m_StructureRepInfo;
 	
 	/**
 	 * Create RepInfo
 	 */
 	public RepresentationInformationRefImpl() {
 		super();
+		//m_repCat = new RepInfoCategoryRefImpl();
+	}
+	/**
+	 * Create RepInfo with all components
+	 * 
+	 * @param strRi Structure RI
+	 * @param semRi Semantic RI
+	 * @param otherRi Other RI
+	 */
+	public RepresentationInformationRefImpl(RepresentationInformation strRi, RepresentationInformation semRi, RepresentationInformation otherRi) {
+		//super();
+		m_StructureRepInfo = strRi;
+		m_SemanticRepInfo = semRi;
+		m_OtherRepInfo = otherRi;
+		
 		//m_repCat = new RepInfoCategoryRefImpl();
 	}
 	/**
@@ -49,32 +70,32 @@ public class RepresentationInformationRefImpl extends InformationObjectRefImpl i
 
 	}
 	@Override
-	public SemanticRepInfo getSemanticRepInfo() {
+	public RepresentationInformation getSemanticRepInfo() {
 		
 		return m_SemanticRepInfo;
 	}
 	@Override
-	public StructureRepInfo getStructureRepInfo() {
+	public RepresentationInformation getStructureRepInfo() {
 		
 		return m_StructureRepInfo;
 	}
 	@Override
-	public OtherRepInfo getOtherRepInfo() {
+	public RepresentationInformation getOtherRepInfo() {
 		
 		return m_OtherRepInfo;
 	}
 	@Override
-	public void putSemanticRepInfo(SemanticRepInfo semRI) {
+	public void putSemanticRepInfo(RepresentationInformation semRI) {
 		m_SemanticRepInfo = semRI;
 		
 	}
 	@Override
-	public void putStructureRepInfo(StructureRepInfo strRI) {
+	public void putStructureRepInfo(RepresentationInformation strRI) {
 		m_StructureRepInfo = strRI;
 		
 	}
 	@Override
-	public void putOtherRepInfo(OtherRepInfo otherRI) {
+	public void putOtherRepInfo(RepresentationInformation otherRI) {
 		m_OtherRepInfo = otherRI;
 		
 	}

@@ -62,18 +62,18 @@ public class VertexRefImpl implements Vertex, Serializable {
 	}
 	
 	/**
-	 * Get the VertexType - a subtype of RepInfoGroup.
+	 * Get the VertexType - a subtype of RepInfoGroup - either AndGroup or OrGroup.
 	 * 
-	 * @return The VertexType - a subtype of RepInfoGroup.
+	 * @return The VertexType - a subtype of RepInfoGroup - either AndGroup or OrGroup.
 	 */
 	public RepInfoGroup getVertexType() {
 		return m_vertexType;
 	}
 	
 	/**
-	 * Set the VertexType - a subtype of RepInfoGroup..
+	 * Set the VertexType - a subtype of RepInfoGroup - either AndGroup or OrGroup.
 	 * 
-	 * @param rig The VertexType - a subtype of RepInfoGroup.
+	 * @param rig The VertexType - a subtype of RepInfoGroup - either AndGroup or OrGroup.
 	 */
 	public void setVertexType(RepInfoGroup rig) {
 		m_vertexType = rig;

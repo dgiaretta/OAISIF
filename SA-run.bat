@@ -1,0 +1,1 @@
+start "Specific Adapter" /d C:\Users\david\OneDrive\OAISIFTest\specificadapter mvn spring-boot:run

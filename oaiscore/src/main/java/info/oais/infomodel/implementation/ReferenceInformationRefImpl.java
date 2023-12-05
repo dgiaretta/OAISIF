@@ -4,6 +4,7 @@
 package info.oais.infomodel.implementation;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import info.oais.infomodel.interfaces.Identifier;
@@ -24,7 +25,16 @@ public class ReferenceInformationRefImpl extends InformationObjectRefImpl implem
 	public ReferenceInformationRefImpl() {
 		super();
 	}
-
+	/**
+	 * Set the Information Object for the ReferenceInformation.
+	 * 
+	 * @param io Set the Information Object for the FReferenceInformation.
+	 */
+	public ReferenceInformationRefImpl(InformationObject io) {
+		super(io.getDataObject(), io.getRepresentationInformation());
+		m_IO = io;
+	}
+	@JsonIgnore
 	public String getString() {
 		return getDataObject().toString();
 	}

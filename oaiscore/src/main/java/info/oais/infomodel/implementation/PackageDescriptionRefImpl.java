@@ -3,29 +3,27 @@
  */
 package info.oais.infomodel.implementation;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
-
-import info.oais.infomodel.interfaces.DataObject;
-import info.oais.infomodel.interfaces.Identifier;
 import info.oais.infomodel.interfaces.PackageDescription;
-import info.oais.infomodel.interfaces.RepresentationInformation;
 
 /**
  * @author david
  *
  */
 public class PackageDescriptionRefImpl extends InformationObjectRefImpl implements PackageDescription {
-	
+
+	/**
+	 * Create Package Description as String - assumed to be English encoded as UTF-16
+	 * @param pdStr The String to assign to the Package Description, assumed to be English encoded as UTF-16
+	 */
 	public PackageDescriptionRefImpl(String pdStr) {
 		super();
 		this.setDataObject(new DataObjectRefImpl((Object)pdStr));
+		String repInfo = "English encoded in UTF-16";
+		this.setRepresentationInformation(new RepresentationInformationRefImpl(new DataObjectRefImpl(repInfo), null));
 	}
-
+	@JsonIgnore
 	public String getString() {
 		return getDataObject().toString();
 	}

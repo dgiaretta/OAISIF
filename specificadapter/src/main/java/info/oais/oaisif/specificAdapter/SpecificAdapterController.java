@@ -1,23 +1,25 @@
 package info.oais.oaisif.specificAdapter;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+//import info.oais.oaisif.genericadapter.Config;
 
 //import info.oais.oaisif.rrori.RroriEntry;
 
-@Controller
+@RestController
+@RequestMapping("/api/SA")
 public class SpecificAdapterController {
 
 	@Autowired
 	private SpecificAdapterRepository specificAdapterRepository;
 	
 	/**
+	 * Get an AIP given an identifier
 	 * baseuri/GetAIP?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
 	 * 
 	 */
@@ -47,7 +49,12 @@ public class SpecificAdapterController {
 //		}
 //		return ar;	
 //	}
-	
+	/**
+	 * Get a list of all the AIPs
+	 * 
+	 * baseuri/AIPAll 
+	 * 
+	 */
 	@ResponseBody
 	@RequestMapping(value="/AIPAll", produces = "application/json")
 	public List<SpecificAdapterEntry> getBySAAll() {
@@ -60,5 +67,59 @@ public class SpecificAdapterController {
 		}
 		return ar;	
 	}
+	/**
+	 * baseuri/GetPDI?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/GetPDI", params="doid", produces = "application/json")
+	public List<SpecificAdapterEntry> getPDIByDOIDByRequestParam( 
+			@RequestParam("doid") String doid) {
+		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByPdiDoid(doid);
+		if ( ar != null) {
+			System.out.println("Entry requested is: " + ar);
+		} else {
+			System.out.println("Entry request for "+ doid + " is NULL");
+		}
+		return ar;	
+	}
 	
+	/**
+	 * Get Information Object given ID
+	 * baseuri/GetIO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/GetIO", params="doid", produces = "application/json")
+	public List<SpecificAdapterEntry> getIOByDOIDByRequestParam( 
+			@RequestParam("doid") String doid) {
+		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIoDoid(doid);
+		if ( ar != null) {
+			System.out.println("Entry requested is: " + ar);
+		} else {
+			System.out.println("Entry request for "+ doid + " is NULL");
+		}
+		return ar;	
+	}
+	
+	/**
+	 * Get Data Object by ID
+	 * baseuri/GetDO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * 
+	 */
+//	@ResponseBody
+//	@RequestMapping(value="/GetDO", params="doid", produces = "application/json")
+//	public List<SpecificAdapterEntry> getDOByDOIDByRequestParam( 
+//			@RequestParam("doid") String doid) {
+//		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
+//		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByDoDoid(doid);
+//		if ( ar != null) {
+//			System.out.println("Entry requested is: " + ar);
+//		} else {
+//			System.out.println("Entry request for "+ doid + " is NULL");
+//		}
+//		return ar;	
+//	}
 }

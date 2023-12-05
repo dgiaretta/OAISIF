@@ -1,6 +1,8 @@
 package info.oais.oaisif.genericadapter;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import info.oais.oaisif.switchBoard.SwitchBoardEntry;
+//import info.oais.oaisif.switchBoard.SwitchBoardEntry;
 
 //import info.oais.oaisif.specificAdapter.SpecificAdapterEntry;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -28,10 +30,15 @@ import jakarta.ws.rs.core.HttpHeaders;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
@@ -49,73 +56,49 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 
+import info.oais.infomodel.implementation.utility.Config;
+
 @SpringBootApplication
 @Component
-@RestController
+// @RestController
 @Configuration
+@PropertySource("classpath:genericadapter.properties")
 @JsonIgnoreProperties(ignoreUnknown = true)
+
+
 
 /**
  * The Generic Adapter application for Spring Boot
  */
 public class GenericadapterApplication {
-    @Value("${SWITCHBOARD}")
-    /**
-     * The port for the switchboard
-     */
-	static
-    String switchboardUrl = "http://localhost:8085";
-    /**
-     * The port for the specific adapter
-     */
-    @Value("${SPECIFICADAPTER}")
-	static
-    String specificAdapterUrl = "http://localhost:8510";
-    
-    /**
-     * The port for the generic adapter
-     */
-    @Value("${GENERICADAPTER}")
-	static 
-    String genericAdapterPort="8765";
-    
-
-
-    
+	
 	public static void main(String[] args) {
-
-	    System.out.println("Switchboard root   is:" + switchboardUrl);
-	    System.out.println("genericAdapterPort is:" + genericAdapterPort);
-	    System.out.println("specificAdapter root   is:" + specificAdapterUrl);
 		
+		Properties appProps = new Properties();
+		InputStream input = null;
+		String filename = "genericadapter.properties";
+
+		appProps = new Config().getProperties(filename);  
+	   
+		System.out.println("My description   is:" + appProps.getProperty("MYDESCRIPTION"));
+	    System.out.println("My Authentication method is:" + appProps.getProperty("MYAUTHENTCATIONMETHOD"));
+	    System.out.println("My serialisation is:" + appProps.getProperty("MYSERIALISATIONMETHOD"));
+	    System.out.println("My communication   is:" + appProps.getProperty("MYCOMMUNICATIONMETHOD"));
+	    System.out.println("My query method is:" + appProps.getProperty("MYQUERYMETHOD"));
+		System.out.println("Switchboard root   is:" + appProps.getProperty("SWITCHBOARD"));
+	    System.out.println("genericAdapterPort is:" + appProps.getProperty("GENERICADAPTERPORT"));
+	    System.out.println("specificAdapter root   is:" + appProps.getProperty("SPECIFICADAPTER"));
+		
+	    
 		SpringApplication app = new SpringApplication(GenericadapterApplication.class);
         app.setDefaultProperties(Collections
-          .singletonMap("server.port", genericAdapterPort));
+          .singletonMap("server.port", appProps.getProperty("GENERICADAPTERPORT")));
         app.run(args);
         
-        //String loc = switchboardUrl+"/switchBoardEntries/search/findByArchiveName?name=RRORI";
-        //GenericadapterApplication ga = new GenericadapterApplication();
-        RestTemplate restTemplate = new RestTemplate();
-        
-        String rrori = (new FindRrori()).getRrori( switchboardUrl);
-        System.out.println("rrori is:" + rrori);
-        SwitchBoardEntry[] sbes = json2Java(rrori, SwitchBoardEntry[].class);
-        System.out.println("SwitchBoardEntry(ies) is (jason2Java):" + sbes);
-        System.out.println("Number of SwitchBoardEntry(ies) is:" + sbes.length);
-        System.out.println("--------------");
-        System.out.println("SwitchBoardEntry[0] is (json2Java):" + sbes[0]);
-        System.out.println("--------------");
-        String aips = (new FindAips()).getAllAips(specificAdapterUrl );
-        System.out.println("List of AIPs in my archive is:" + aips);
-//        SpecificAdapterEntry[] aips = json2Java(rrori, SpecificAdapterEntry[].class);
-//        System.out.println("My SpecificAdapters AIPs are:" + aips);
-//        System.out.println("Number of AIPs is:" + sbes.length);
-        
 	}
-    @Bean
-    public RestTemplate getRestTemplate() {
-        	return new RestTemplate();
-	}
+
+	
+
     public static <T> T json2Java(String str, Class<T> classType){
     //public static <T> T json2Java(String str, Class<T> classType){
 
@@ -131,5 +114,6 @@ public class GenericadapterApplication {
     	 
         return t;
     }
-
+    
+    
 }

@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import info.oais.infomodel.interfaces.*;
@@ -22,11 +24,12 @@ import info.oais.infomodel.interfaces.*;
  *
  */
 @JsonPropertyOrder({"DataObject", "RepInfo", "Identifier" } )
+@JsonRootName(value = "InformationPackage" )
 public class InformationObjectRefImpl implements InformationObject {
 	DataObject m_DO = null;
 	RepresentationInformation m_RI = null;
 	Identifier m_ID = null;
-	ObjVersion m_ObjVer = null;
+	ObjVersion m_ObjVer = new ObjVersionRefImpl();
 	
 	public InformationObjectRefImpl() {
 		m_DO = null;
@@ -95,6 +98,7 @@ public class InformationObjectRefImpl implements InformationObject {
 	 * Returns a String
 	 * @return  String summarising the RepInfo
 	 */
+	@JsonIgnore
 	public String getString() {
 		String str = "DataObject is: ";
 		if (m_DO != null) 
