@@ -1,5 +1,7 @@
 Create executable jar files
 
+mvn build package
+
 - WINDOWS: javaw -jar xxxxx.jar
   - jps - to get list of processes
   - taskkill /F /PID nnn
