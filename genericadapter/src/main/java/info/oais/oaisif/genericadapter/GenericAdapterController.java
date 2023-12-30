@@ -203,4 +203,42 @@ public class GenericAdapterController {
 //	    String aips = restTemplate.exchange(specificAdapterUrl+"/GetDO?doid="+doid, HttpMethod.GET, entity, String.class).getBody();
 //	    return aips;
 //	}
+	
+	/**
+	 * SWITCHBOARD access
+	 */
+	@ResponseBody
+	@RequestMapping(value="/GetSwitchboardAll", produces = "application/json")
+	public String getBySwitchboardAll() {
+		
+		return new Config().getJsonString("genericadapter.properties", "SWITCHBOARD", "/api/SB/ArchiveNameAll" );
+//		Properties appProps = new Config().getProperties("genericadapter.properties");
+//
+//		String switchboardUrl = appProps.getProperty("SWITCHBOARD");
+//
+//	    System.out.println("Switchboard is:" + switchboardUrl);
+//		HttpHeaders headers = new HttpHeaders();
+//	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+//	    RestTemplate restTemplate = new RestTemplate();   
+//
+//	    String aips = restTemplate.exchange(switchboardUrl+"/api/SB/ArchiveNameAll", HttpMethod.GET, entity, String.class).getBody();
+//	    return aips;
+	}
+	
+//	public String getJsonString(String propFile, String propKey, String qString)  {
+//		Properties appProps = new Config().getProperties(propFile);
+//		  
+//		String specUrl = appProps.getProperty(propKey);
+//
+//	    System.out.println(propKey +  " is: " + specUrl);
+//		HttpHeaders headers = new HttpHeaders();
+//	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+//	    RestTemplate restTemplate = new RestTemplate();   
+//
+//	    String jsonString = restTemplate.exchange(specUrl +qString, HttpMethod.GET, entity, String.class).getBody();
+//	    return jsonString;
+//	}
+
 }

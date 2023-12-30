@@ -9,4 +9,5 @@ public interface SwitchBoardRepository extends CrudRepository<SwitchBoardEntry, 
 	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
 	List<SwitchBoardEntry> findByArchiveName(String name);
 	List<SwitchBoardEntry> findByArchiveNameLike(String name);
+	//List<SwitchBoardEntry> getAll();
 }

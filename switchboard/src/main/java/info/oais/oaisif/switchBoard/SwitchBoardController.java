@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 //import info.oais.oaisif.rrori.RroriEntry;
 
-@Controller
+
+@RestController
+@RequestMapping("/api/SB")
 public class SwitchBoardController {
 
 	@Autowired
@@ -22,6 +25,7 @@ public class SwitchBoardController {
 	 * 
 	 */
 	@ResponseBody
+
 	@RequestMapping(value="/ArchiveName", params="name", produces = "application/json")
 	public List<SwitchBoardEntry> getByArchiveNameByRequestParam( 
 			@RequestParam("name") String name) {
@@ -51,7 +55,7 @@ public class SwitchBoardController {
 	
 	@ResponseBody
 	@RequestMapping(value="/ArchiveNameAll", produces = "application/json")
-	public List<SwitchBoardEntry> getBySBEAll() {
+	public List<SwitchBoardEntry> findAll() {
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
 		List<SwitchBoardEntry> ar = (List<SwitchBoardEntry>) switchBoardRepository.findAll();
 		if ( ar != null) {

@@ -99,21 +99,21 @@ public class GenericadapterApplication {
 
 	
 
-    public static <T> T json2Java(String str, Class<T> classType){
-    //public static <T> T json2Java(String str, Class<T> classType){
-
-    	T t = null;
-    	
-    	 try {
-    		ObjectMapper mapper = new ObjectMapper();
-    	    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-			t=mapper.readValue(str, classType);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-    	 
-        return t;
-    }
+//    public static <T> T json2Java(String str, Class<T> classType){
+//    //public static <T> T json2Java(String str, Class<T> classType){
+//
+//    	T t = null;
+//    	
+//    	 try {
+//    		ObjectMapper mapper = new ObjectMapper();
+//    	    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//			t=mapper.readValue(str, classType);
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    	 
+//        return t;
+//    }
     
     
 }

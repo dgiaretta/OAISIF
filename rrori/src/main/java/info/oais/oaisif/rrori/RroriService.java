@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import info.oais.infomodel.implementation.IdentifierRefImpl;
+import info.oais.infomodel.implementation.utility.Config;
 import jakarta.annotation.PostConstruct;
 
 
@@ -33,29 +34,35 @@ public class RroriService {
 		int numrows = -1;
 
 		
-		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		String appConfigPath = rootPath + "rrori.properties";
-        Properties sbprop = new Properties();
-        RroriEntry sbe = new RroriEntry();
-        
-        System.out.println("InputStream is: " + appConfigPath);
+//		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+//		String appConfigPath = rootPath + "rrori.properties";
+//        Properties sbprop = new Properties();
+//        RroriEntry sbe = new RroriEntry();
+//        
+//        System.out.println("InputStream is: " + appConfigPath);
+//
+//        // load the inputStream using the Properties
+//        try {
+//			sbprop.load(new FileInputStream(appConfigPath));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		RroriEntry sbe = new RroriEntry();
+		Properties appProps = new Properties();
+		InputStream input = null;
+		String filename = "rrori.properties";
 
-        // load the inputStream using the Properties
-        try {
-			sbprop.load(new FileInputStream(appConfigPath));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		appProps = new Config().getProperties(filename);  
         // get the value of the property
         @SuppressWarnings("rawtypes")
-		Enumeration ex = sbprop.propertyNames();
+		Enumeration ex = appProps.propertyNames();
         log.info("Saving the initial values");
         String[] idparts = null;
         while (ex.hasMoreElements()) {
         	numrows++;
         	String key = (String) ex.nextElement();
-	        String propValue = (String)(sbprop.getProperty(key));
+	        String propValue = (String)(appProps.getProperty(key));
 	        System.out.println("key: " + key + " propValue : " + propValue);
 	        String[] lines = propValue.split("\n"); //System.getProperty("line.separator"));
 	        sbe.setId(System.currentTimeMillis());

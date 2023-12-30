@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -14,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import info.oais.infomodel.implementation.utility.Config;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -48,26 +50,30 @@ public class GenericAdapterService {
 //			e.printStackTrace();
 //		}
         
-		Resource resource = new ClassPathResource("genericadapter.properties");
-		File file = null;
-		try {
-			file = resource.getFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		Resource resource = new ClassPathResource("genericadapter.properties");
+//		File file = null;
+//		try {
+//			file = resource.getFile();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		Properties appProps = new Properties();
+//		try {
+//			appProps.load(new FileInputStream(file));  
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		Properties appProps = new Properties();
-		try {
-			appProps.load(new FileInputStream(file));  
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		InputStream input = null;
+		String filename = "genericadapter.properties";
 
+		appProps = new Config().getProperties(filename);  
         
         
         // get the value of the property

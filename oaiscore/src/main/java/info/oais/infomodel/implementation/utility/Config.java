@@ -6,7 +6,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Properties;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableAutoConfiguration
 
 
 /** This class is responsible for loading configuration from properties file.
@@ -36,7 +48,7 @@ public class Config {
 
 			appProps.load(input);            
 		   
-			System.out.println("My description   is:" + appProps.getProperty("MYDESCRIPTION"));
+			//System.out.println("My description   is:" + appProps.getProperty("MYDESCRIPTION"));
 		} catch (Exception ex) {
 		    ex.printStackTrace();
 		} finally {
@@ -51,4 +63,20 @@ public class Config {
 		return appProps;
 	}
 	
+	public String getJsonString(String propFile, String propKey, String qString)  {
+		
+		System.out.println("propFile: "+propFile+"\n"+"propKey: "+propKey+"\n"+"qString: "+qString);
+		Properties appProps = getProperties(propFile); //new Config().getProperties(propFile);
+		  
+		String specUrl = appProps.getProperty(propKey);
+
+	    System.out.println(propKey +  " is: " + specUrl);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+	    RestTemplate restTemplate = new RestTemplate();   
+
+	    String jsonString = restTemplate.exchange(specUrl +qString, HttpMethod.GET, entity, String.class).getBody();
+	    return jsonString;
+	}
 }
