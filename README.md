@@ -11,3 +11,5 @@ DEFAULTS:
 
 http://176.31.232.21:8765/api/GA/AIPAll    to list all AIP
 
+http://176.31.232.21:8765/api/GA/GetConfig  to list config params
+
