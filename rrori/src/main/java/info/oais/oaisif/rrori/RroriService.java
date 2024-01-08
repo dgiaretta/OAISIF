@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import info.oais.infomodel.implementation.IdentifierRefImpl;
-import info.oais.infomodel.implementation.utility.Config;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 
@@ -53,7 +53,7 @@ public class RroriService {
 		InputStream input = null;
 		String filename = "rrori.properties";
 
-		appProps = new Config().getProperties(filename);  
+		appProps = new OaisIfConfig().getProperties(filename);  
         // get the value of the property
         @SuppressWarnings("rawtypes")
 		Enumeration ex = appProps.propertyNames();

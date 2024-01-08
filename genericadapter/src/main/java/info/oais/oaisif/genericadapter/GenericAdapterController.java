@@ -10,7 +10,12 @@ import java.util.Properties;
 import java.util.stream.Stream;
 
 import info.oais.oaisif.genericadapter.GenericAdapterRepository;
-import info.oais.infomodel.implementation.utility.Config;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import io.swagger.v3.oas.annotations.responses.Schema;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import info.oais.oaisif.genericadapter.GenericAdapterEntry;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +72,15 @@ public class GenericAdapterController {
 //	}
 	
 	@ResponseBody
+	@Operation(summary = "Get The configuration paratemeters needed to use this instance of the Generic Adapter")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the configuration parameters", 
+	    content = { @Content(mediaType = "application/json" 
+	      ) }),
+	  @ApiResponse(responseCode = "400", description = "Cannot find Generic Adapter", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "Generic Adapter not found", 
+	    content = @Content) })
 	@GetMapping(value="/GetConfig", produces = "application/json")
 	public List<GenericAdapterEntry> getAllProperties() {
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
@@ -102,10 +116,18 @@ public class GenericAdapterController {
 	 * 
 	 */
 	@ResponseBody
+	@Operation(summary = "Get an AIP from the associated Specific Adapter by its id")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the AIP", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Invalid id supplied", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "AIP not found", 
+	    content = @Content) })
 	@RequestMapping(value="/GetAIP", params="doid", produces = "application/json")
 	public String getAIPByDOIDByRequestParam( 
 			@RequestParam("doid") String doid) {
-		Properties appProps = new Config().getProperties("genericadapter.properties");
+		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
 		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
@@ -120,9 +142,17 @@ public class GenericAdapterController {
 	}
 	
 	@ResponseBody
+	@Operation(summary = "Get a list of all the AIPs in the associated Specific Adapter")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the list of all AIPs", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find the list of AIPs", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "Specific Adapter not found", 
+	    content = @Content) })
 	@RequestMapping(value="/AIPAll", produces = "application/json")
 	public String getBySAAll() {
-		Properties appProps = new Config().getProperties("genericadapter.properties");
+		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 
 		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
@@ -141,10 +171,18 @@ public class GenericAdapterController {
 	 * 
 	 */
 	@ResponseBody
+	@Operation(summary = "Get the PDI from the AIP with the given id")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the PDI", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find the PDI in the AIP", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "AIP not found", 
+	    content = @Content) })
 	@RequestMapping(value="/GetPDI", params="doid", produces = "application/json")
 	public String getPDIByDOIDByRequestParam( 
 			@RequestParam("doid") String doid) {
-		Properties appProps = new Config().getProperties("genericadapter.properties");
+		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
 		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
@@ -164,10 +202,18 @@ public class GenericAdapterController {
 	 * 
 	 */
 	@ResponseBody
+	@Operation(summary = "Get the Content Information from the AIP with the given id")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the Content Information", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find the Content INformation in the AIP", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "AIP not found", 
+	    content = @Content) })
 	@RequestMapping(value="/GetIO", params="doid", produces = "application/json")
 	public String getIOByDOIDByRequestParam( 
 			@RequestParam("doid") String doid) {
-		Properties appProps = new Config().getProperties("genericadapter.properties");
+		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
 		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
@@ -190,7 +236,7 @@ public class GenericAdapterController {
 //	@RequestMapping(value="/GetDO", params="doid", produces = "application/json")
 //	public String getDOByDOIDByRequestParam( 
 //			@RequestParam("doid") String doid) {
-//		Properties appProps = new Config().getProperties("genericadapter.properties");
+//		Properties appProps = new OaisifConfig().getProperties("genericadapter.properties");
 //		  
 //		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 //
@@ -208,11 +254,19 @@ public class GenericAdapterController {
 	 * SWITCHBOARD access
 	 */
 	@ResponseBody
+	@Operation(summary = "Get a list of all the Repositories known from the associated SwitchBoard")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the list of all known repositories", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find the list of respositories", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "SwitchBoard not found", 
+	    content = @Content) })
 	@RequestMapping(value="/GetSwitchboardAll", produces = "application/json")
 	public String getBySwitchboardAll() {
-		
-		return new Config().getJsonString("genericadapter.properties", "SWITCHBOARD", "/api/SB/ArchiveNameAll" );
-//		Properties appProps = new Config().getProperties("genericadapter.properties");
+		System.out.println("/GetSwitchboardAll  being used ");
+		return new OaisIfConfig().getJsonString("genericadapter.properties", "SWITCHBOARD", "/api/SB/ArchiveNameAll" );
+//		Properties appProps = new OaisifConfig().getProperties("genericadapter.properties");
 //
 //		String switchboardUrl = appProps.getProperty("SWITCHBOARD");
 //
@@ -227,7 +281,7 @@ public class GenericAdapterController {
 	}
 	
 //	public String getJsonString(String propFile, String propKey, String qString)  {
-//		Properties appProps = new Config().getProperties(propFile);
+//		Properties appProps = new OaisifConfig().getProperties(propFile);
 //		  
 //		String specUrl = appProps.getProperty(propKey);
 //

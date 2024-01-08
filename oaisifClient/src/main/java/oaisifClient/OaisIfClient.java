@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import info.oais.infomodel.implementation.utility.Config;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import info.oais.oaisif.switchBoard.SwitchBoardEntry;
 
 public class OaisIfClient {
@@ -48,7 +48,7 @@ public class OaisIfClient {
             }
 
 			private SwitchBoardEntry selectArchive() {
-				Properties appProps = new Config().getProperties("oaisifclient.properties"); 
+				Properties appProps = new OaisIfConfig().getProperties("oaisifclient.properties"); 
 				String specUrl = appProps.getProperty("GENERICADAPTERURL");
 				
 				ObjectMapper mapper = new ObjectMapper();

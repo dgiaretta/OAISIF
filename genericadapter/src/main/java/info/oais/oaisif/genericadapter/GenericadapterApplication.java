@@ -20,15 +20,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
+//import org.springframework.web.reactive.function.client.WebClient;
 
 //import info.oais.oaisif.switchBoard.SwitchBoardEntry;
 
 //import info.oais.oaisif.specificAdapter.SpecificAdapterEntry;
 import jakarta.ws.rs.core.HttpHeaders;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+//import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Mono;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -56,7 +56,9 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 
-import info.oais.infomodel.implementation.utility.Config;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
+
+
 
 @SpringBootApplication
 @Component
@@ -78,7 +80,7 @@ public class GenericadapterApplication {
 		InputStream input = null;
 		String filename = "genericadapter.properties";
 
-		appProps = new Config().getProperties(filename);  
+		appProps = new OaisIfConfig().getProperties(filename);  
 	   
 		System.out.println("My description   is:" + appProps.getProperty("MYDESCRIPTION"));
 	    System.out.println("My Authentication method is:" + appProps.getProperty("MYAUTHENTCATIONMETHOD"));

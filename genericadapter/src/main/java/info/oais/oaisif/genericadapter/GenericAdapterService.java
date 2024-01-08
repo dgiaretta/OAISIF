@@ -15,7 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import info.oais.infomodel.implementation.utility.Config;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -73,7 +73,7 @@ public class GenericAdapterService {
 		InputStream input = null;
 		String filename = "genericadapter.properties";
 
-		appProps = new Config().getProperties(filename);  
+		appProps = new OaisIfConfig().getProperties(filename);  
         
         
         // get the value of the property

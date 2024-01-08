@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import info.oais.infomodel.implementation.utility.Config;
+import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -33,7 +33,7 @@ public class SpecificAdapterService {
 		InputStream input = null;
 		String filename = "specificadapter.properties";
 
-		appProps = new Config().getProperties(filename);  
+		appProps = new OaisIfConfig().getProperties(filename);  
 		
         // get the value of the property
         @SuppressWarnings("rawtypes")
@@ -57,9 +57,9 @@ public class SpecificAdapterService {
 	        
 	        specificAdapterRepository.save(sbe);
         }
-        log.info("specificAdapterRepository is:" + specificAdapterRepository);
-        log.info("Retrieve all records");
-    	log.info("Entries: " + specificAdapterRepository.findAll());
+        System.out.println("specificAdapterRepository is:" + specificAdapterRepository);
+        System.out.println("Retrieve all records");
+        System.out.println("Entries: " + specificAdapterRepository.findAll());
     	//log.info("specificAdapter Entries: " + specificAdapterRepository.findByArchiveName("RRORI"));
 	}
 

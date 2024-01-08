@@ -3,8 +3,6 @@ package info.oais.oaisif.switchBoard;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,6 +54,7 @@ public class SwitchBoardController {
 	@ResponseBody
 	@RequestMapping(value="/ArchiveNameAll", produces = "application/json")
 	public List<SwitchBoardEntry> findAll() {
+		System.out.println("****** /ArchiveNameAll  called");
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
 		List<SwitchBoardEntry> ar = (List<SwitchBoardEntry>) switchBoardRepository.findAll();
 		if ( ar != null) {
