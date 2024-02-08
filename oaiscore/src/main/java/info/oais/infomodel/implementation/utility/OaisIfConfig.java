@@ -45,6 +45,7 @@ public class OaisIfConfig {
 		Properties appProps = new Properties();
 		InputStream input = null;
 		String filename = prop;
+		System.out.println("OaisifConfig Props filename:"+filename);
 		try { 
 			input = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
 

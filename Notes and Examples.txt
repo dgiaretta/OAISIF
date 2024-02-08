@@ -1,0 +1,32 @@
+I created some executable jars and am running then on my server in France.
+
+Could you try
+
+GENERIC ADAPTER
+http://www.oais.info:8765/api/GA/GetConfig
+
+http://www.oais.info:8765/api/GA/GetProperty?name=MYDESCRIPTION
+
+http://www.oais.info:8765/api/GA/AIPAll
+
+http://www.oais.info:8765/api/GA/GetAIP?doid=URI,20.20
+
+
+
+http://www.oais.info:8765/api/GA/GetIO?doid=URI,http://www.iso16363.org   - actually gets the whole AIP - should actually get AIP then extract PDI and create InfoPackage.
+
+http://www.oais.info:8765/v3/api-docs
+
+http://www.oais.info:8765/swagger-ui/index.html
+
+
+SPECIFIC ADAPTER
+http://www.oais.info:8510/api/SA/AIPAll
+
+RRORI
+http://www.oais.info:8083/RIAll
+
+SWITCHBOARD
+http://www.oais.info:8085/api/SB/ArchiveNameAll
+
+On command line for running JAR can set parameter e.g. add --server.port=xxxx
