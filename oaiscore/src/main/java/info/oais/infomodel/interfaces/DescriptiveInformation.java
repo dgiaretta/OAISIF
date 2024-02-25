@@ -1,5 +1,8 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
 
 /**
  * An Information Object which is a set of information, consisting primarily of
@@ -9,6 +12,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
+//@JsonDeserialize(as = DescriptiveInformationRefImpl.class)
 public interface DescriptiveInformation extends InformationObject {
 
 }

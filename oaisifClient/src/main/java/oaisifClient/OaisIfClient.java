@@ -2,32 +2,39 @@ package oaisifClient;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Properties;
 import java.util.Vector;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
+//import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import info.oais.oaisif.switchBoard.SwitchBoardEntry;
+
+@PropertySource("classpath:specificadapter.properties")
+
 
 public class OaisIfClient {
 //private static final String TARGET_URL = "https://jsonplaceholder.typicode.com/todos/";
 //public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
 
+	
 	public static void main(String[] args) throws Exception {
 		SwingUtilities.invokeLater(new Runnable(){
+			
+			@Value("${GENERICADAPTERURL}") 
+			private String specUrl;
+			
             public void run() {
             	/**
             	 * Select the archive from the SwitchBoard
@@ -48,19 +55,17 @@ public class OaisIfClient {
             }
 
 			private SwitchBoardEntry selectArchive() {
-				Properties appProps = new OaisIfConfig().getProperties("oaisifclient.properties"); 
-				String specUrl = appProps.getProperty("GENERICADAPTERURL");
 				
 				ObjectMapper mapper = new ObjectMapper();
 				
 			    URI targetURI=null;
 				try {
 					targetURI = new URI(specUrl+"/api/GA/GetSwitchboardAll");
-					System.out.println("targetURI:"+targetURI);
-				} catch (URISyntaxException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				System.out.println("targetURI:"+targetURI);
 				System.out.println("targetURI:"+targetURI);
 			    HttpRequest httpRequest = HttpRequest.newBuilder()
 			            .uri(targetURI)

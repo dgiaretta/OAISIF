@@ -1,25 +1,15 @@
 package info.oais.oaisif.rrori;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import info.oais.infomodel.implementation.IdentifierRefImpl;
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 
 @Service
+@PropertySource("classpath:rrori.properties")
 //@Transactional
 public class RroriService {
 	private static final Logger log = LoggerFactory.getLogger(RroriService.class);
@@ -28,52 +18,37 @@ public class RroriService {
 	RroriRepository rroriRepository;
 	
 	@SuppressWarnings("null")
+	/**
+	 * Get the JSON for 2 (TWO) RIs
+	 */
+	@Value("${sb1}") 
+	private String sb1;
+	@Value("${sb2}") 
+	private String sb2;
+	
 	@PostConstruct
 	public void postConstruct() {
 
-		int numrows = -1;
 
-		
-//		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-//		String appConfigPath = rootPath + "rrori.properties";
-//        Properties sbprop = new Properties();
-//        RroriEntry sbe = new RroriEntry();
-//        
-//        System.out.println("InputStream is: " + appConfigPath);
-//
-//        // load the inputStream using the Properties
-//        try {
-//			sbprop.load(new FileInputStream(appConfigPath));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		RroriEntry sbe = new RroriEntry();
-		Properties appProps = new Properties();
-		InputStream input = null;
-		String filename = "rrori.properties";
 
-		appProps = new OaisIfConfig().getProperties(filename);  
         // get the value of the property
         @SuppressWarnings("rawtypes")
-		Enumeration ex = appProps.propertyNames();
-        log.info("Saving the initial values");
-        String[] idparts = null;
-        while (ex.hasMoreElements()) {
-        	numrows++;
-        	String key = (String) ex.nextElement();
-	        String propValue = (String)(appProps.getProperty(key));
-	        System.out.println("key: " + key + " propValue : " + propValue);
-	        String[] lines = propValue.split("\n"); //System.getProperty("line.separator"));
+        String[] myArray = new String[]{sb1, sb2};
+		
+
+        for (String propValue : myArray) {
+	        System.out.println(" propValue : " + propValue);
+	        String[] lines = propValue.split("\n"); 
 	        sbe.setId(System.currentTimeMillis());
 	        sbe.setDoName(lines[0]);
 	        sbe.setDoid(lines[1]); 
 	        sbe.setRidoid(lines[2]);
 	        sbe.setRirole(lines[3]);
 	        
-	        System.out.println("******Saving "+ numrows + ": " + sbe);
+	        System.out.println("******Saving "+ ": " + sbe);
 	        rroriRepository.save(sbe);
-	        System.out.println("******Saved: " + numrows);
+	        System.out.println("******Saved: ");
         }
         //rroriRepository.flush();
         log.info("RroriRepository is:" + rroriRepository);

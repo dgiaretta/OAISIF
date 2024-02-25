@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ReferenceInformationRefImpl;
+import info.oais.infomodel.implementation.RepresentationInformationNetworkRefImpl;
 import info.oais.infomodel.interfaces.representationinformation.AcyclicDirectedGraph;
 
 /**
@@ -11,6 +15,7 @@ import info.oais.infomodel.interfaces.representationinformation.AcyclicDirectedG
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = RepresentationInformationNetworkRefImpl.class)
 public interface RepresentationInformationNetwork extends RepresentationInformation, AcyclicDirectedGraph {
 
 

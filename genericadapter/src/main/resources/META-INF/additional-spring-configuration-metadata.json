@@ -8,5 +8,45 @@
     "name": "swagger-ui.filter",
     "type": "java.lang.String",
     "description": "A description for 'swagger-ui.filter'"
+  },
+  {
+    "name": "SWITCHBOARD",
+    "type": "java.lang.String",
+    "description": "URI for the 'SWITCHBOARD'"
+  },
+  {
+    "name": "MYQUERYMETHOD",
+    "type": "java.lang.String",
+    "description": "Query method which should be used for the server e.g. SQL"
+  },
+  {
+    "name": "MYCOMMUNICATIONMETHOD",
+    "type": "java.lang.String",
+    "description": "The communication which should be used e.g. REST"
+  },
+  {
+    "name": "MYSERIALISATIONMETHOD",
+    "type": "java.lang.String",
+    "description": "The serialisation method to use for the server e.g. JSON"
+  },
+  {
+    "name": "MYAUTHENTCATIONMETHOD",
+    "type": "java.lang.String",
+    "description": "The authentication method which should be used for the server e.g. none"
+  },
+  {
+    "name": "SPECIFICADAPTER",
+    "type": "java.lang.String",
+    "description": "URI for the Specific Adapter'"
+  },
+  {
+    "name": "MYDESCRIPTION",
+    "type": "java.lang.String",
+    "description": "Description for the server "
+  },
+  {
+    "name": "GENERICADAPTERPORT",
+    "type": "java.lang.String",
+    "description": "Port for the Generic Adapter"
   }
 ]}

@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.InformationPackageRefImpl;
 
 /**
  * A logical container composed of optional Information Object(s). Associated with
@@ -10,6 +14,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = InformationPackageRefImpl.class)
 public interface InformationPackage extends DataObject {
 	
 	/**

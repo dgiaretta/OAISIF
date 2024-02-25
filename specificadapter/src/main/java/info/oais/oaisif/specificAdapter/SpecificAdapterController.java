@@ -1,5 +1,7 @@
 package info.oais.oaisif.specificAdapter;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//import info.oais.oaisif.genericadapter.Config;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-//import info.oais.oaisif.rrori.RroriEntry;
 
 @RestController
 @RequestMapping("/api/SA")
@@ -20,15 +24,15 @@ public class SpecificAdapterController {
 	
 	/**
 	 * Get an AIP given an identifier
-	 * baseuri/GetAIP?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetAIP?aipid=xxx    where XXX is archive's identifier for the AIP
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetAIP", params="doid", produces = "application/json")
+	@RequestMapping(value="/GetAIP", params="aipid", produces = "application/json")
 	public List<SpecificAdapterEntry> getAIPByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
+			@RequestParam("aipid") String doid) {
 		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
-		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByAipDoid(doid);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIdStr(doid);
 		if ( ar != null) {
 			System.out.println("Entry requested is: " + ar);
 		} else {
@@ -36,19 +40,25 @@ public class SpecificAdapterController {
 		}
 		return ar;	
 	}
-//	@ResponseBody
-//	@RequestMapping(value="/AIPLike", params="doid", produces = "application/json")
-//	public List<SpecificAdapterEntry> getByAIPNameLikeByRequestParam( 
-//			@RequestParam("doid") String name) {
-//		System.out.println("controller specificAdapterRepository LIKE is:" + specificAdapterRepository);
-//		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByAIPDoidLike(name);
-//		if ( ar != null) {
-//			System.out.println("Entry requested is: " + ar);
-//		} else {
-//			System.out.println("Entry request for "+ name + " is NULL");
-//		}
-//		return ar;	
-//	}
+	/**
+	 * Get an AIP with an identifier like the given string
+	 * baseuri/GetAIP?aipid=xxx    where XXX is archive's identifier for the AIP
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/AIPLike", params="aipid", produces = "application/json")
+	public List<SpecificAdapterEntry> getByAIPNameLikeByRequestParam( 
+			@RequestParam("aipid") String name) {
+		System.out.println("controller specificAdapterRepository LIKE is:" + specificAdapterRepository);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIdStrLike(name);
+		if ( ar != null) {
+			System.out.println("Entry requested is: " + ar);
+		} else {
+			System.out.println("Entry request for "+ name + " is NULL");
+		}
+		return ar;	
+	}
+	
 	/**
 	 * Get a list of all the AIPs
 	 * 
@@ -68,58 +78,160 @@ public class SpecificAdapterController {
 		return ar;	
 	}
 	/**
-	 * baseuri/GetPDI?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetPDI?aipid=xxx    where XXX is archive's identifier for the AIP
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetPDI", params="doid", produces = "application/json")
-	public List<SpecificAdapterEntry> getPDIByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
+	@RequestMapping(value="/GetPDI", params="aipid", produces = "application/json")
+	public List<String> getPDIByIDByRequestParam( 
+			@RequestParam("aipid") String idStr) {
+		int numrows = 0;
 		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
-		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByPdiDoid(doid);
+		//List<SpecificAdapterEntry> ar = specificAdapterRepository.findByPdiDoid(doid);
+		System.out.println("Entry idStr requested is: " + idStr);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIdStr(idStr);
+		List<String> sio = new ArrayList<String>();
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode node=null;
 		if ( ar != null) {
-			System.out.println("Entry requested is: " + ar);
+			Iterator<SpecificAdapterEntry> iter = ar.iterator();
+			while(iter.hasNext()) {
+				SpecificAdapterEntry sae = iter.next();
+				System.out.println("Entry: " + numrows + " is " + sae);
+				/**
+				 * Create the AIP tree then extract the PDI
+				 */
+				
+				String aipStr = sae.getJsonString();
+				System.out.println(" JsonString is:"+aipStr);
+				try {
+					node = mapper.readTree(aipStr);
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(" Node is:"+node);
+			    JsonNode pdi =  node.at("/ArchivalInformationPackage/PDI");
+			    System.out.println("PDI as node: "+ pdi);
+				String pdiStr = pdi.toString();
+				System.out.println("PDI: "+ pdiStr);
+
+				sio.add(pdiStr);
+			}
+		
+			return sio; 
 		} else {
-			System.out.println("Entry request for "+ doid + " is NULL");
+			System.out.println("Entry request for "+ idStr + " is NULL");
 		}
-		return ar;	
+		return null;	
 	}
 	
 	/**
 	 * Get Information Object given ID
-	 * baseuri/GetIO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetIO?aipid=xxx    where XXX  the identifier
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetIO", params="doid", produces = "application/json")
-	public List<SpecificAdapterEntry> getIOByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
+	@RequestMapping(value="/GetIO", params="aipid", produces = "application/json")
+	public List<String> getIOByIDByRequestParam( 
+			@RequestParam("aipid") String idStr) {
+		int numrows = 0;
 		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
-		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIoDoid(doid);
+		//List<SpecificAdapterEntry> ar = specificAdapterRepository.findByPdiDoid(doid);
+		System.out.println("Entry idStr requested is: " + idStr);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIdStr(idStr);
+		List<String> sio = new ArrayList<String>();
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode node=null;
 		if ( ar != null) {
-			System.out.println("Entry requested is: " + ar);
+			Iterator<SpecificAdapterEntry> iter = ar.iterator();
+			while(iter.hasNext()) {
+				SpecificAdapterEntry sae = iter.next();
+				System.out.println("Entry: " + numrows + " is " + sae);
+				/**
+				 * Create the AIP tree then extract the PDI
+				 */
+				
+				String aipStr = sae.getJsonString();
+				System.out.println(" JsonString is:"+aipStr);
+				try {
+					node = mapper.readTree(aipStr);
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(" Node is:"+node);
+			    JsonNode io =  node.at("/ArchivalInformationPackage/InformationObject");
+			    System.out.println("IO as node: "+ io);
+				String ioStr = io.toString();
+				System.out.println("IO: "+ ioStr);
+
+				sio.add(ioStr);
+			}
+		
+			return sio; 
 		} else {
-			System.out.println("Entry request for "+ doid + " is NULL");
+			System.out.println("Entry request for "+ idStr + " is NULL");
 		}
-		return ar;	
+		return null;	
 	}
 	
 	/**
 	 * Get Data Object by ID
-	 * baseuri/GetDO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetDO?aipid=xxx    where XXX the identifier
 	 * 
 	 */
-//	@ResponseBody
-//	@RequestMapping(value="/GetDO", params="doid", produces = "application/json")
-//	public List<SpecificAdapterEntry> getDOByDOIDByRequestParam( 
-//			@RequestParam("doid") String doid) {
-//		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
-//		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByDoDoid(doid);
-//		if ( ar != null) {
-//			System.out.println("Entry requested is: " + ar);
-//		} else {
-//			System.out.println("Entry request for "+ doid + " is NULL");
-//		}
-//		return ar;	
-//	}
+	@ResponseBody
+	@RequestMapping(value="/GetDO", params="aipid", produces = "application/json")
+	public List<String> getDOByIDByRequestParam( 
+			@RequestParam("aipid") String idStr) {
+		int numrows = 0;
+		System.out.println("controller specificAdapterRepository is:" + specificAdapterRepository);
+		//List<SpecificAdapterEntry> ar = specificAdapterRepository.findByPdiDoid(doid);
+		System.out.println("Entry idStr requested is: " + idStr);
+		List<SpecificAdapterEntry> ar = specificAdapterRepository.findByIdStr(idStr);
+		List<String> sio = new ArrayList<String>();
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode node=null;
+		if ( ar != null) {
+			Iterator<SpecificAdapterEntry> iter = ar.iterator();
+			while(iter.hasNext()) {
+				SpecificAdapterEntry sae = iter.next();
+				System.out.println("Entry: " + numrows + " is " + sae);
+				/**
+				 * Create the AIP tree then extract the PDI
+				 */
+				
+				String aipStr = sae.getJsonString();
+				System.out.println(" JsonString is:"+aipStr);
+				try {
+					node = mapper.readTree(aipStr);
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(" Node is:"+node);
+			    JsonNode dataObj =  node.at("/ArchivalInformationPackage/InformationObject/DataObject");
+			    System.out.println("DO as node: "+ dataObj);
+				String dataObjStr = dataObj.toString();
+				System.out.println("DO: "+ dataObj);
+
+				sio.add(dataObjStr);
+			}
+		
+			return sio; 
+		} else {
+			System.out.println("Entry request for "+ idStr + " is NULL");
+		}
+		return null;	
+	}
 }

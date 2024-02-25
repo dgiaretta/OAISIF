@@ -2,6 +2,11 @@ package info.oais.infomodel.interfaces;
 
 import java.net.URI;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.IdentifierRefImpl;
+
 /**
  * An identifier is a name that identifies (that is, labels the identity of)
  * either a unique object or a unique class of objects, where the "object" or
@@ -11,6 +16,7 @@ import java.net.URI;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = IdentifierRefImpl.class)
 public interface Identifier {
 
 	/**

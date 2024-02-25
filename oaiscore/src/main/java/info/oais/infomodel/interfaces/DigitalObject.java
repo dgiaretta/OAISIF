@@ -2,6 +2,11 @@ package info.oais.infomodel.interfaces;
 
 import java.io.InputStream;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.DigitalObjectRefImpl;
+
 
 /**
  * An object composed of a set of bit sequences. [OAIS]
@@ -9,6 +14,7 @@ import java.io.InputStream;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
+@JsonDeserialize(as = DigitalObjectRefImpl.class)
 public interface DigitalObject extends DataObject {
 	
 	/** 

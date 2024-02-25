@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.InformationPackageRefImpl;
+import info.oais.infomodel.implementation.PackagingInformationRefImpl;
 
 /**
  * The information that describes how the components of an Information Package are
@@ -11,7 +15,8 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
-public interface PackagingInformation extends InformationObject, RepresentationInformation  {
+@JsonDeserialize(as = PackagingInformationRefImpl.class)
+public interface PackagingInformation extends RepresentationInformation  {//InformationObject, RepresentationInformation  {
 
 
 }

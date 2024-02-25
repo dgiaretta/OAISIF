@@ -30,3 +30,11 @@ SWITCHBOARD
 http://www.oais.info:8085/api/SB/ArchiveNameAll
 
 On command line for running JAR can set parameter e.g. add --server.port=xxxx
+
+
+WINDOWS:
+netstat -ano | find "8510" | find "LISTEN"
+taskkill /F /PID pid_number
+
+OAISCORE:
+maven build with Goal "package"

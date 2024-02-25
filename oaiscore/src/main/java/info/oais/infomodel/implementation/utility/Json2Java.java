@@ -16,13 +16,13 @@ public class Json2Java {
 	 * @param classType The class of the object to be created.
 	 * @return the Java object.
 	 */
-    public static <T> T json2Java(String str, Class<T> classType){
+    public  <T> T json2Java(String str, Class<T> classType){
 
     	T t = null;
     	
     	 try {
     		ObjectMapper mapper = new ObjectMapper();
-    	    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    	    // mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 			t=mapper.readValue(str, classType);
 		}catch (Exception e) {
 			e.printStackTrace();

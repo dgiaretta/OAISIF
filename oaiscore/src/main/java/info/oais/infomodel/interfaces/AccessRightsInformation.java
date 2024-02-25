@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.AccessRightsInformationRefImpl;
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
 
 /**
  * The information that identifies the access restrictions pertaining to the
@@ -12,6 +16,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
+@JsonDeserialize(as = AccessRightsInformationRefImpl.class)
 public interface AccessRightsInformation extends InformationObject {
 
 }

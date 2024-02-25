@@ -5,56 +5,58 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
 
 import jakarta.annotation.PostConstruct;
 
 @Service
+@PropertySource("classpath:switchBoard.properties")
 public class SwitchBoardService {
-	private static final Logger log = LoggerFactory.getLogger(SwitchBoardService.class);
+	//private static final Logger log = LoggerFactory.getLogger(SwitchBoardService.class);
 	
 	@Autowired
 	SwitchBoardRepository switchBoardRepository;
 	
 	@SuppressWarnings("null")
+	/**
+	 * Get the JSON for 4 (FOUR) entries
+	 */
+	@Value("${sb0}") 
+	private String sb0;
+	@Value("${sb1}") 
+	private String sb1;
+	@Value("${sb2}") 
+	private String sb2;
+	@Value("${sb3}") 
+	private String sb3;
+	
 	@PostConstruct
 	public void postConstruct() {
 
-		
-		Properties appProps = new Properties();
-		String filename = "switchBoard.properties";
 
-		appProps = new OaisIfConfig().getProperties(filename);  
+		String filename = "switchBoard.properties";
         
-        if (appProps != null) {
-			@SuppressWarnings("rawtypes")
-			Enumeration ex = appProps.propertyNames();
-	        log.info("Saving the initial values");
-	        System.out.println("Propertynames:"+ex.toString());
-	        log.info("Saving the initial values");
+		@SuppressWarnings("rawtypes")
+
+        String[] myArray = new String[]{sb0, sb1, sb2, sb3};
+        
+        for (String propValue : myArray) {
+        	SwitchBoardEntry sbe = new SwitchBoardEntry();
+        	
+	        System.out.println(" propValue : " + propValue);
+	        String[] lines = propValue.split("!"); 
+	
+	        sbe.setId(System.currentTimeMillis());   
+	        sbe.setArchiveName(lines[0]);
+	        sbe.setArchiveDescription(lines[1]);
+	        sbe.setArchiveURL(lines[2]);
+	        System.out.println("SBE is:"+sbe.toString());
 	        
-	        while (ex != null && ex.hasMoreElements()) {
-	        	SwitchBoardEntry sbe = new SwitchBoardEntry();
-	        	String key = (String) ex.nextElement();
-		        String propValue = (String)(appProps.getProperty(key));
-		        System.out.println("key: " + key + " propValue : " + propValue);
-		        String[] lines = propValue.split("!"); //System.getProperty("line.separator"));
+	        switchBoardRepository.save(sbe);
+        }
 		
-		        //System.out.println("Property value is: " + propValue);
-		        sbe.setId(System.currentTimeMillis());   
-		        sbe.setArchiveName(lines[0]);
-		        sbe.setArchiveDescription(lines[1]);
-		        sbe.setArchiveURL(lines[2]);
-		        System.out.println("SBE is:"+sbe.toString());
-		        //sbe.setArchiveAuth(lines[3]);
-		        //sbe.setArchiveSerialisation(lines[4]);
-		        //sbe.setArchiveComms(lines[5]);
-		        //sbe.setArchiveQL(lines[6]);
-		        switchBoardRepository.save(sbe);
-	        }
-		}
         System.out.println("switchBoardRepository is:  " + switchBoardRepository);
         System.out.println("Retrieve all records");
         System.out.println("All Entries: " + switchBoardRepository.findAll());

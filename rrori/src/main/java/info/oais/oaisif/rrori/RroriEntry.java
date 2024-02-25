@@ -2,14 +2,8 @@ package info.oais.oaisif.rrori;
 
 // import javax.swing.JTable;
 import java.io.Serializable;
-
-import info.oais.infomodel.implementation.IdentifierRefImpl;
-import info.oais.infomodel.interfaces.Identifier;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
-
 import jakarta.persistence.Id;
 import lombok.*;
 	

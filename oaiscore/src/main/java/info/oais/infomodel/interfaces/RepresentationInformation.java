@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ReferenceInformationRefImpl;
+import info.oais.infomodel.implementation.RepresentationInformationRefImpl;
 import info.oais.infomodel.interfaces.representationinformation.RepInfoCategory;
 
 /**
@@ -26,6 +30,7 @@ import info.oais.infomodel.interfaces.representationinformation.RepInfoCategory;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = RepresentationInformationRefImpl.class)
 public interface RepresentationInformation extends InformationObject {
 	
 	/** 

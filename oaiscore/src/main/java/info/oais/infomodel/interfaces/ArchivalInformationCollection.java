@@ -2,6 +2,10 @@ package info.oais.infomodel.interfaces;
 
 import java.util.*;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+
 /**
  * An Archival Information Package whose Content Information is an aggregation of
  * other Archival Information Packages.; its PDI must include a description of the
@@ -11,6 +15,7 @@ import java.util.*;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
+//@JsonDeserialize(as = ArchivalInformationCollectionRefImpl.class)
 public interface ArchivalInformationCollection extends ArchivalInformationPackage {
 
 	/**

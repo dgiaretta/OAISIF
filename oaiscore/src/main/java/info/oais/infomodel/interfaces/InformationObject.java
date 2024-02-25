@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.InformationObjectRefImpl;
+import info.oais.infomodel.implementation.InformationPackageRefImpl;
 
 /**
  * An Information Object is a Data Object together with its Representation Information [OAIS]
@@ -9,10 +13,13 @@ package info.oais.infomodel.interfaces;
  * a string of bits (the data) accompanied by a description of how to interpret
  * the string of bits as numbers representing temperature observations measured in
  * degrees Celsius (the Representation Information).  [OAIS]<br/>
+ * The InformationObject may contain the DataObject and its RepresentationInformation, 
+ * or may contain an Identifier which points to these.
  * @author David
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = InformationObjectRefImpl.class)
 public interface InformationObject  {
 
 	/**

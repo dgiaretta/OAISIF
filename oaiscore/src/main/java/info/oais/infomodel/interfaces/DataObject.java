@@ -1,5 +1,10 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.DataObjectRefImpl;
+
 /**
  * Either a Physical Object or a Digital Object. [OAIS]  Data: A reinterpretable
  * representation of information in a formalized manner suitable for communication,
@@ -10,7 +15,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
-
+@JsonDeserialize(as = DataObjectRefImpl.class)
 public interface DataObject  {
 	
 	/**

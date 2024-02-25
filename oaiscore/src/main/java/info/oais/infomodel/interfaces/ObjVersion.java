@@ -3,12 +3,18 @@
  */
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.ObjVersionRefImpl;
+
 /**
  * The version associated with an Object.
  * 
  * One version can be compared to another to decide which is the later
  * 
  */
+@JsonDeserialize(as = ObjVersionRefImpl.class)
 public interface ObjVersion extends Comparable<ObjVersion> {
 
 	/**

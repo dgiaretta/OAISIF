@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.OtherRepInfoRefImpl;
 
 /**
  * A type of Representation Information which cannot easily be classified as
@@ -17,6 +21,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = OtherRepInfoRefImpl.class)
 public interface OtherRepInfo extends RepresentationInformation  {
 
 }

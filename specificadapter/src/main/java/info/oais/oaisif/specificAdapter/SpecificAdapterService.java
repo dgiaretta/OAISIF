@@ -8,12 +8,14 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 @Service
+@PropertySource("classpath:specificadapter.properties")
 public class SpecificAdapterService {
 	private static final Logger log = LoggerFactory.getLogger(SpecificAdapterService.class);
 	
@@ -21,42 +23,27 @@ public class SpecificAdapterService {
 	SpecificAdapterRepository specificAdapterRepository;
 	
 	@SuppressWarnings("null")
+	/**
+	 * Get the JSON for 3 (THREE) AIPs
+	 */
+	@Value("${aip0}") 
+	private String aip0;
+	@Value("${aip1}") 
+	private String aip1;
+	@Value("${aip2}") 
+	private String aip2;
 	@PostConstruct
 	public void postConstruct() {
-		//ArrayList<String>[] data = null;
-		int numrows = -1;
-		
-		//for (int i=0; i<7; i++)
-		//	data[i] = new ArrayList<String>();
-		
-		Properties appProps = new Properties();
-		InputStream input = null;
-		String filename = "specificadapter.properties";
-
-		appProps = new OaisIfConfig().getProperties(filename);  
-		
-        // get the value of the property
-        @SuppressWarnings("rawtypes")
-		Enumeration ex = appProps.propertyNames();
+	
         log.info("Saving the initial values");
         
-        while (ex.hasMoreElements()) {
-        	numrows++;
-        	SpecificAdapterEntry sbe = new SpecificAdapterEntry();
-        	String key = (String) ex.nextElement();
-	        String propValue = (String)(appProps.getProperty(key));
-	        System.out.println("key: " + key + " propValue : " + propValue);
-	        String[] lines = propValue.split("\n"); //System.getProperty("line.separator"));
-	
-	        //System.out.println("Property value is: " + propValue);
-	        sbe.setId(System.currentTimeMillis());   
-	        sbe.setAipDoid(lines[0]);
-	        sbe.setIsComplete(lines[1]);
-	        sbe.setPdiDoid(lines[2]);
-	        sbe.setIoDoid(lines[3]);
-	        
-	        specificAdapterRepository.save(sbe);
-        }
+    	System.out.println("aip0:"+ aip0);
+        specificAdapterRepository.save(new SpecificAdapterEntry(aip0));
+        System.out.println("aip1:"+ aip1);
+        specificAdapterRepository.save(new SpecificAdapterEntry(aip1));
+        System.out.println("aip2:"+ aip2);
+        specificAdapterRepository.save(new SpecificAdapterEntry(aip2));
+
         System.out.println("specificAdapterRepository is:" + specificAdapterRepository);
         System.out.println("Retrieve all records");
         System.out.println("Entries: " + specificAdapterRepository.findAll());

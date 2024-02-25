@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ReferenceInformationRefImpl;
+import info.oais.infomodel.implementation.StructureRepInfoRefImpl;
 
 /**
  * The Representation Information that imparts information about the arrangement
@@ -11,6 +15,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:47
  */
+@JsonDeserialize(as = StructureRepInfoRefImpl.class)
 public interface StructureRepInfo extends RepresentationInformation  {
 
 }

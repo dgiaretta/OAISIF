@@ -77,6 +77,12 @@ public class InformationPackageRefImpl extends DigitalObjectRefImpl implements I
 	}
 
 
+	public InformationPackageRefImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	/**
 	 * Get String showing this is an IP 
 	 * 

@@ -6,9 +6,13 @@ package info.oais.infomodel.implementation;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import info.oais.infomodel.deserialise.ArchivalInformationPackageDeserialize;
 import info.oais.infomodel.interfaces.*;
 
 /**
@@ -24,9 +28,12 @@ import info.oais.infomodel.interfaces.*;
  *
  */
 
-@JsonIgnoreProperties(value = { "contentInformation" })
+
+// DG20240217 @JsonIgnoreProperties(value = { "contentInformation" })
 @JsonPropertyOrder({"PackageVersion", "PackageType", "IsComplete", "PackageDescription", "PackagingInformation","InformationObject", "InformationObject", "PreservationDescriptionInformation"  })
-@JsonRootName(value = "InformationPackage" )
+// DG20240217 @JsonRootName(value = "InformationPackage" )
+//@JsonProperty(“ArchivalInformationPackageRefImpl”)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArchivalInformationPackageRefImpl extends InformationPackageRefImpl implements ArchivalInformationPackage {
 	
 	/**
@@ -37,6 +44,26 @@ public class ArchivalInformationPackageRefImpl extends InformationPackageRefImpl
 	 * The PDI of the AIP
 	 */
 	PreservationDescriptionInformation m_PDI = null;
+	
+	/**
+	 * Create new AIP with no arguments
+	 * 
+	 *
+	 */
+	public ArchivalInformationPackageRefImpl() {
+		
+		
+		super( );
+    	/**
+    	 * Register the deserializer
+    	 */
+    	SimpleModule deserialization = new SimpleModule();
+    	deserialization.addDeserializer(ArchivalInformationPackage.class, new ArchivalInformationPackageDeserialize());
+
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	objectMapper.registerModule(deserialization);
+
+	}
 	
 	/**
 	 * Create new AIP

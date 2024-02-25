@@ -1,24 +1,16 @@
 package info.oais.oaisif.genericadapter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import jakarta.annotation.PostConstruct;
 
 @Service
+@PropertySource("classpath:genericadapter.properties")
 public class GenericAdapterService {
 	private static final Logger log = LoggerFactory.getLogger(GenericAdapterService.class);
 	
@@ -28,64 +20,46 @@ public class GenericAdapterService {
 	private ResourceLoader resourceLoader;
 	
 	@SuppressWarnings("null")
+	
+	/**
+	 * Get the values for the config properties
+	 */
+	@Value("${SWITCHBOARD}") 
+	private String switchboard;
+	@Value("${GENERICADAPTERPORT}") 
+	private String genericadapterport;
+	@Value("${MYDESCRIPTION}") 
+	private String mydescription;
+	@Value("${SPECIFICADAPTER}") 
+	private String specificadapter;
+	@Value("${MYAUTHENTCATIONMETHOD}") 
+	private String myauthenticationmethod;
+	@Value("${MYSERIALISATIONMETHOD}") 
+	private String myserialisationmethod;
+	@Value("${MYCOMMUNICATIONMETHOD}") 
+	private String mycommunicationmethod;
+	@Value("${MYQUERYMETHOD}") 
+	private String myquerymethod;
+
 	@PostConstruct
 	public void postConstruct() {
 		//ArrayList<String>[] data = null;
 		int numrows = -1;
 		
-		//for (int i=0; i<7; i++)
-		//	data[i] = new ArrayList<String>();
-		
-//		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-//		String appConfigPath = rootPath + "genericadapter.properties";
-//        Properties sbprop = new Properties();
-//        
-//        System.out.println("InputStream is: " + appConfigPath);
-//
-//        // load the inputStream using the Properties
-//        try {
-//			sbprop.load(new FileInputStream(appConfigPath));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-        
-//		Resource resource = new ClassPathResource("genericadapter.properties");
-//		File file = null;
-//		try {
-//			file = resource.getFile();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		Properties appProps = new Properties();
-//		try {
-//			appProps.load(new FileInputStream(file));  
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		Properties appProps = new Properties();
-		InputStream input = null;
-		String filename = "genericadapter.properties";
-
-		appProps = new OaisIfConfig().getProperties(filename);  
-        
-        
+       
         // get the value of the property
         @SuppressWarnings("rawtypes")
-		Enumeration ex = appProps.propertyNames();
-        log.info("Saving the initial values");
+        String[] myKeys = new String[]{"SWITCHBOARD", "GENERICADAPTERPORT", "MYDESCRIPTION", "SPECIFICADAPTER",
+        		"MYAUTHENTCATIONMETHOD", "MYSERIALISATIONMETHOD", "MYCOMMUNICATIONMETHOD", "MYQUERYMETHOD"};
+        String[] propValues = new String[] {switchboard, genericadapterport, mydescription, specificadapter,
+        		myauthenticationmethod, myserialisationmethod, mycommunicationmethod, myquerymethod};
         
-        while (ex.hasMoreElements()) {
-        	numrows++;
+        
+        for (int i=0; i<myKeys.length; i++) {
+        	
         	GenericAdapterEntry sbe = new GenericAdapterEntry();
-        	String key = (String) ex.nextElement();
-	        String propValue = (String)(appProps.getProperty(key));
+        	String key = myKeys[i];
+	        String propValue = propValues[i];
 	        System.out.println("key: " + key + " propValue : " + propValue);
 	
 	        sbe.setId(System.currentTimeMillis());   

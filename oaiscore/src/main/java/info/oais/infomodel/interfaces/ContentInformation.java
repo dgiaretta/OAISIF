@@ -1,5 +1,8 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
 
 /**
  * A set of information that is the original target of preservation. It is an
@@ -9,6 +12,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:45
  */
+//@JsonDeserialize(as = ContentInformationRefImpl.class)
 public interface ContentInformation extends InformationObject {
 
 }

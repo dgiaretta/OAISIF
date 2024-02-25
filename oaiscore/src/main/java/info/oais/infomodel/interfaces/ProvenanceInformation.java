@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.ProvenanceInformationRefImpl;
 
 /**
  * The information that documents the history of the Content Data Object. This
@@ -13,6 +17,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = ProvenanceInformationRefImpl.class)
 public interface ProvenanceInformation extends InformationObject  {
 
 }

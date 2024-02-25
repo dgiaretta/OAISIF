@@ -9,22 +9,28 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import info.oais.infomodel.interfaces.*;
 import info.oais.oaisif.genericadapter.GenericAdapterRepository;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
+import info.oais.infomodel.implementation.utility.Json2Java;
 //import io.swagger.v3.oas.annotations.responses.Schema;
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
 import info.oais.oaisif.genericadapter.GenericAdapterEntry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,12 +40,19 @@ import org.springframework.web.client.RestTemplate;
 //import info.oais.oaisif.rrori.RroriEntry;
 
 @RestController
+@PropertySource("classpath:genericadapter.properties")
 @RequestMapping("/api/GA")
 public class GenericAdapterController {
+	
+	@Value("${SPECIFICADAPTER}") 
+	private String specificAdapterUrl;
+	@Value("${SWITCHBOARD}") 
+	private String switchboardUrl;
 
 	@Autowired
 	private GenericAdapterRepository genericAdapterRepository;
 	
+	@Value("{)")
 	/**
 	 * baseuri/GetProperty?name=xxx    where XXX is the name of the property
 	 * 
@@ -57,19 +70,27 @@ public class GenericAdapterController {
 		}
 		return ar;	
 	}
-//	@ResponseBody
-//	@RequestMapping(value="/AIPLike", params="doid", produces = "application/json")
-//	public List<GenericAdapterEntry> getByAIPNameLikeByRequestParam( 
-//			@RequestParam("doid") String name) {
-//		System.out.println("controller genericAdapterRepository LIKE is:" + genericAdapterRepository);
-//		List<GenericAdapterEntry> ar = genericAdapterRepository.findByAIPDoidLike(name);
-//		if ( ar != null) {
-//			System.out.println("Entry requested is: " + ar);
-//		} else {
-//			System.out.println("Entry request for "+ name + " is NULL");
-//		}
-//		return ar;	
-//	}
+	
+	@Hidden
+	@PostMapping("/GetProperty")
+	/**
+	 * 
+	 * @param aipid The Id the archive uses
+	 * @return List of AIPs that match
+	 */
+	@ResponseBody
+	@RequestMapping(value="/AIPLike", params="aipid", produces = "application/json")
+	public List<GenericAdapterEntry> getByAIPNameLikeByRequestParam( 
+			@RequestParam("aipid") String aipid) {
+		System.out.println("controller genericAdapterRepository LIKE is:" + genericAdapterRepository);
+		List<GenericAdapterEntry> ar = genericAdapterRepository.findByIdLike(aipid);
+		if ( ar != null) {
+			System.out.println("Entry requested is: " + ar);
+		} else {
+			System.out.println("Entry request for "+ aipid + " is NULL");
+		}
+		return ar;	
+	}
 	
 	@ResponseBody
 	@Operation(summary = "Get The configuration paratemeters needed to use this instance of the Generic Adapter")
@@ -112,7 +133,7 @@ public class GenericAdapterController {
 		return ar;	
 	}
 	/**
-	 * baseuri/GetAIP?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetAIP?aipid=xxx    where XXX is the identifier
 	 * 
 	 */
 	@ResponseBody
@@ -124,20 +145,20 @@ public class GenericAdapterController {
 	    content = @Content), 
 	  @ApiResponse(responseCode = "404", description = "AIP not found", 
 	    content = @Content) })
-	@RequestMapping(value="/GetAIP", params="doid", produces = "application/json")
-	public String getAIPByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
-		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
+	@RequestMapping(value="/GetAIP", params="aipid", produces = "application/json")
+	public String getAIPByIDByRequestParam( 
+			@RequestParam("aipid") String aipid) {
+		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
-		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
+		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
-	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
+	    System.out.println("XXXXSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
 	    RestTemplate restTemplate = new RestTemplate();   
 
-	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetAIP?doid="+doid, HttpMethod.GET, entity, String.class).getBody();
+	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetAIP?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
 	    return aips;
 	}
 	
@@ -152,11 +173,11 @@ public class GenericAdapterController {
 	    content = @Content) })
 	@RequestMapping(value="/AIPAll", produces = "application/json")
 	public String getBySAAll() {
-		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
+		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 
-		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
+		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
-	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
+	    System.out.println("XXXYYYSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
@@ -167,7 +188,7 @@ public class GenericAdapterController {
 	}
 	
 	/**
-	 * baseuri/GetPDI?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetPDI?aipid=xxx    where XXX is the identifier for the AIP
 	 * 
 	 */
 	@ResponseBody
@@ -179,20 +200,28 @@ public class GenericAdapterController {
 	    content = @Content), 
 	  @ApiResponse(responseCode = "404", description = "AIP not found", 
 	    content = @Content) })
-	@RequestMapping(value="/GetPDI", params="doid", produces = "application/json")
+	@RequestMapping(value="/GetPDI", params="aipid", produces = "application/json")
 	public String getPDIByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
-		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
+			@RequestParam("aipid") String aipid) {
+		//String aipStr = getAIPByDOIDByRequestParam( doid);
+		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
-		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
-
-	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
+		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
+/**
+ * Need to create AIP then get PDI then package that as Info Object in IP
+ */
+		//ArchivalInformationPackageRefImpl aip = null;
+		//aip = new Json2Java().json2Java(aipStr, ArchivalInformationPackageRefImpl.class);
+		//PreservationDescriptionInformation pdi = aip.getPDI();
+		//DGXXXX
+				
+//	    System.out.println("XXXYYYZZZSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
 	    RestTemplate restTemplate = new RestTemplate();   
-
-	    String pdi = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetPDI?doid="+doid, HttpMethod.GET, entity, String.class).getBody();
+//
+	    String pdi = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetPDI?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
 	    return pdi;
 	}
 	
@@ -210,12 +239,12 @@ public class GenericAdapterController {
 	    content = @Content), 
 	  @ApiResponse(responseCode = "404", description = "AIP not found", 
 	    content = @Content) })
-	@RequestMapping(value="/GetIO", params="doid", produces = "application/json")
+	@RequestMapping(value="/GetIO", params="aipid", produces = "application/json")
 	public String getIOByDOIDByRequestParam( 
-			@RequestParam("doid") String doid) {
-		Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
+			@RequestParam("aipid") String aipid) {
+		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
 		  
-		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
+		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
 
 	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
@@ -223,36 +252,37 @@ public class GenericAdapterController {
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
 	    RestTemplate restTemplate = new RestTemplate();   
 
-	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetIO?doid="+doid, HttpMethod.GET, entity, String.class).getBody();
+	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetIO?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
 	    return aips;
 	}
 	
 	/**
 	 * Get Data Object by ID
-	 * baseuri/GetDO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetDO?aipid=xxx    where XXX is the identifier
 	 * 
 	 */
-//	@ResponseBody
-//	@RequestMapping(value="/GetDO", params="doid", produces = "application/json")
-//	public String getDOByDOIDByRequestParam( 
-//			@RequestParam("doid") String doid) {
-//		Properties appProps = new OaisifConfig().getProperties("genericadapter.properties");
-//		  
-//		String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
-//
-//	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
-//		HttpHeaders headers = new HttpHeaders();
-//	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-//	    RestTemplate restTemplate = new RestTemplate();   
-//
-//	    String aips = restTemplate.exchange(specificAdapterUrl+"/GetDO?doid="+doid, HttpMethod.GET, entity, String.class).getBody();
-//	    return aips;
-//	}
+	@ResponseBody
+	@RequestMapping(value="/GetDO", params="aipid", produces = "application/json")
+	public String getDOByDOIDByRequestParam( 
+			@RequestParam("aipid") String aipid) {
+		  
+	    System.out.println("SpecificAdapter is:" + specificAdapterUrl);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+	    RestTemplate restTemplate = new RestTemplate();   
+
+	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetDO?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
+	    return aips;
+	}
 	
 	/**
 	 * SWITCHBOARD access
 	 */
+	
+
+	
+	
 	@ResponseBody
 	@Operation(summary = "Get a list of all the Repositories known from the associated SwitchBoard")
 	@ApiResponses(value = { 
@@ -265,34 +295,15 @@ public class GenericAdapterController {
 	@RequestMapping(value="/GetSwitchboardAll", produces = "application/json")
 	public String getBySwitchboardAll() {
 		System.out.println("/GetSwitchboardAll  being used ");
-		return new OaisIfConfig().getJsonString("genericadapter.properties", "SWITCHBOARD", "/api/SB/ArchiveNameAll" );
-//		Properties appProps = new OaisifConfig().getProperties("genericadapter.properties");
-//
-//		String switchboardUrl = appProps.getProperty("SWITCHBOARD");
-//
-//	    System.out.println("Switchboard is:" + switchboardUrl);
-//		HttpHeaders headers = new HttpHeaders();
-//	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-//	    RestTemplate restTemplate = new RestTemplate();   
-//
-//	    String aips = restTemplate.exchange(switchboardUrl+"/api/SB/ArchiveNameAll", HttpMethod.GET, entity, String.class).getBody();
-//	    return aips;
+	    System.out.println("Switchboard is:" + switchboardUrl);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+	    RestTemplate restTemplate = new RestTemplate();   
+
+	    String aips = restTemplate.exchange(switchboardUrl+"/api/SB/ArchiveNameAll", HttpMethod.GET, entity, String.class).getBody();
+	    return aips;
 	}
 	
-//	public String getJsonString(String propFile, String propKey, String qString)  {
-//		Properties appProps = new OaisifConfig().getProperties(propFile);
-//		  
-//		String specUrl = appProps.getProperty(propKey);
-//
-//	    System.out.println(propKey +  " is: " + specUrl);
-//		HttpHeaders headers = new HttpHeaders();
-//	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-//	    RestTemplate restTemplate = new RestTemplate();   
-//
-//	    String jsonString = restTemplate.exchange(specUrl +qString, HttpMethod.GET, entity, String.class).getBody();
-//	    return jsonString;
-//	}
 
 }

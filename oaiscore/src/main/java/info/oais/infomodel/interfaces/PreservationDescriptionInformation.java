@@ -1,5 +1,9 @@
 package info.oais.infomodel.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import info.oais.infomodel.implementation.InformationPackageRefImpl;
+import info.oais.infomodel.implementation.PreservationDescriptionInformationRefImpl;
 
 /**
  * The information, which along with Representation Information, is
@@ -19,6 +23,7 @@ package info.oais.infomodel.interfaces;
  * @version 1.0
  * @since 06-Sep-2021 15:59:46
  */
+@JsonDeserialize(as = PreservationDescriptionInformationRefImpl.class)
 public interface PreservationDescriptionInformation extends InformationObject  {
 
 	/**

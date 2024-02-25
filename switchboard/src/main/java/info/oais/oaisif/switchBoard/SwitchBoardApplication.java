@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import info.oais.infomodel.implementation.utility.OaisIfConfig;
+//import info.oais.infomodel.implementation.utility.OaisIfConfig;
 
 //import info.oais.oaisif.rrori.RroriApplication;
 
