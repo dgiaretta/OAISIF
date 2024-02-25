@@ -11,15 +11,33 @@ DEFAULTS:
 - GA: 8765
 - RRORI: 8083
 
-http://176.31.232.21:8765/api/GA/AIPAll    to list all AIP
+GENERIC ADAPTER
+http://www.oais.info:8765/api/GA/GetConfig
 
-http://176.31.232.21:8765/api/GA/GetConfig  to list config params
+http://www.oais.info:8765/api/GA/GetProperty?name=MYDESCRIPTION
 
-OPEN API documentation on localhost
-- http://localhost:8765/v3/api-docs
-  - Show the Open API docs
-- http://localhost:8765/v3/api-docs.yaml
-  - generate the YAML file 
-- http://localhost:8765/swagger-ui/index.html
-  - Show the swagger documentation
+http://www.oais.info:8765/api/GA/AIPAll
 
+http://www.oais.info:8765/api/GA/GetAIP?aipid=xxxx 
+
+
+
+http://www.oais.info:8765/api/GA/GetIO?aipid=xxxx   - returns JSON containing the Information Object of that AIP
+
+http://www.oais.info:8765/api/GA/GetDO?aipid=xxxx   - returns JSON containing the (Content) Data Object of that AIP
+
+http://www.oais.info:8765/v3/api-docs.yaml
+
+http://www.oais.info:8765/swagger-ui/index.html
+
+
+SPECIFIC ADAPTER
+http://www.oais.info:8510/api/SA/AIPAll
+
+RRORI
+http://www.oais.info:8083/RIAll
+
+SWITCHBOARD
+http://www.oais.info:8085/api/SB/ArchiveNameAll
+
+On command line for running JAR can set parameter e.g. add --server.port=xxxx
