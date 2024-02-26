@@ -7,6 +7,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import info.oais.oaisif.genericadapter.GenericAdapterEntry;
+
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -16,9 +18,6 @@ public class GenericAdapterService {
 	
 	@Autowired
 	GenericAdapterRepository genericAdapterRepository;
-	@Autowired 
-	private ResourceLoader resourceLoader;
-	
 	@SuppressWarnings("null")
 	
 	/**
@@ -43,11 +42,7 @@ public class GenericAdapterService {
 
 	@PostConstruct
 	public void postConstruct() {
-		//ArrayList<String>[] data = null;
-		int numrows = -1;
-		
-       
-        // get the value of the property
+		// get the value of the property
         @SuppressWarnings("rawtypes")
         String[] myKeys = new String[]{"SWITCHBOARD", "GENERICADAPTERPORT", "MYDESCRIPTION", "SPECIFICADAPTER",
         		"MYAUTHENTCATIONMETHOD", "MYSERIALISATIONMETHOD", "MYCOMMUNICATIONMETHOD", "MYQUERYMETHOD"};

@@ -1,26 +1,14 @@
 package info.oais.oaisif.genericadapter;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Stream;
 
-import info.oais.infomodel.interfaces.*;
-import info.oais.oaisif.genericadapter.GenericAdapterRepository;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import info.oais.infomodel.implementation.ArchivalInformationPackageRefImpl;
-import info.oais.infomodel.implementation.utility.Json2Java;
-//import io.swagger.v3.oas.annotations.responses.Schema;
-import info.oais.oaisif.genericadapter.GenericAdapterEntry;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -28,7 +16,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+//import info.oais.oaisif.genericadapter.GenericAdapterRepository;
+//import info.oais.oaisif.genericadapter.GenericAdapterEntry;
 
 //import info.oais.oaisif.rrori.RroriEntry;
 
@@ -215,19 +205,21 @@ public class GenericAdapterController {
 		//PreservationDescriptionInformation pdi = aip.getPDI();
 		//DGXXXX
 				
-//	    System.out.println("XXXYYYZZZSpecificAdapter is:" + specificAdapterUrl);
+	    System.out.println("XXXYYYZZZSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
 	    RestTemplate restTemplate = new RestTemplate();   
 //
 	    String pdi = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetPDI?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
-	    return pdi;
+	    System.out.println("PDI is:"+pdi);
+	    return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the PDI of AIP " + aipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
+	    //return pdi;
 	}
 	
 	/**
 	 * Get Information Object
-	 * baseuri/GetIO?doid=xxx    where XXX is iii,jjj for the 2 parts of the identifier
+	 * baseuri/GetIO?aipid=xxx    where XXX is the identifier
 	 * 
 	 */
 	@ResponseBody
@@ -253,7 +245,8 @@ public class GenericAdapterController {
 	    RestTemplate restTemplate = new RestTemplate();   
 
 	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetIO?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
-	    return aips;
+	    return "{ \"InformationPackage\": { \"version\": \"1.0\",  \"PackageType\": \"General\", \"PackageDescription\": \"This is the Information Object of AIP " + aipid + "\", \"InformationObject\": " + aips + "}}";
+	    //return aips;
 	}
 	
 	/**
@@ -273,7 +266,8 @@ public class GenericAdapterController {
 	    RestTemplate restTemplate = new RestTemplate();   
 
 	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetDO?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
-	    return aips;
+	    return "{\"InformationPackage\": { \"version\": \"1.0\",  \"PackageType\": \"General\", \"PackageDescription\": \"This is the Data Object of AIP " + aipid + ", plus a null RepInfo \", \"InformationObject\": {\"DataObject\":" + aips + ",\"RepresentationInformation\":{}} } }";
+	    //return aips;
 	}
 	
 	/**
