@@ -1,6 +1,7 @@
 package info.oais.oaisif.genericadapter;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,6 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 //import info.oais.oaisif.genericadapter.GenericAdapterRepository;
 //import info.oais.oaisif.genericadapter.GenericAdapterEntry;
 
@@ -45,6 +51,9 @@ public class GenericAdapterController {
 	@Value("{)")
 	/**
 	 * baseuri/GetProperty?name=xxx    where XXX is the name of the property
+	 * 
+	 * @param name   name of the property wanted
+	 * @returns The String value associated with that property
 	 * 
 	 */
 	@ResponseBody
@@ -82,6 +91,11 @@ public class GenericAdapterController {
 		return ar;	
 	}
 	
+	
+	/**
+	 * Get all the properties needed to communicate with the GA
+	 * @return All the name/value pairs for the properties
+	 */
 	@ResponseBody
 	@Operation(summary = "Get The configuration paratemeters needed to use this instance of the Generic Adapter")
 	@ApiResponses(value = { 
@@ -124,7 +138,8 @@ public class GenericAdapterController {
 	}
 	/**
 	 * baseuri/GetAIP?aipid=xxx    where XXX is the identifier
-	 * 
+	 * @param aipid The STring to identify the AIP
+	 * @return The JSON for the AIP
 	 */
 	@ResponseBody
 	@Operation(summary = "Get an AIP from the associated Specific Adapter by its id")
@@ -149,7 +164,26 @@ public class GenericAdapterController {
 	    RestTemplate restTemplate = new RestTemplate();   
 
 	    String aips = restTemplate.exchange(specificAdapterUrl+"/api/SA/GetAIP?aipid="+aipid, HttpMethod.GET, entity, String.class).getBody();
-	    return aips;
+	    
+	    /**
+	     * Extract the AIP - the first element in the array which is returned at node jsonString
+	     */
+	    ObjectMapper mapper = new ObjectMapper();
+		JsonNode node=null;
+		try {
+			node = mapper.readTree(aips);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(" Node is:"+node);
+	    JsonNode aip =  (node.get(0)).at("/jsonString");
+	    System.out.println("AIP:"+ aip);
+	    
+	    return aip.asText();
 	}
 	
 	@ResponseBody
