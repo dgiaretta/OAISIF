@@ -15,4 +15,6 @@ public interface SpecificAdapterRepository extends CrudRepository<SpecificAdapte
 	//List<SpecificAdapterEntry> findByIoDoid(String name);
 
 	//List<SpecificAdapterEntry> findByDoDoid(String name);
+	
+	//String getBySAAll();
 }

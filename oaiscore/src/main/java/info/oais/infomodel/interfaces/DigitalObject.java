@@ -1,6 +1,7 @@
 package info.oais.infomodel.interfaces;
 
 import java.io.InputStream;
+import java.math.BigInteger;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -39,5 +40,12 @@ public interface DigitalObject extends DataObject {
 	 * 
 	 * @return the size in bytes  of the DigitalObject
 	 */ 
-	public long getSize();
+	public BigInteger getSize();
+	
+	/** 
+	 * Set the size in bytes of the DataObject
+	 * 
+	 * @param size the size in bytes  of the DigitalObject
+	 */ 
+	public void setSize(BigInteger size);
 }

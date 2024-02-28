@@ -3,8 +3,10 @@
  */
 package info.oais.infomodel.implementation;
 
-import java.io.IOException;
+//import java.io.Exception;
 import java.io.InputStream;
+import java.math.BigInteger;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -21,7 +23,7 @@ public class DigitalObjectRefImpl extends DataObjectRefImpl implements DigitalOb
 	/**
 	 * Internal size
 	 */
-	long m_SIZE = 0;
+	BigInteger m_SIZE = null;
 
 	/**
 	 * Create new DigitalObject
@@ -75,21 +77,33 @@ public class DigitalObjectRefImpl extends DataObjectRefImpl implements DigitalOb
 	 * This allows one to decide whether to download all the bytes.
 	 */ 
 	@JsonGetter("Size")
-	public long getSize() {
+	public BigInteger getSize() {
 		/**
 		 * TODO get size from InputStream 
 		 * NOTE that available is an estimate - max size is INT not LONG
 		 */
 		if (m_DATA == null) {
-			return 0;
+			return new BigInteger("0");
 		} else {
 			try {
-				return ((InputStream)m_DATA).available();
-			} catch (IOException e) {
+				return new BigInteger("0"); //((InputStream)m_DATA); //.available();
+			} catch (Exception e) {
 				e.printStackTrace();
-				return 0;
+				return new BigInteger("0");
 			}
 		}
 		
+	}
+	
+	/** 
+	 * Set an estimate of the size in bytes of the DataObject
+	 * 
+	 * @param size The estimate of the size in bytes  of the DigitalObject. 
+	 * 
+	 */ 
+	@JsonSetter("Size")
+	public void setSize(BigInteger size) {
+		// TODO Auto-generated method stub
+		m_DATA = size;
 	}
 }

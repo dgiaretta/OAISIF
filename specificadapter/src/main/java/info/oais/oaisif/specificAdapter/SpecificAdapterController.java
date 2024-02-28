@@ -67,15 +67,82 @@ public class SpecificAdapterController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/AIPAll", produces = "application/json")
-	public List<SpecificAdapterEntry> getBySAAll() {
+	public String getBySAAll() {
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
 		List<SpecificAdapterEntry> ar = (List<SpecificAdapterEntry>) specificAdapterRepository.findAll();
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode node=null;
+		String csvStr = "[ \"IdType\",\"Ident\",\"Package Type\",\"Is Declared Complete\",\"Package Description\"]";
+		String ret = "";
 		if ( ar != null) {
-			System.out.println("All Entries are: " + ar);
-		} else {
-			System.out.println("All Entries is NULL");
+			Iterator<SpecificAdapterEntry> iter = ar.iterator();
+			while(iter.hasNext()) {
+				SpecificAdapterEntry sae = iter.next();
+				System.out.println("Entry is " + sae);
+				/**
+				 * Extract the ID as a String and convert to 
+				 * IdentifierTYpe:"Local",Identifier:idStr
+				 */
+				String idStr = sae.getIdStr();
+				String ident = "\"Local\",\"" + idStr + "\"";
+				
+				/**
+				 * Create the AIP tree then extract the PackageDescription
+				 */
+				
+				String aipStr = sae.getJsonString();
+				System.out.println(" JsonString is:"+aipStr);
+				try {
+					node = mapper.readTree(aipStr);
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println(" Node is:"+node);
+				
+			    JsonNode pd =  node.at("/InformationPackage/PackageDescription");
+			    System.out.println("PackageDescription as node: "+ pd);
+				String pdStr = pd.asText();
+				System.out.println("PD: "+ pdStr);
+				
+				JsonNode comp =  node.at("/InformationPackage/IsDeclaredComplete");
+			    System.out.println("IsDeclaredComplete as node: "+ comp);
+				String compStr = comp.asText();
+				System.out.println("compStr: "+ compStr);
+				
+				JsonNode typ =  node.at("/InformationPackage/PackageType");
+			    System.out.println("PackageType as node: "+ typ);
+				String typStr = typ.asText();
+				System.out.println("typStr: "+ typStr);
+				
+				/*
+				 * Add CRFL to existing row - so that last row does not have it.
+				 */
+				
+				if (csvStr != "") csvStr = csvStr + ",";
+				csvStr = csvStr + "[" + ident + "," + typ + "," + "\""+ compStr + "\"" + "," + "\""+pdStr+"\"]";
+				
+				System.out.println("CSVSTR:\r\n"+csvStr);
+				
+			}
+			
+			//String escCsvStr = csvStr.replace("\"", "\u0022");
+			//System.out.println("ESCCSVSTR:\r\n"+escCsvStr);
+			
+			ret = "{\"InformationPackage\":{\"version\":\"1.0\",\"PackageType\":\"General\",";
+			ret = ret + "\"PackageDescription\":\"This is a list of AIP in the repository\",";
+			ret = ret + "\"InformationObject\":{\"DataObject\":["+ csvStr + "],";
+			ret = ret + "\"RepresentationInformation\":{\"IdentifierType\":\"URI\",\"Identifier\":\"http://www.oais.info/oais-if/rrori/RepInfoForAIPAllcsvfile.json\"}";
+			ret = ret + "}}}";
+			
+			System.out.println("InfoPackage is: " + ret);
 		}
-		return ar;	
+	
+		return ret;	
 	}
 	/**
 	 * baseuri/GetPDI?aipid=xxx    where XXX is archive's identifier for the AIP
