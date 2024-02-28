@@ -16,7 +16,7 @@ http://www.oais.info:8765/api/GA/GetConfig
 
 http://www.oais.info:8765/api/GA/GetProperty?name=MYDESCRIPTION
 
-http://www.oais.info:8765/api/GA/AIPAll
+http://www.oais.info:8765/api/GA/AIPAll				- retuens table listing the AIPs and their Package Descriptions
 
 http://www.oais.info:8765/api/GA/GetAIP?aipid=xxxx 
 
