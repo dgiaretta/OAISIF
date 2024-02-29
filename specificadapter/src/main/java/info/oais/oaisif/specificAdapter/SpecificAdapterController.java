@@ -72,7 +72,7 @@ public class SpecificAdapterController {
 		List<SpecificAdapterEntry> ar = (List<SpecificAdapterEntry>) specificAdapterRepository.findAll();
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode node=null;
-		String csvStr = "[ \"IdType\",\"Ident\",\"Package Type\",\"Is Declared Complete\",\"Package Description\"]";
+		String csvStr = "[ \"IdType\",\"Ident\",\"Package Type\",\"Is Declared Complete\",\"Package Description\",\"Size (if known)\"]";
 		String ret = "";
 		if ( ar != null) {
 			Iterator<SpecificAdapterEntry> iter = ar.iterator();
@@ -119,12 +119,22 @@ public class SpecificAdapterController {
 				String typStr = typ.asText();
 				System.out.println("typStr: "+ typStr);
 				
+				JsonNode siz =  node.at("/InformationPackage/InformationObject/DataObject/size");
+			    System.out.println("Size as node: "+ siz);
+			    String sizStr = "";
+			    if (siz.isMissingNode()) {
+			    	sizStr = "0";
+			    } else {
+			    	sizStr = siz.asText();
+			    }
+				System.out.println("typStr: "+ typStr);
+								
 				/*
 				 * Add CRFL to existing row - so that last row does not have it.
 				 */
 				
 				if (csvStr != "") csvStr = csvStr + ",";
-				csvStr = csvStr + "[" + ident + "," + typ + "," + "\""+ compStr + "\"" + "," + "\""+pdStr+"\"]";
+				csvStr = csvStr + "[" + ident + "," + typ + "," + "\""+ compStr + "\"" + "," + "\""+pdStr+"\"" + ",\""+ sizStr + "\"]";
 				
 				System.out.println("CSVSTR:\r\n"+csvStr);
 				
@@ -134,7 +144,7 @@ public class SpecificAdapterController {
 			//System.out.println("ESCCSVSTR:\r\n"+escCsvStr);
 			
 			ret = "{\"InformationPackage\":{\"version\":\"1.0\",\"PackageType\":\"General\",";
-			ret = ret + "\"PackageDescription\":\"This is a list of AIP in the repository\",";
+			ret = ret + "\"PackageDescription\":\"This is a list of AIPs in the repository\",";
 			ret = ret + "\"InformationObject\":{\"DataObject\":["+ csvStr + "],";
 			ret = ret + "\"RepresentationInformation\":{\"IdentifierType\":\"URI\",\"Identifier\":\"http://www.oais.info/oais-if/rrori/RepInfoForAIPAllcsvfile.json\"}";
 			ret = ret + "}}}";
