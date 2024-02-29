@@ -16,7 +16,9 @@ http://www.oais.info:8765/api/GA/GetConfig
 
 http://www.oais.info:8765/api/GA/GetProperty?name=MYDESCRIPTION
 
-http://www.oais.info:8765/api/GA/AIPAll				- retuens table listing the AIPs and their Package Descriptions
+http://www.oais.info:8765/api/GA/AIPAll				- returns table listing the AIPs and their Package Descriptions.
+													- The table is in the form of an array (i.e. the rows) of arrays (containing the values in the columns). The first row gives the names of the columns.
+													Note that JSON arrays maintain the order of the elements see https://datatracker.ietf.org/doc/html/rfc8259#page-7
 
 http://www.oais.info:8765/api/GA/GetAIP?aipid=xxxx 
 
