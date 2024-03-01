@@ -36,14 +36,15 @@ public class IdentifierRefImpl implements Identifier {
 	/**
 	 * Create new Identifier
 	 * 
-	 * @param idStr	Character string of the Identifier;
+	 * 
 	 * @param idType	Type of the identifier e.g. \"URI\"
+	 * @param idStr	Character string of the Identifier;
 	 *
 	 */
-	public IdentifierRefImpl(String idStr, String idType) {
+	public IdentifierRefImpl(String idType, String idStr) {
 
-		m_idName = idStr;
-		m_idType = idType;
+		m_idName = idType;
+		m_idType = idStr;
 	}
 	
 	
