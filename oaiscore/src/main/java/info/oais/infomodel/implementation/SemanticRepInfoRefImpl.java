@@ -26,8 +26,8 @@ public class SemanticRepInfoRefImpl extends RepresentationInformationRefImpl imp
 	/**
 	 * Create RepInfo with specific Data and RepInfo objects
 	 *
-	 * @param dat Data Object for this Information Object
-	 * @param ri  The Data Object of the Representation Information for this Information Object  
+	 * @param digiObj Data Object for this Information Object
+	 * @param repInf  The Data Object of the Representation Information for this Information Object  
 	 */	
 	public SemanticRepInfoRefImpl(DataObject digiObj, RepresentationInformation repInf) {
 		super(digiObj, repInf);

@@ -190,7 +190,7 @@ import lombok.*;
 			return idStr;
 		}
 		/**
-		 * @param mIdStr the mIdStr to set
+		 * @param idStr the mIdStr to set
 		 */
 		public void setIdStr(String idStr) {
 			this.idStr = idStr;

@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"info.oais.infomodel.implementation"},{"l":"info.oais.infomodel.interfaces"}];updateSearchResults();

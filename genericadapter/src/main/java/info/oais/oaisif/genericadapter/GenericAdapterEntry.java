@@ -74,7 +74,7 @@ import lombok.*;
 		/**
 		 * Set the Property name
 		 * 
-		 * @param prop - Name of the property
+		 * @param propName - Name of the property
 		 */
 		public void setPropertyName(String propName) {
 			this.propertyName = propName;

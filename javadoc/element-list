@@ -1,3 +1,4 @@
+info.oais.infomodel.deserialise
 info.oais.infomodel.implementation
 info.oais.infomodel.implementation.pdi
 info.oais.infomodel.implementation.representationinformation
@@ -11,3 +12,6 @@ info.oais.oaisif.genericadapter.swagger
 info.oais.oaisif.rrori
 info.oais.oaisif.specificAdapter
 info.oais.oaisif.switchBoard
+info.oais.oaisif.switchBoard.swagger
+oaiscore
+oaisifClient

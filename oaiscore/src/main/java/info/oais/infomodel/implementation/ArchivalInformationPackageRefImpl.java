@@ -32,7 +32,7 @@ import info.oais.infomodel.interfaces.*;
 // DG20240217 @JsonIgnoreProperties(value = { "contentInformation" })
 @JsonPropertyOrder({"PackageVersion", "PackageType", "IsComplete", "PackageDescription", "PackagingInformation","InformationObject", "InformationObject", "PreservationDescriptionInformation"  })
 // DG20240217 @JsonRootName(value = "InformationPackage" )
-//@JsonProperty(“ArchivalInformationPackageRefImpl”)
+//@JsonProperty("ArchivalInformationPackageRefImpl")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArchivalInformationPackageRefImpl extends InformationPackageRefImpl implements ArchivalInformationPackage {
 	

@@ -18,15 +18,15 @@ import info.oais.infomodel.implementation.ObjVersionRefImpl;
 public interface ObjVersion extends Comparable<ObjVersion> {
 
 	/**
-	 * Get ObjVersion as a String
+	 * Set ObjVersion as a String
 	 * @param ver Version as a String
 	 * 
 	 */
 	void setObjVersionString(String ver);
 	
 	/**
-	 * Set ObjVersion as a String
-	 * @returns Version as a String
+	 * Get ObjVersion as a String
+	 * @return Version as a String
 	 * 
 	 */
 	String getObjVersionString();

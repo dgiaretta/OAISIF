@@ -126,7 +126,7 @@ import lombok.*;
 		/**
 		 * Set the URL for the archive
 		 * 
-		 * @param The String for the URL to use to access the archive
+		 * @param archiveURL The String for the URL to use to access the archive
 		 */	
 		public void setArchiveURL(String archiveURL) {
 			this.archiveURL = archiveURL;

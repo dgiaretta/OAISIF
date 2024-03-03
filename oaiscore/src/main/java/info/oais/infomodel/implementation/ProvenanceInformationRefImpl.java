@@ -47,7 +47,7 @@ public class ProvenanceInformationRefImpl extends InformationObjectRefImpl imple
 	/**
 	 * Set the String value for the ProvenanceInformation.
 	 * 
-	 * @param fixStr Set the String for the ProvenanceInformation.
+	 * @param provStr Set the String for the ProvenanceInformation.
 	 */
 	public ProvenanceInformationRefImpl(String provStr) {
 		super();

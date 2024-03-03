@@ -27,8 +27,8 @@ public class ObjVersionRefImpl implements ObjVersion {
 	
 	/**
 	 * An int value: 0 if the string is equal to the other string.
-	 * < 0 if the string is lexicographically less than the other string
-	 * > 0 if the string is lexicographically greater than the other string (more characters)
+	 * &lt; 0 if the string is lexicographically less than the other string
+	 * &gt; 0 if the string is lexicographically greater than the other string (more characters)
 	 */
 	public int compareTo(ObjVersion o) {
 		return this.getObjVersionString().compareTo(o.toString());
