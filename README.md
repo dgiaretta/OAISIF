@@ -22,7 +22,7 @@ http://www.oais.info:8765/api/GA/AIPAll				- returns table listing the AIPs and 
 
 http://www.oais.info:8765/api/GA/GetAIP?aipid=xxxx 
 
-
+http://www.oais.info:8765/api/GA/GetAIP?aipid=1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
 
 http://www.oais.info:8765/api/GA/GetIO?aipid=xxxx   - returns JSON containing the Information Object of that AIP
 
