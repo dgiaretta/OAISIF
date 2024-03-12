@@ -7,6 +7,8 @@ mvn build package
   - taskkill /F /PID nnn
 - UBUNTU:  $JAVA_HOME/bin/java -jar xxxx.jar &
 
+On command line for running JAR one can set parameter e.g. add --server.port=xxxx
+
 # DEFAULTS:
 - GA: 8765
 - RRORI: 8083
@@ -54,6 +56,3 @@ http://www.oais.info:8083/RIAll
 - list all the pieces of RepInfo
 - NOTE - this must be updated to be consistent with other interfaces. Should return Info Packages and use Identifiers
 
-
-
-On command line for running JAR can set parameter e.g. add --server.port=xxxx
