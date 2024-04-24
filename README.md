@@ -52,7 +52,7 @@ http://www.oais.info:8510/api/SA/AIPAll
 - list all the AIPs
 
 # RRORI
-http://www.oais.info:8083/RIAll
+http://www.oais.info:8083/api/RI/RIAll
 - list all the pieces of RepInfo
 - NOTE - this must be updated to be consistent with other interfaces. Should return Info Packages and use Identifiers
 
