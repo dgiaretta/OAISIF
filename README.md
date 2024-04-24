@@ -6,6 +6,10 @@ mvn build package
   - jps - to get list of processes
   - taskkill /F /PID nnn
 - UBUNTU:  $JAVA_HOME/bin/java -jar xxxx.jar &
+ - oaisifga.service 
+ - oaisifrrori.service
+ - oaisifsa.service 
+ - oaisifsb.service
 
 On command line for running JAR one can set parameter e.g. add --server.port=xxxx
 
