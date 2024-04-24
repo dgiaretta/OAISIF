@@ -1,16 +1,21 @@
 package info.oais.oaisif.rrori;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import jakarta.annotation.PostConstruct;
 
+import jakarta.annotation.PostConstruct;
 
 @Service
 @PropertySource("classpath:rrori.properties")
-//@Transactional
 public class RroriService {
 	private static final Logger log = LoggerFactory.getLogger(RroriService.class);
 	
@@ -19,42 +24,31 @@ public class RroriService {
 	
 	@SuppressWarnings("null")
 	/**
-	 * Get the JSON for 2 (TWO) RIs
+	 * Get the JSON for 3 (THREE) AIPs
 	 */
-	@Value("${sb1}") 
-	private String sb1;
-	@Value("${sb2}") 
-	private String sb2;
-	
+	@Value("${aip0}") 
+	private String aip0;
+	@Value("${aip1}") 
+	private String aip1;
+	@Value("${aip2}") 
+	private String aip2;
 	@PostConstruct
 	public void postConstruct() {
-
-
-		RroriEntry sbe = new RroriEntry();
-
-        // get the value of the property
-        @SuppressWarnings("rawtypes")
-        String[] myArray = new String[]{sb1, sb2};
-		
-
-        for (String propValue : myArray) {
-	        System.out.println(" propValue : " + propValue);
-	        String[] lines = propValue.split("\n"); 
-	        sbe.setId(System.currentTimeMillis());
-	        sbe.setDoName(lines[0]);
-	        sbe.setDoid(lines[1]); 
-	        sbe.setRidoid(lines[2]);
-	        sbe.setRirole(lines[3]);
-	        
-	        System.out.println("******Saving "+ ": " + sbe);
-	        rroriRepository.save(sbe);
-	        System.out.println("******Saved: ");
-        }
-        //rroriRepository.flush();
-        log.info("RroriRepository is:" + rroriRepository);
-        log.info("Retrieve all records");
-    	log.info("Entries: " + rroriRepository.findAll());
-    	log.info("DO1 Entries: " + rroriRepository.findByDoName("DAVID"));
+	
+        log.info("Saving the initial values");
         
+    	System.out.println("aip0:"+ aip0);
+        rroriRepository.save(new RroriEntry(aip0));
+        System.out.println("aip1:"+ aip1);
+        rroriRepository.save(new RroriEntry(aip1));
+        System.out.println("aip2:"+ aip2);
+        rroriRepository.save(new RroriEntry(aip2));
+
+        System.out.println("rroriRepository is:" + rroriRepository);
+        System.out.println("Retrieve all records");
+        System.out.println("Entries: " + rroriRepository.findAll());
+    	//log.info("specificAdapter Entries: " + rroriRepository.findByArchiveName("RRORI"));
 	}
+
+	
 }

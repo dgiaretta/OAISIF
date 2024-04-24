@@ -5,25 +5,16 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RroriRepository extends CrudRepository<RroriEntry, Long> {
-	/**
-	 * Get all the RepInfo entries in this RRORI which are associated with an DO Identifier
-	 * 
-	 * @param doid The Identifier for the Data Object
-	 * @return A list of entries of RepInfo
-	 */
-	List<RroriEntry> findByDoid(String doid);
-	/**
-	 * Get all the RepInfo entries in this RRORI which are associated with an DO Name
-	 * 
-	 * @param doName The name for the Data Object
-	 * @return A list of entries of RepInfo
-	 */
-	List<RroriEntry> findByDoName(String doName);
-	/**
-	 * Get all the RepInfo entries in this RRORI which are associated with an RepInfo Identifier
-	 * 
-	 * @param ridoid The Identifier for the data object of the RepInfo
-	 * @return A list of entries of RepInfo
-	 */
-	List<RroriEntry> findByRidoid(String ridoid);
+	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
+	//List<RroriEntry> findByAipDoid(String name);
+	List<RroriEntry> findByIdStrLike(String name);
+
+	//List<RroriEntry> findByPdiDoid(String name);
+	List<RroriEntry> findByIdStr(String idStr);
+
+	//List<RroriEntry> findByIoDoid(String name);
+
+	//List<RroriEntry> findByDoDoid(String name);
+	
+	//String getBySAAll();
 }

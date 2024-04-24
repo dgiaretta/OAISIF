@@ -12,7 +12,7 @@
 	<artifactId>rrori</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rrori</name>
-	<description>rrori for OAIS-IF</description>
+	<description>Example RRORI for OAIS-IF</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -36,10 +36,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>info.oais.infomodel</groupId>
@@ -78,41 +74,31 @@
 	         <groupId>jakarta.persistence</groupId>
 	         <artifactId>jakarta.persistence-api</artifactId>
       	</dependency>
-<!--      	<dependency>-->
+		<dependency>
+	       <groupId>org.springdoc</groupId>
+	       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	       <version>2.2.0</version>
+	    </dependency>
+<!--      <dependency>-->
 <!--	      <groupId>org.springdoc</groupId>-->
 <!--	      <artifactId>springdoc-openapi-webflux-ui</artifactId>-->
-<!--	      <version>1.6.14</version>-->
+<!--	      <version>1.6.14</version-->
 <!--	   </dependency>-->
 <!--		<dependency>-->
 <!--	      <groupId>org.springdoc</groupId>-->
 <!--	      <artifactId>springdoc-openapi-data-rest</artifactId>-->
 <!--	      <version>1.6.14</version>-->
 <!--		</dependency>-->
-<!--		   <dependency>-->
-<!--		      <groupId>org.springdoc</groupId>-->
-<!--		      <artifactId>springdoc-openapi-data-rest</artifactId>-->
-<!--		      <version>1.6.14</version>-->
-<!--		   </dependency>-->
-<!--		<dependency>-->
-<!--		    <groupId>org.springdoc</groupId>-->
-<!--		    <artifactId>springdoc-openapi-ui</artifactId>-->
-<!--		    <version>1.6.4</version>-->
-<!--		</dependency>-->
-		<dependency>
-	       <groupId>org.springdoc</groupId>
-	       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-	       <version>2.2.0</version>
-	    </dependency>
 <!--		<dependency>-->
 <!--	         <groupId>io.springfox</groupId>-->
 <!--	         <artifactId>springfox-boot-starter</artifactId>-->
 <!--			 <version>3.0.0</version>-->
 <!--      	</dependency>-->
-      	<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+<!--      	<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>com.mysql</groupId>-->
 <!--			<artifactId>mysql-connector-j</artifactId>-->
@@ -122,9 +108,12 @@
 <!--				<groupId>org.postgresql</groupId>-->
 <!--				<artifactId>postgresql</artifactId>-->
 <!--				<scope>runtime</scope>-->
-<!--			</dependency>-->
-
-		
+<!--			</dependency>	-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
 		<dependency>
 		    <groupId>org.eclipse.persistence</groupId>

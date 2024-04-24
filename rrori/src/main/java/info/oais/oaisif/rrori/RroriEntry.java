@@ -1,9 +1,12 @@
 package info.oais.oaisif.rrori;
 
-// import javax.swing.JTable;
+
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+
 import jakarta.persistence.Id;
 import lombok.*;
 	
@@ -12,135 +15,112 @@ import lombok.*;
 	@Entity
 	@Table(name = "oaisif-rrori")
 	public class RroriEntry implements Serializable {
+		/**
+		 * 
+		 */
+		@Id
+		//@GeneratedValue(strategy = GenerationType.AUTO);
+		//@GeneratedValue(strategy = GenerationType.AUTO)
+		
+		private Long id;
+		
+
+		private String idStr;
 		
 		private static final long serialVersionUID = 1L;
 		
-		
-		@Id
-	    //@GeneratedValue(strategy = GenerationType.AUTO)
-		private long id;
-		
 		/**
-		 * Name or description of the Data Object
+		 * Set the max length of the JSON String
+		 */
+		@Column(length=4096)
+		private String jsonString=null;
+
+		/**
+		 * RroriEntry constructor with  no args
 		 * 
 		 */
-		private String doName;
-		
-		/**
-		 * Identifier for the Data Object - here as a STring which has bothe IDName and IdTypd
-		 */
-		
-		private String doid;
-		
-		/**
-		 * Identifier for the Data Object of the associated RepInfo
-		 */
-		private String ridoid;
-		
-		/**
-		 * Text describing the role of the RepInfo
-		 */
-		private String rirole;
-		
-	
 		public RroriEntry() {
 			super();
-		}
+	    }
 		/**
-		 * Get the Identifier of the entry
+		 * RroriEntry constructor with String arg
+		 * @param js The string which is the JSON of the InformationPackage
 		 * 
-		 * @return the Identifier for the entry
+		 * The ID is constructed as the hashCode of the string.
+		 */
+		public RroriEntry(String js) {
+			//super();
+			jsonString = js;
+			id = (long) js.hashCode(); 
+			if (id < 0) id = -id;
+			idStr = id.toString();
+	    }
+		/**
+		 * RroriEntry constructor 
+		 * 
+		 * @param id The identifier of the InfoPackage
+		 * @param js The string which is the JSON of the InformationPackage
+		 * 
+		 */
+		public RroriEntry(Long id, String js) {
+			//super();
+			jsonString = js;
+			this.id = id; 
+			idStr = id.toString();
+	    }
+		
+		/**
+		 * Get the Identifier for the entry
+		 * 
+		 * @return Identifier for the SwitchBoard entry
 		 */
 		public long getId() {
 			return id;
 		}
+		
 
 		/**
-		 * Set the Identifier of the entry
+		 * Set the Identifier for the entry
 		 * 
-		 * @param id The Identifier for the entry
+		 * @param id Identifier for the SA entry
 		 */
 		public void setId(long id) {
 			this.id = id;
+			this.idStr = Long.toString(this.id);
 		}
-
+		
 		/**
-		 * Get the name of the Data Object to which this entry refers
+		 * Set the jsonString for the entry
 		 * 
-		 * @return The name of the Data Object to which this entry refers
+		 * @param js The String for the AIP
 		 */
-		public String getDoName() {
-			return doName;
+		public void setJsonString(String js) {
+			jsonString = js;
 		}
-
 		/**
-		 * Set the name of the Data Object to which this entry refers
+		 * Get the jsonString for the entry
 		 * 
-		 * @param doName The name of the Data Object to which this entry refers
+		 * @return The String for the AIP entry
 		 */
-		public void setDoName(String doName) {
-			this.doName = doName;
+		public String getJsonString() {
+			return jsonString;
 		}
-
-		/**
-		 * Get the Identifier of the Data Object to which this entry refers
-		 * 
-		 * @return The String for the Identifier of the Data Object to which this entry refers
-		 */
-		public String getDoid() {
-			return doid;
-		}
-
-		/**
-		 * Set the Identifier of the Data Object to which this entry refers
-		 * 
-		 * @param doid The String for the Identifier of the Data Object to which this entry refers
-		 */
-		public void setDoid(String doid) {
-			this.doid = doid;
-		}
-
-		/**
-		 * Get the String for the Identifier of the Data Object of the Representation Information
-		 * 
-		 * @return The String for the Identifier of the Data Object of the Representation Information
-		 */
-		public String getRidoid() {
-			return ridoid;
-		}
-
-		/**
-		 * Set the String for the Identifier of the Data Object of the Representation Information
-		 * 
-		 * @param ridoid  The String for the Identifier of the Data Object of the Representation Information
-		 */
-		public void setRidoid(String ridoid) {
-			this.ridoid = ridoid;
-		}
-
-		/**
-		 * Get the role of the Representation Information e.g. Structure, Semantics, Other, ANdGroup or OrGroup
-		 * 
-		 * @return The role of the Representation Information e.g. Structure, Semantics, Other, ANdGroup or OrGroup
-		 */
-		public String getRirole() {
-			return rirole;
-		}
-
-		/**
-		 * Set the role of the Representation Information e.g. Structure, Semantics, Other, ANdGroup or OrGroup
-		 * 
-		 * @param rirole The role of the Representation Information e.g. Structure, Semantics, Other, ANdGroup or OrGroup
-		 */
-		public void setRirole(String rirole) {
-			this.rirole = rirole;
-		}
-
+		
 		@Override
 		public String toString() {
-			return  "Data Object name/description: " + doName + "\n" +
-					"Data Object: "+ doid + "\n" +
-					"RepInfo: " + ridoid + "\n" +
-					"RI role: " + rirole + "\n" ;
+			return  "Id:" + id + "    AIP : " + jsonString ;
+		}
+		/**
+		 * @return the m_idStr
+		 */
+		public String getIdStr() {
+			return idStr;
+		}
+		/**
+		 * @param idStr the mIdStr to set
+		 */
+		public void setIdStr(String idStr) {
+			this.idStr = idStr;
+			id = Long.valueOf(idStr);
 		}	
 }
