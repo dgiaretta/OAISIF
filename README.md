@@ -54,5 +54,5 @@ http://www.oais.info:8510/api/SA/AIPAll
 # RRORI
 http://www.oais.info:8083/api/RI/RIAll
 - list all the pieces of RepInfo
-- NOTE - this must be updated to be consistent with other interfaces. Should return Info Packages and use Identifiers
+- the RI is in Information Packages, which could be an AIP
 
