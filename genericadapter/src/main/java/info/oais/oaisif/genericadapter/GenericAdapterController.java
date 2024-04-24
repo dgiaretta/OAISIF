@@ -104,8 +104,13 @@ public class GenericAdapterController {
 	      ) }),
 	  @ApiResponse(responseCode = "400", description = "Cannot find Generic Adapter", 
 	    content = @Content), 
+	  @ApiResponse(responseCode = "401", description = "Unauthorized access", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "403", description = "Forbidden request", 
+	    content = @Content), 
 	  @ApiResponse(responseCode = "404", description = "Generic Adapter not found", 
-	    content = @Content) })
+	    content = @Content),
+	  @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content) })
 	@GetMapping(value="/GetConfig", produces = "application/json")
 	public List<GenericAdapterEntry> getAllProperties() {
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
