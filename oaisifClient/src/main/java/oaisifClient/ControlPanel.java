@@ -58,8 +58,9 @@ public class ControlPanel {
 	/**
 	 * Set the default Generic Adapter location
 	 */
-	String gaUrl = "http://www.oais.info:8765";
-	String rrUrl = "http://www.oais.info:8083";
+	String gaUrl = "http://www.oais.info:8765/api/GA";
+	String rrUrl = "http://www.oais.info:8083/api/RI";
+	String sbUrl = "http://www.oais.info:8085/api/SB";
 	private JFrame frame;
 
 	/**
@@ -99,32 +100,32 @@ public class ControlPanel {
 		 * Add the buttons
 		 */
 		
-		System.out.println("GA:"+ gaUrl);
+		System.out.println("SB:"+ sbUrl);
 		JButton btnNewButton_0 = new JButton("SwitchBoard");
 		frame.getContentPane().add(btnNewButton_0);
 		btnNewButton_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SwitchBoardEntry sbe = selectArchive(gaUrl);
+				SwitchBoardEntry sbe = selectArchive(sbUrl);
 				String archUrl = sbe.getArchiveURL();
-				Identifier saipid = selectAIP(archUrl);
-				showAIP(gaUrl, saipid);
+				Identifier saipid = selectIP(archUrl, "Switchboard", "/ArchiveNameAll");
+				showIP(sbUrl, saipid, "Switchboard","/AIPAll");
 			}
 		});
 		
-		JButton btnNewButton_1 = new JButton("List all AIPs");
+		JButton btnNewButton_1 = new JButton("List all IPs");
 		frame.getContentPane().add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Identifier saipid = selectAIP(gaUrl);
-				showAIP(gaUrl, saipid);
+				Identifier saipid = selectIP(gaUrl, "Generic Adapter", "/AIPAll");
+				showIP(gaUrl, saipid, "Generic Adapter","/GetAIP?aipid=");
 			}
 		});
 		
-		JButton btnNewButton_2 = new JButton("Show specified AIP");		
+		JButton btnNewButton_2 = new JButton("Show specified IP");		
 		frame.getContentPane().add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showAIP(gaUrl, null);
+				showIP(gaUrl, null, "IP", "/GetAIP?aipid=");
 				
 			}
 		});
@@ -133,7 +134,9 @@ public class ControlPanel {
 		frame.getContentPane().add(btnNewButton_3);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showRI(gaUrl);
+				Identifier saipid = selectIP(rrUrl, "Rep Info", "/RIAll");
+				showIP(rrUrl, saipid, "RRORI", "/GetAIP?aipid=");
+				// showRI(gaUrl);
 			}
 		});
 
@@ -144,13 +147,13 @@ public class ControlPanel {
 	 * @param gaUrl The URL for the Generic Adapter to use 
 	 * @return a SwitchBoard entry
 	 */
-	private SwitchBoardEntry selectArchive(String gaUrl) {
+	private SwitchBoardEntry selectArchive(String sbUrl) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println("SB GA:"+ gaUrl);
+		System.out.println("SB:"+ sbUrl);
 	    URI targetURI=null;
 		try {
-			targetURI = new URI(gaUrl+"/api/GA/GetSwitchboardAll");
+			targetURI = new URI(sbUrl+"/ArchiveNameAll");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,7 +214,7 @@ public class ControlPanel {
 	 * Show a table listing the RIs from the Generic Adapter 
 	 * @param gaUrl The URL of the Generic Adapter
 	 */
-	private void showRI(String gaUrl) {
+	private void showRI(String url, String targ) {
 		
 		if (gaUrl == null) {
 			gaUrl = JOptionPane.showInputDialog("Please input an Archive Generic Adapter URL"); 
@@ -220,7 +223,7 @@ public class ControlPanel {
 		System.out.println("RI :"+ rrUrl);
 	    URI targetURI=null;
 		try {
-			targetURI = new URI(rrUrl+"/RIAll");
+			targetURI = new URI(rrUrl+"/api/RI/RIAll");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -258,17 +261,18 @@ public class ControlPanel {
 		Vector<Vector<String>> dataList = new Vector<>();
 		JsonNode dataRow = swArray;
 		Vector<String> columnNames = new Vector<>();
-	    columnNames.add("id");
-	    columnNames.add("doName");
-	    columnNames.add("doid");
-	    columnNames.add("ridoid");
-	    columnNames.add("rirole");
+	    columnNames.add("IdType");
+	    columnNames.add("Ident");
+	    columnNames.add("Package Type");
+	    columnNames.add("Is Declared Complete");
+	    columnNames.add("Package Description");
+	    columnNames.add("Size (if known)");
 		if (dataRow.isArray()) {
 			for (JsonNode arrayItem : dataRow) {
 				System.out.println("row :" + arrayItem);
 				Vector<String> row = new Vector<>();
 				dataList.add(row);
-				for (int i = 0 ; i<5; i++) {
+				for (int i = 0 ; i<6; i++) {
 					String col = columnNames.get(i); 
 					System.out.println("Item "+i+" :" + col + " : " + arrayItem.get(col));
 			        row.add(arrayItem.get(col).asText());
@@ -284,9 +288,9 @@ public class ControlPanel {
 	    panel.setLayout(new FlowLayout());
 	    JEditorPane jEditorPane = new JEditorPane();
 	    jEditorPane.setEditable(false);   
-	    URL url = null;
+	    URL myUrl = null;
 		try {
-			url = new URL(urlStr);
+			myUrl = new URL(urlStr);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -316,16 +320,16 @@ public class ControlPanel {
 	 * @param gaUrl The URL of the Generic Adapter
 	 * @return The Identifier of the AIP wanted.
 	 */
-	private Identifier selectAIP(String gaUrl) {
+	private Identifier selectIP(String url, String targ, String app) {
 		
-		if (gaUrl == null) {
-			gaUrl = JOptionPane.showInputDialog("Please input an Archive Generic Adapter URL"); 
+		if (url == null) {
+			url = JOptionPane.showInputDialog("Please input an target URL"); 
 		}
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println("AIP GA:"+ gaUrl);
+		System.out.println("IP " + targ + ":"+ url);
 	    URI targetURI=null;
-		try {
-			targetURI = new URI(gaUrl+"/api/GA/AIPAll");
+		try {	
+			targetURI = new URI(url+app);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -396,20 +400,21 @@ public class ControlPanel {
 	 * @param gaUrl The URL of the Generic Adapter
 	 * @param saipid The Identifier of the AIP wanted
 	 */
-	private void showAIP(String gaUrl, Identifier saipid) {
-		if (gaUrl == null) {
-			gaUrl = JOptionPane.showInputDialog("Please input an Archive Generic Adapter URL"); 
+	private void showIP(String url, Identifier saipid, String targ, String app) {
+		System.out.println( url + ":"+saipid+":"+targ+" "+app);
+		if (url == null) {
+			url = JOptionPane.showInputDialog("Please input " + targ +" URL"); 
 		}
 		if (saipid == null) {
-			String inputValue = JOptionPane.showInputDialog("Please input an AIP ID as IdType,IdName"); 
+			String inputValue = JOptionPane.showInputDialog("Please input an IP ID as IdType,IdName"); 
 			String[] res = inputValue.split("[,]", 0);
 			saipid = new IdentifierRefImpl(res[0], res[1]);
 		}
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println("AIP GA:"+ gaUrl);
+		System.out.println("IP "+ targ + ":" + url);
 	    URI targetURI=null;
 		try {
-			targetURI = new URI(gaUrl+"/api/GA/GetAIP?aipid="+saipid.getIdName());
+			targetURI = new URI(url+app+saipid.getIdName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -434,7 +439,7 @@ public class ControlPanel {
 		
 		String res = response.body();
 
-		System.out.println("AIP: "+ res);
+		System.out.println("IP: "+ res);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 	    Object jsonObject;

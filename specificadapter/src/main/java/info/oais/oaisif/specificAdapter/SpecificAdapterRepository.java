@@ -17,4 +17,6 @@ public interface SpecificAdapterRepository extends CrudRepository<SpecificAdapte
 	//List<SpecificAdapterEntry> findByDoDoid(String name);
 	
 	//String getBySAAll();
+	
+	List<SpecificAdapterEntry> findByJsonStringLike(String text);
 }

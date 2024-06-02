@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@RequestMapping("/api/RI")
+@RequestMapping("/oaisif/v1/representation-info-repository")
 public class RroriController {
 
 	@Autowired
@@ -28,15 +30,15 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetAIP", params="aipid", produces = "application/json")
+	@GetMapping(value="/information-packages/{ipid}", produces = "application/json")
 	public List<RroriEntry> getAIPByDOIDByRequestParam( 
-			@RequestParam("aipid") String doid) {
+			@PathVariable(value = "ipid") String ipid) {
 		System.out.println("controller rroriRepository is:" + rroriRepository);
-		List<RroriEntry> ar = rroriRepository.findByIdStr(doid);
+		List<RroriEntry> ar = rroriRepository.findByIdStr(ipid);
 		if ( ar != null) {
 			System.out.println("Entry requested is: " + ar);
 		} else {
-			System.out.println("Entry request for "+ doid + " is NULL");
+			System.out.println("Entry request for "+ ipid + " is NULL");
 		}
 		return ar;	
 	}
@@ -46,9 +48,9 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/AIPLike", params="aipid", produces = "application/json")
+	@GetMapping(value="/information-packages-like/{name}", produces = "application/json")
 	public List<RroriEntry> getByAIPNameLikeByRequestParam( 
-			@RequestParam("aipid") String name) {
+			@PathVariable(value = "name") String name) {
 		System.out.println("controller rroriRepository LIKE is:" + rroriRepository);
 		List<RroriEntry> ar = rroriRepository.findByIdStrLike(name);
 		if ( ar != null) {
@@ -66,7 +68,7 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/RIAll", produces = "application/json")
+	@RequestMapping(value="/information-packages", produces = "application/json")
 	public String getByRIAll() {
 		//System.out.println("controller rroriRepository is:" + rroriRepository);
 		List<RroriEntry> ar = (List<RroriEntry>) rroriRepository.findAll();
@@ -159,9 +161,9 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetPDI", params="aipid", produces = "application/json")
+	@RequestMapping(value="/information-packages/{ipid}/{component}", produces = "application/json")
 	public List<String> getPDIByIDByRequestParam( 
-			@RequestParam("aipid") String idStr) {
+			@PathVariable(value = "ipid") String idStr, @PathVariable(value = "component") String compStr) {
 		int numrows = 0;
 		System.out.println("controller rroriRepository is:" + rroriRepository);
 		//List<RroriEntry> ar = rroriRepository.findByPdiDoid(doid);
@@ -212,9 +214,9 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetIO", params="aipid", produces = "application/json")
+	@RequestMapping(value="/information-packages/{ipid}/IO", produces = "application/json")
 	public List<String> getIOByIDByRequestParam( 
-			@RequestParam("aipid") String idStr) {
+			@RequestParam("ipid") String idStr) {
 		int numrows = 0;
 		System.out.println("controller rroriRepository is:" + rroriRepository);
 		//List<RroriEntry> ar = rroriRepository.findByPdiDoid(doid);
@@ -265,9 +267,9 @@ public class RroriController {
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/GetDO", params="aipid", produces = "application/json")
+	@RequestMapping(value="/information-packages/{ipid}/DO", produces = "application/json")
 	public List<String> getDOByIDByRequestParam( 
-			@RequestParam("aipid") String idStr) {
+			@RequestParam("ipid") String idStr) {
 		int numrows = 0;
 		System.out.println("controller rroriRepository is:" + rroriRepository);
 		//List<RroriEntry> ar = rroriRepository.findByPdiDoid(doid);

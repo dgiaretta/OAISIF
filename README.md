@@ -20,29 +20,32 @@ On command line for running JAR one can set parameter e.g. add --server.port=xxx
 - SPECIFIC ADAPTER: 8510
 
 # SWITCHBOARD
-http://www.oais.info:8085/api/SB/ArchiveNameAll
+http://www.oais.info:8085/oaisif/v1/switchboard/sources
 - note the one with archiveURL http://www.oais.info:8765
 
 # GENERIC ADAPTER
-http://www.oais.info:8765/api/GA/GetConfig
+http://www.oais.info:8765/oaisif/v1/generic-adapter/properties
 - shows the properties needed to communicate with the server
 
-http://www.oais.info:8765/api/GA/GetProperty?name=MYDESCRIPTION
+http://www.oais.info:8765/oaisif/v1/generic-adapter/properties/MYDESCRIPTION
 - to select the value of one of the properties
 
-http://www.oais.info:8765/api/GA/AIPAll		
+http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages		
 - returns table listing the AIPs and their Package Descriptions.
 - The table is in the form of an array (i.e. the rows) of arrays (containing the values in the columns). The first row gives the names of the columns.
 - Note that JSON arrays maintain the order of the elements see https://datatracker.ietf.org/doc/html/rfc8259#page-7
 
-http://www.oais.info:8765/api/GA/GetAIP?aipid=xxxx 
-- e.g. http://www.oais.info:8765/api/GA/GetAIP?aipid=1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
+http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX
+- e.g. http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
 
-http://www.oais.info:8765/api/GA/GetIO?aipid=xxxx   
-- returns JSON containing the Information Object of that AIP
+http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/IO
+- returns JSON containing the Information Object of that IP
 
-http://www.oais.info:8765/api/GA/GetDO?aipid=xxxx   
-- returns JSON containing the (Content) Data Object of that AIP
+http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/DO
+- returns JSON containing the (Content) Data Object of that IP
+
+http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/PDI
+- returns JSON containing the PDI of that IP - only guaranteed to exist in an AIP
 
 http://www.oais.info:8765/v3/api-docs.yaml
 - returns the YAML
@@ -52,11 +55,11 @@ http://www.oais.info:8765/swagger-ui/index.html
 
 
 # SPECIFIC ADAPTER
-http://www.oais.info:8510/api/SA/AIPAll
-- list all the AIPs
+http://www.oais.info:8510/oaisif/v1/specific-adapter/information-packages
+- list all the IPs - including AIPs
 
 # RRORI
-http://www.oais.info:8083/api/RI/RIAll
+http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages
 - list all the pieces of RepInfo
 - the RI is in Information Packages, which could be an AIP
 
