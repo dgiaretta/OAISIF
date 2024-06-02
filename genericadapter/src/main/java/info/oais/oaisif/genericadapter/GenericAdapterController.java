@@ -51,6 +51,56 @@ public class GenericAdapterController {
 	
 	@Value("{)")
 	/**
+	 * Get all the properties needed to communicate with the GA
+	 * @return All the name/value pairs for the properties
+	 */
+	@ResponseBody
+	@Operation(summary = "Get the configuration parameters needed to use this instance of the Generic Adapter")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the configuration parameters", 
+	    content = { @Content(mediaType = "application/json" 
+	      ) }),
+	  @ApiResponse(responseCode = "400", description = "Cannot find Generic Adapter", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "401", description = "Unauthorized access", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "403", description = "Forbidden request", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "Generic Adapter not found", 
+	    content = @Content),
+	  @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content) })
+	@GetMapping(value="/properties", produces = "application/json")
+	public List<GenericAdapterEntry> getAllProperties() {
+		//System.out.println("controller rroriRepository is:" + rroriRepository);
+		List<GenericAdapterEntry> ar = null;
+		ar = genericAdapterRepository.findByPropertyName("MYDESCRIPTION");
+		System.out.println(ar);
+		
+		List<GenericAdapterEntry> atemp = genericAdapterRepository.findByPropertyName("MYAUTHENTCATIONMETHOD");
+		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
+		System.out.println(ar);
+		
+		atemp = genericAdapterRepository.findByPropertyName("MYSERIALISATIONMETHOD");
+		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
+		System.out.println(ar);
+		
+		atemp = genericAdapterRepository.findByPropertyName("MYCOMMUNICATIONMETHOD");
+		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
+		System.out.println(ar);
+		
+		atemp = genericAdapterRepository.findByPropertyName("MYQUERYMETHOD");
+		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
+		System.out.println(ar);
+		
+		if ( ar != null) {
+			System.out.println("All Entries are: " + ar);
+		} else {
+			System.out.println("All Entries is NULL");
+		}
+		return ar;	
+	}	
+	
+	/**
 	 * baseuri/GetProperty?name=xxx    where XXX is the name of the property
 	 * 
 	 * @param name   name of the property wanted
@@ -107,55 +157,7 @@ public class GenericAdapterController {
 //	}
 //	
 	
-	/**
-	 * Get all the properties needed to communicate with the GA
-	 * @return All the name/value pairs for the properties
-	 */
-	@ResponseBody
-	@Operation(summary = "Get the configuration parameters needed to use this instance of the Generic Adapter")
-	@ApiResponses(value = { 
-	  @ApiResponse(responseCode = "200", description = "Found the configuration parameters", 
-	    content = { @Content(mediaType = "application/json" 
-	      ) }),
-	  @ApiResponse(responseCode = "400", description = "Cannot find Generic Adapter", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "401", description = "Unauthorized access", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "403", description = "Forbidden request", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "404", description = "Generic Adapter not found", 
-	    content = @Content),
-	  @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content) })
-	@GetMapping(value="/properties", produces = "application/json")
-	public List<GenericAdapterEntry> getAllProperties() {
-		//System.out.println("controller rroriRepository is:" + rroriRepository);
-		List<GenericAdapterEntry> ar = null;
-		ar = genericAdapterRepository.findByPropertyName("MYDESCRIPTION");
-		System.out.println(ar);
-		
-		List<GenericAdapterEntry> atemp = genericAdapterRepository.findByPropertyName("MYAUTHENTCATIONMETHOD");
-		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
-		
-		atemp = genericAdapterRepository.findByPropertyName("MYSERIALISATIONMETHOD");
-		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
-		
-		atemp = genericAdapterRepository.findByPropertyName("MYCOMMUNICATIONMETHOD");
-		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
-		
-		atemp = genericAdapterRepository.findByPropertyName("MYQUERYMETHOD");
-		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
-		
-		if ( ar != null) {
-			System.out.println("All Entries are: " + ar);
-		} else {
-			System.out.println("All Entries is NULL");
-		}
-		return ar;	
-	}
+
 	/**
 	 * baseuri/information-packages/xxx    where XXX is the identifier
 	 * @param ipid The String to identify the IP
