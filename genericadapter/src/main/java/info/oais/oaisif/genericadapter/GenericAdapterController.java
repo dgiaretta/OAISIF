@@ -128,114 +128,17 @@ public class GenericAdapterController {
 		System.out.println("controller genericAdapterRepository is:" + genericAdapterRepository);
 		List<GenericAdapterEntry> ar = genericAdapterRepository.findByPropertyName(name);
 		if ( ar != null) {
-			System.out.println("Entry requested is: " + ar);
+			System.out.println("Entry requested was: " + ar);
 		} else {
 			System.out.println("Entry request for "+ name + " is NULL");
 		}
 		return ar;	
 	}
 	
-	@Hidden
-	@PostMapping("/properties/{name}")
-//	/**
-//	 * 
-//	 * @param aipid The Id the archive uses
-//	 * @return List of AIPs that match
-//	 */
-//	@ResponseBody
-//	@GetMapping(value="/information-packages-like/{ipid}", produces = "application/json")
-//	public List<GenericAdapterEntry> getByIPNameLikeByRequestParam( 
-//			@PathVariable(value = "ipid") String ipid) {
-//		System.out.println("controller genericAdapterRepository LIKE is:" + genericAdapterRepository);
-//		List<GenericAdapterEntry> ar = genericAdapterRepository.findByIdLike(ipid);
-//		if ( ar != null) {
-//			System.out.println("Entry requested is: " + ar);
-//		} else {
-//			System.out.println("Entry request for "+ ipid + " is NULL");
-//		}
-//		return ar;	
-//	}
-//	
+//	@Hidden
+//	@PostMapping("/properties/{name}")
 	
-
-	/**
-	 * baseuri/information-packages/xxx    where XXX is the identifier
-	 * @param ipid The String to identify the IP
-	 * @return The JSON for the IP
-	 */
-	@ResponseBody
-	@Operation(summary = "Get an IP from the associated Specific Adapter by its id")
-	@ApiResponses(value = { 
-	  @ApiResponse(responseCode = "200", description = "Found the AIP", 
-	    content = { @Content(mediaType = "application/json") }),
-	  @ApiResponse(responseCode = "400", description = "Invalid id supplied", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "404", description = "AIP not found", 
-	    content = @Content) })
-	@GetMapping(value="/information-packages/{ipid}", produces = "application/json")
-	public String getAIPByIDByRequestParam( 
-			@PathVariable(value = "ipid") String ipid) {
-		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
-		  
-		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
-
-	    System.out.println("XXXXSpecificAdapter is:" + specificAdapterUrl);
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-	    RestTemplate restTemplate = new RestTemplate();   
-
-	    String aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages/"+ipid, HttpMethod.GET, entity, String.class).getBody();
-	    
-	    /**
-	     * Extract the AIP - the first element in the array which is returned at node jsonString
-	     */
-	    ObjectMapper mapper = new ObjectMapper();
-		JsonNode node=null;
-		try {
-			node = mapper.readTree(aips);
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(" Node is:"+node);
-	    JsonNode aip =  (node.get(0)).at("/jsonString");
-	    System.out.println("AIP:"+ aip);
-	    
-	    return aip.asText();
-	}
-	
-	@ResponseBody
-	@Operation(summary = "Get a list of all the IPs in the associated Specific Adapter")
-	@ApiResponses(value = { 
-	  @ApiResponse(responseCode = "200", description = "Found the list of all AIPs", 
-	    content = { @Content(mediaType = "application/json") }),
-	  @ApiResponse(responseCode = "400", description = "Could not find the list of AIPs", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "404", description = "Specific Adapter not found", 
-	    content = @Content) })
-	@GetMapping(value="/information-packages", produces = "application/json")
-	public String getBySAAll() {
-		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
-
-		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
-
-	    System.out.println("XXXYYYSpecificAdapter is:" + specificAdapterUrl);
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-	    RestTemplate restTemplate = new RestTemplate();   
-
-	    String aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages", HttpMethod.GET, entity, String.class).getBody();
-	    return aips;
-	}
-	
-	
-	
-	
+		
 	/**
 	 * baseuri/information-packages/{id}/{component}    where {id} is the identifier for the IP
 	 * 
@@ -274,6 +177,62 @@ public class GenericAdapterController {
 	    System.out.println(compStr + " is:"+cStr);
 	    //return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the " + compStr + " of IP " + ipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
 	    return cStr;
+	}
+	
+	/**
+	 * baseuri/information-packages/{id}   where {id} is the identifier for the IP
+	 * 
+	 */
+	@ResponseBody
+	@Operation(summary = "Get the specified IP with the given id.")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the IP", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find the IP", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "IP not found", 
+	    content = @Content) })
+	@GetMapping(value="/information-packages/{id}", produces = "application/json")
+	public String getIPByIPIDByRequestParam( 
+			@PathVariable(value = "id") String idStr)  {
+				
+	    System.out.println("XXXYYYSpecificAdapter is:" + specificAdapterUrl);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+	    RestTemplate restTemplate = new RestTemplate();   
+
+	    String cStr = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages/"+idStr, HttpMethod.GET, entity, String.class).getBody();
+	    System.out.println("IP is "+cStr);
+	    //return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the " + compStr + " of IP " + ipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
+	    return cStr;
+	}	
+	
+	/**
+	 * baseuri/information-packages/xxx    where XXX is the identifier
+	 * @param ipid The String to identify the IP
+	 * @return The JSON for the IP
+	 */
+	@ResponseBody
+	@Operation(summary = "Get list of all IPs from the associated Specific Adapter")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the list of IPs", 
+	    content = { @Content(mediaType = "application/json") }),
+	  @ApiResponse(responseCode = "400", description = "Could not find list of IPs", 
+	    content = @Content), 
+	  @ApiResponse(responseCode = "404", description = "Specific Adapter not found", 
+	    content = @Content) })
+	@GetMapping(value="/information-packages", produces = "application/json")
+	public String getAllIPs() {
+	    System.out.println("XXXXSpecificAdapter is:" + specificAdapterUrl);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <String> entity = new HttpEntity<String>(headers);
+	    RestTemplate restTemplate = new RestTemplate();   
+
+	    String aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages", HttpMethod.GET, entity, String.class).getBody();
+	    
+	    return aips;
 	}
 	
 	
