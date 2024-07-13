@@ -24,27 +24,27 @@ http://www.oais.info:8085/oaisif/v1/switchboard/sources
 - note the one with archiveURL http://www.oais.info:8765
 
 # GENERIC ADAPTER
-http://www.oais.info:8765/oaisif/v1/generic-adapter/properties
+http://www.oais.info:8765/oaisif/v1/properties
 - shows the properties needed to communicate with the server
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/properties/MYDESCRIPTION
+http://www.oais.info:8765/oaisif/v1/properties/MYDESCRIPTION
 - to select the value of one of the properties
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages		
+http://www.oais.info:8765/oaisif/v1/information-packages		
 - returns table listing the AIPs and their Package Descriptions.
 - The table is in the form of an array (i.e. the rows) of arrays (containing the values in the columns). The first row gives the names of the columns.
 - Note that JSON arrays maintain the order of the elements see https://datatracker.ietf.org/doc/html/rfc8259#page-7
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX
-- e.g. http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
+http://www.oais.info:8765/oaisif/v1/information-packages/XXXX
+- e.g. http://www.oais.info:8765/oaisif/v1/information-packages/1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/IO
+http://www.oais.info:8765/oaisif/v1/information-packages/XXXX/IO
 - returns JSON containing the Information Object of that IP
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/DO
+http://www.oais.info:8765/oaisif/v1/information-packages/XXXX/DO
 - returns JSON containing the (Content) Data Object of that IP
 
-http://www.oais.info:8765/oaisif/v1/generic-adapter/information-packages/XXXX/PDI
+http://www.oais.info:8765/oaisif/v1/information-packages/XXXX/PDI
 - returns JSON containing the PDI of that IP - only guaranteed to exist in an AIP
 
 http://www.oais.info:8765/v3/api-docs.yaml

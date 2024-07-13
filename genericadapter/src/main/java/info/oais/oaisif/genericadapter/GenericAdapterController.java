@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @PropertySource("classpath:genericadapter.properties")
-@RequestMapping("/oaisif/v1/generic-adapter")
+@RequestMapping("/oaisif/v1")
 public class GenericAdapterController {
 	
 	@Value("${SPECIFICADAPTER}") 
