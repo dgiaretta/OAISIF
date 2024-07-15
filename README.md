@@ -54,7 +54,7 @@ http://www.oais.info:8765/swagger-ui/index.html
 # SWITCHBOARD
 http://www.oais.info:8085/oaisif/v1/switchboard/sources
 - note the one with archiveURL http://www.oais.info:8765
-- note the one with archiveName RRORI i.e. http://www.oais.info:8085/oaisif/v1/switchboard/RRORI
+- note the one with archiveName RRORI i.e. http://www.oais.info:8085/oaisif/v1/switchboard/sources/RRORI
 
 # RRORI
 http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages
