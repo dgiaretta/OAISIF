@@ -19,9 +19,6 @@ On command line for running JAR one can set parameter e.g. add --server.port=xxx
 - SWITCHBOARD: 8085
 - SPECIFIC ADAPTER: 8510
 
-# SWITCHBOARD
-http://www.oais.info:8085/oaisif/v1/switchboard/sources
-- note the one with archiveURL http://www.oais.info:8765
 
 # GENERIC ADAPTER
 http://www.oais.info:8765/oaisif/v1/properties
@@ -54,12 +51,23 @@ http://www.oais.info:8765/swagger-ui/index.html
 - SWAGGER page which can ge used to test the interfaces
 
 
-# SPECIFIC ADAPTER
-http://www.oais.info:8510/oaisif/v1/specific-adapter/information-packages
-- list all the IPs - including AIPs
+# SWITCHBOARD
+http://www.oais.info:8085/oaisif/v1/switchboard/sources
+- note the one with archiveURL http://www.oais.info:8765
+- note the one with archiveName RRORI i.e. http://www.oais.info:8085/oaisif/v1/switchboard/RRORI
 
 # RRORI
 http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages
 - list all the pieces of RepInfo
 - the RI is in Information Packages, which could be an AIP
+
+http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages/1676670158
+- lists a particular Information Package with RepInfo with given ID
+
+
+
+# FOR INTERNAL use in this implementation
+## SPECIFIC ADAPTER
+http://www.oais.info:8510/oaisif/v1/specific-adapter/information-packages
+- list all the IPs - including AIPs
 
