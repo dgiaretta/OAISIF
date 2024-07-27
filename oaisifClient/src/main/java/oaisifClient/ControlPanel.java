@@ -2,6 +2,7 @@ package oaisifClient;
 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -58,9 +59,9 @@ public class ControlPanel {
 	/**
 	 * Set the default Generic Adapter location
 	 */
-	String gaUrl = "http://www.oais.info:8765/api/GA";
-	String rrUrl = "http://www.oais.info:8083/api/RI";
-	String sbUrl = "http://www.oais.info:8085/api/SB";
+	String gaUrl = "http://www.oais.info:8765/oaisif/v1";
+	String rrUrl = "http://www.oais.info:8083/oaisif/v1";
+	String sbUrl = "http://www.oais.info:8085/oaisif/v1";
 	private JFrame frame;
 
 	/**
@@ -107,8 +108,8 @@ public class ControlPanel {
 			public void actionPerformed(ActionEvent e) {
 				SwitchBoardEntry sbe = selectArchive(sbUrl);
 				String archUrl = sbe.getArchiveURL();
-				Identifier saipid = selectIP(archUrl, "Switchboard", "/ArchiveNameAll");
-				showIP(sbUrl, saipid, "Switchboard","/AIPAll");
+				Identifier saipid = selectIP(archUrl, "Archive", "/oaisif/v1/information-packages");
+				showIP(archUrl, saipid, "Archive","/oaisif/v1/information-packages/");
 			}
 		});
 		
@@ -116,8 +117,8 @@ public class ControlPanel {
 		frame.getContentPane().add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Identifier saipid = selectIP(gaUrl, "Generic Adapter", "/AIPAll");
-				showIP(gaUrl, saipid, "Generic Adapter","/GetAIP?aipid=");
+				Identifier saipid = selectIP(gaUrl, "Generic Adapter", "/information-packages");
+				showIP(gaUrl, saipid, "Generic Adapter","/information-packages/");
 			}
 		});
 		
@@ -125,7 +126,7 @@ public class ControlPanel {
 		frame.getContentPane().add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showIP(gaUrl, null, "IP", "/GetAIP?aipid=");
+				showIP(gaUrl, null, "IP", "/information-packages/");
 				
 			}
 		});
@@ -134,8 +135,8 @@ public class ControlPanel {
 		frame.getContentPane().add(btnNewButton_3);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Identifier saipid = selectIP(rrUrl, "Rep Info", "/RIAll");
-				showIP(rrUrl, saipid, "RRORI", "/GetAIP?aipid=");
+				Identifier saipid = selectIP(rrUrl, "Rep Info", "/representation-info-repository/information-packages");
+				showIP(rrUrl, saipid, "RRORI", "/representation-info-repository/information-packages/");
 				// showRI(gaUrl);
 			}
 		});
@@ -153,7 +154,7 @@ public class ControlPanel {
 		System.out.println("SB:"+ sbUrl);
 	    URI targetURI=null;
 		try {
-			targetURI = new URI(sbUrl+"/ArchiveNameAll");
+			targetURI = new URI(sbUrl+"/switchboard/sources");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -223,7 +224,7 @@ public class ControlPanel {
 		System.out.println("RI :"+ rrUrl);
 	    URI targetURI=null;
 		try {
-			targetURI = new URI(rrUrl+"/api/RI/RIAll");
+			targetURI = new URI(rrUrl+"/representation-info-repository/information-packages");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -455,7 +456,7 @@ public class ControlPanel {
 			e.printStackTrace();
 		}
 	    
-		JTextArea textArea = new JTextArea(30, 50);
+		JTextArea textArea = new JTextArea(30, 100);
 		textArea.setText(prettyJson);
 		textArea.setEditable(true);
 		JScrollPane scrollPane = new JScrollPane(textArea); 
@@ -471,6 +472,7 @@ public class ControlPanel {
 	 */
 	private int displayTableAndSelectRow(Vector<Vector<String>> dataList, Vector<String> columnNames) {
 		JTable table = new JTable(dataList, columnNames);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	    table.setRowSelectionAllowed(true);
 	    ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -478,7 +480,22 @@ public class ControlPanel {
          * SHow the table and wait for a row to be selected and OK button pressed
          */
 	    JOptionPane.showMessageDialog(null, new JScrollPane(table));
-	    
+        // JPanel jp = new JPanel();
+        //jp.add(table);
+        //JScrollPane jsp = new JScrollPane(table);
+
+        //jsp.setLayout(new GridLayout(1,1)); /* little trick ;) and believe me that this step is important to the automatic all columns resize! A import is also needed for using GridLayout*/
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // this is obvius part
+//        JScrollPane scrollPane = new JScrollPane(table);
+//        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        // Add the scroll pane to the frame
+//        frame.add(scrollPane);
+//
+//        frame.pack();
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
 	    int rowIndex = table.getSelectedRow();
 	    
 	    System.out.println("Selected row is:" + rowIndex);;
