@@ -61,7 +61,7 @@ http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-p
 - list all the pieces of RepInfo
 - the RI is in Information Packages, which could be an AIP
 
-http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages/1676670158
+http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages/457598613
 - lists a particular Information Package with RepInfo with given ID
 
 
