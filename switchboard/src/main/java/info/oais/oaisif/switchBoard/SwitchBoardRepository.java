@@ -10,4 +10,5 @@ public interface SwitchBoardRepository extends CrudRepository<SwitchBoardEntry, 
 	List<SwitchBoardEntry> findByArchiveNameLike(String name);
 	//List<SwitchBoardEntry> findAll();
 	//List<SwitchBoardEntry> getAll();
+	
 }

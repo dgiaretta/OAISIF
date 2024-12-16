@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+
 public interface SpecificAdapterRepository extends CrudRepository<SpecificAdapterEntry, Long> {
 	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
 	//List<SpecificAdapterEntry> findByAipDoid(String name);

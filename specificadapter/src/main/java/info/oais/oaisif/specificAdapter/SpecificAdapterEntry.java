@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import lombok.*;
 	
+	
 	@Getter @Setter
 
 	@Entity

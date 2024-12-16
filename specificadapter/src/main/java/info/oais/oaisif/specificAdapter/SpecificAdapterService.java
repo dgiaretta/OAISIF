@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
 
+
 @Service
 @PropertySource("classpath:specificadapter.properties")
 public class SpecificAdapterService {

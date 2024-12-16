@@ -26,8 +26,10 @@ public class SpecificAdapterController {
 	private SpecificAdapterRepository specificAdapterRepository;
 	
 	/**
-	 * Get an AIP given an identifier
-	 * baseuri/GetAIP?aipid=xxx    where XXX is archive's identifier for the AIP
+	 * Get the list of IPs
+	 * baseuri/oaisif/v1/specific-adapter/information-packages       
+	 * Get an IP given an identifier
+	 * baseuri/oaisif/v1/specific-adapter/information-packages/xxx    where XXX is archive's identifier for the IP
 	 * 
 	 */
 	@ResponseBody

@@ -245,7 +245,6 @@ public class GenericAdapterController {
 		}
 	    //return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the " + compStr + " of IP " + ipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
 	    
-
 	    return cStr;
 	}	
 	

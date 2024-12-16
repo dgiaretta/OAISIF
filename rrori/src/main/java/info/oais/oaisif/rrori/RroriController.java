@@ -26,8 +26,9 @@ public class RroriController {
 	private RroriRepository rroriRepository;
 	
 	/**
-	 * Get an AIP given an identifier
-	 * baseuri/GetAIP?aipid=xxx    where XXX is archive's identifier for the AIP
+	 * Get an IP given an identifier
+	 * baseuri/oaisif/v1/representation-info-repository/information-packages/XXX  where XXX is archive's identifier for the IP containing
+	 * RepInfo
 	 * 
 	 */
 	@ResponseBody

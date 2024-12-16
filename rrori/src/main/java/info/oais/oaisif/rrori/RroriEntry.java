@@ -1,6 +1,5 @@
 package info.oais.oaisif.rrori;
 
-
 import java.io.Serializable;
 
 import jakarta.persistence.Column;

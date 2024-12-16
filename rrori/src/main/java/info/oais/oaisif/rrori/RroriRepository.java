@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+
 public interface RroriRepository extends CrudRepository<RroriEntry, Long> {
 	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
 	//List<RroriEntry> findByAipDoid(String name);

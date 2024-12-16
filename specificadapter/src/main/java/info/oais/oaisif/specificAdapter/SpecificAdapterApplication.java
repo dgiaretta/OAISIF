@@ -15,5 +15,4 @@ public class SpecificAdapterApplication {
           .singletonMap("server.port", "8510"));
         app.run(args);
 	}
-
 }

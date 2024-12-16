@@ -11,6 +11,7 @@ import info.oais.oaisif.genericadapter.GenericAdapterEntry;
 
 import jakarta.annotation.PostConstruct;
 
+
 @Service
 @PropertySource("classpath:genericadapter.properties")
 public class GenericAdapterService {
@@ -19,6 +20,7 @@ public class GenericAdapterService {
 	@Autowired
 	GenericAdapterRepository genericAdapterRepository;
 	@SuppressWarnings("null")
+	
 	
 	/**
 	 * Get the values for the config properties

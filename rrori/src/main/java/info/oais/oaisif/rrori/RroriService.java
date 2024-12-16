@@ -47,7 +47,7 @@ public class RroriService {
         System.out.println("rroriRepository is:" + rroriRepository);
         System.out.println("Retrieve all records");
         System.out.println("Entries: " + rroriRepository.findAll());
-    	//log.info("specificAdapter Entries: " + rroriRepository.findByArchiveName("RRORI"));
+
 	}
 
 	
