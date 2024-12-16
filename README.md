@@ -33,7 +33,7 @@ http://www.oais.info:8765/oaisif/v1/information-packages
 - Note that JSON arrays maintain the order of the elements see https://datatracker.ietf.org/doc/html/rfc8259#page-7
 
 http://www.oais.info:8765/oaisif/v1/information-packages/XXXX
-- e.g. http://www.oais.info:8765/oaisif/v1/information-packages/1212093495 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
+- e.g. http://www.oais.info:8765/oaisif/v1/information-packages/1307693071 - returns JSON AIP for a FITS file with links to "reasonable" RepInfo etc.
 
 http://www.oais.info:8765/oaisif/v1/information-packages/XXXX/IO
 - returns JSON containing the Information Object of that IP
@@ -61,7 +61,7 @@ http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-p
 - list all the pieces of RepInfo
 - the RI is in Information Packages, which could be an AIP
 
-http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages/1676670158
+http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-packages/457598613
 - lists a particular Information Package with RepInfo with given ID
 
 
