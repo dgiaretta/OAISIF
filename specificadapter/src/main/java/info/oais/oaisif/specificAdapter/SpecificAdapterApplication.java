@@ -1,11 +1,9 @@
-package info.oais.oaisif.specificAdapter;
+package info.oais.oaisif.specificadapter;
 
 import java.util.Collections;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-//import info.oais.oaisif.rrori.RroriApplication;
 
 @SpringBootApplication
 public class SpecificAdapterApplication {

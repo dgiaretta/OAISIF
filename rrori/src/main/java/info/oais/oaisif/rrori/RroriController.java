@@ -15,7 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @RestController
 @RequestMapping("/oaisif/v1/representation-info-repository")
@@ -31,16 +32,33 @@ public class RroriController {
 	 */
 	@ResponseBody
 	@GetMapping(value="/information-packages/{ipid}", produces = "application/json")
-	public List<RroriEntry> getAIPByDOIDByRequestParam( 
+	public String getAIPByDOIDByRequestParam( 
 			@PathVariable(value = "ipid") String ipid) {
 		System.out.println("controller rroriRepository is:" + rroriRepository);
+		JsonNode node=null;
+		ObjectMapper mapper = new ObjectMapper();
 		List<RroriEntry> ar = rroriRepository.findByIdStr(ipid);
 		if ( ar != null) {
 			System.out.println("Entry requested is: " + ar);
 		} else {
 			System.out.println("Entry request for "+ ipid + " is NULL");
 		}
-		return ar;	
+		try {
+			System.out.println("AR:" + ar);
+			System.out.println("AR.GET(0):"+ ar.get(0));
+			System.out.println("AR.GET(0).GETJSONSTRING():"+ ar.get(0).getJsonString());
+			node = mapper.readTree(ar.get(0).getJsonString());
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    String encJ  = node.toString();
+	    //String unencJ = encJ.replace("\\\"", "\"");
+	    return encJ;
+			
 	}
 	/**
 	 * Get an AIP with an identifier like the given string
@@ -74,8 +92,9 @@ public class RroriController {
 		List<RroriEntry> ar = (List<RroriEntry>) rroriRepository.findAll();
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode node=null;
-		String csvStr = "[ \"IdType\",\"Ident\",\"Package Type\",\"Is Declared Complete\",\"Package Description\",\"Size (if known)\"]";
 		String ret = "";
+		int count = 0;
+		String csvStr = "["; //"\"columns\": [ \"IdentifierType\",\"IdentifierString\",\"PackageType\",\"IsDeclaredComplete\",\"PackageDescription\",\"Size\"],\"rows\": ";
 		if ( ar != null) {
 			Iterator<RroriEntry> iter = ar.iterator();
 			while(iter.hasNext()) {
@@ -86,7 +105,7 @@ public class RroriController {
 				 * IdentifierTYpe:"Local",Identifier:idStr
 				 */
 				String idStr = sae.getIdStr();
-				String ident = "\"Local\",\"" + idStr + "\"";
+				String ident = "\"IdentifierObject\":{\"IdentifierType\":\"Local\",\"IdentifierString\":\"" + idStr + "\"}";
 				
 				/**
 				 * Create the AIP tree then extract the PackageDescription
@@ -135,20 +154,20 @@ public class RroriController {
 				 * Add CRFL to existing row - so that last row does not have it.
 				 */
 				
-				if (csvStr != "") csvStr = csvStr + ",";
-				csvStr = csvStr + "[" + ident + "," + typ + "," + "\""+ compStr + "\"" + "," + "\""+pdStr+"\"" + ",\""+ sizStr + "\"]";
+				if (csvStr != "[") csvStr = csvStr + ",";
+				csvStr = csvStr + "{" + ident + ",\"PackageType\":" + typ + "," + "\"IsDeclaredComplete\":\"" + compStr + "\"" + ",\"PackageDescription\":\"" + pdStr +"\"" + ",\"size\":\""+ sizStr + "\"}";
 				
 				System.out.println("CSVSTR:\r\n"+csvStr);
 				
 			}
 			
-			//String escCsvStr = csvStr.replace("\"", "\u0022");
-			//System.out.println("ESCCSVSTR:\r\n"+escCsvStr);
+			csvStr = csvStr + "]";
+			String escapedStr = csvStr.replace("\"", "\\\""); 
 			
 			ret = "{\"InformationPackage\":{\"version\":\"1.0\",\"PackageType\":\"General\",";
-			ret = ret + "\"PackageDescription\":\"This is a list of AIPs in the repository\",";
-			ret = ret + "\"InformationObject\":{\"DataObject\":["+ csvStr + "],";
-			ret = ret + "\"RepresentationInformation\":{\"IdentifierType\":\"URI\",\"Identifier\":\"http://www.oais.info/oais-if/rrori/RepInfoForAIPAllcsvfile.json\"}";
+			ret = ret + "\"PackageDescription\":\"This is a list of IPs containing Representation Information in this RRORI\",";
+			ret = ret + "\"InformationObject\":{\"DataObject\":{\"EncodedObject\":{\"Encoding\":\"JSON:http://www.oais.info/oais-if/json-schema/rrori.schema.json\",\"EncodedContent\":\""+ escapedStr + "\"}},";
+			ret = ret + "\"RepresentationInformation\":{\"IdentifierObject\":{\"IdentifierType\":\"URI\",\"IdentifierString\":\"http://www.oais.info/oais-if/rrori/RepInfoForRRORIfile.json\"}}";
 			ret = ret + "}}}";
 			
 			System.out.println("InfoPackage is: " + ret);

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "http://www.oais.info/oais-if/json-schema/time-series-table-v1.0.schema.json",
+	"title": "General Timeseries Table",
+	"description": "A schema for a general table with a TimeStamp column",
+	"type": "array",
+	"items": {
+		"type": "object",
+			"properties": {
+				"TimeStamp": {
+					"type": "string",
+					"pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+				},
+			"additionalProperties": {
+				"type": ["string", "number", "boolean", "null"]
+			}
+		},
+	"required": ["TimeStamp"]
+	}
+}

@@ -31,14 +31,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-//import info.oais.oaisif.genericadapter.GenericAdapterRepository;
-//import info.oais.oaisif.genericadapter.GenericAdapterEntry;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-//import info.oais.oaisif.rrori.RroriEntry;
 
 @RestController
 @PropertySource("classpath:genericadapter.properties")
 @RequestMapping("/oaisif/v1")
+/**
+ * This Generic Adapter implementation for the most part simply passes on the REST command to the Specific Adapter
+ * 
+ */
 public class GenericAdapterController {
 	
 	@Value("${SPECIFICADAPTER}") 
@@ -70,36 +73,53 @@ public class GenericAdapterController {
 	    content = @Content),
 	  @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content) })
 	@GetMapping(value="/properties", produces = "application/json")
-	public List<GenericAdapterEntry> getAllProperties() {
-		//System.out.println("controller rroriRepository is:" + rroriRepository);
-		List<GenericAdapterEntry> ar = null;
-		ar = genericAdapterRepository.findByPropertyName("MYDESCRIPTION");
+	public String getJsonAllProperties() { 
+
+		List<GenericAdapterEntry> ar = getAllProperties();
+		String arStr1 = null;
+
+		System.out.println("ar size :"+ ar.size() + ","+ar.toString());
+		arStr1 = "[";
 		System.out.println(ar);
+		GenericAdapterEntry ent = null;
+		for (int i = 0; i< ar.size(); i++) {
+			ent = ar.get(i);
+				arStr1 = arStr1 + "{\"propertyName\": \"" + ent.getPropertyName() + "\",\"propertyValue\": \""+ ent.getPropertyValue() + "\"}";
+				if (i < ar.size()-1 ) arStr1 = arStr1+",";
+		}
+		arStr1 = arStr1 + "]";
+		String arStr = arStr1.replace("\"", "\\\"");
+		System.out.println("arstr:" + arStr);
+
+		String ret = "{\"InformationPackage\":{\"version\":\"1.0\",\"PackageType\":\"General\",";
+		ret = ret + "\"PackageDescription\":\"This is a list of properties of this repository\",";
+		ret = ret + "\"InformationObject\":{\"DataObject\":{\"EncodedObject\":{\"Encoding\":\"JSON:http://www.oais.info/oais-if/json-schema/gaproperties.schema.json\",\"EncodedContent\":\""+ arStr + "\"}},";
+		ret = ret + "\"RepresentationInformation\":{\"IdentifierObject\":{\"IdentifierType\":\"URI\",\"IdentifierString\":\"http://www.oais.info/oais-if/json-schema/GAPropertySemantics.txt\"}}";
+		ret = ret + "}}}";
+		
+		return ret;	
+	}	
+	
+	List<GenericAdapterEntry> getAllProperties() {
+		
+		List<GenericAdapterEntry> ar = genericAdapterRepository.findByPropertyName("MYDESCRIPTION");
 		
 		List<GenericAdapterEntry> atemp = genericAdapterRepository.findByPropertyName("MYAUTHENTCATIONMETHOD");
 		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
 		
 		atemp = genericAdapterRepository.findByPropertyName("MYSERIALISATIONMETHOD");
 		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
 		
 		atemp = genericAdapterRepository.findByPropertyName("MYCOMMUNICATIONMETHOD");
 		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
 		
 		atemp = genericAdapterRepository.findByPropertyName("MYQUERYMETHOD");
 		ar = Stream.concat(ar.stream(), atemp.stream()).toList();
-		System.out.println(ar);
 		
-		if ( ar != null) {
-			System.out.println("All Entries are: " + ar);
-		} else {
-			System.out.println("All Entries is NULL");
-		}
+		System.out.println("getallprop ar size :"+ ar.size() + ","+ar.toString());
 		return ar;	
 	}	
-	
+		
 	/**
 	 * baseuri/GetProperty?name=xxx    where XXX is the name of the property
 	 * 
@@ -122,29 +142,43 @@ public class GenericAdapterController {
 	  @ApiResponse(responseCode = "404", description = "Generic Adapter not found", 
 	    content = @Content),
 	  @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content) })
-	@GetMapping(value="/properties/{name}",  produces = "application/json")
-	public List<GenericAdapterEntry> getPropertyByRequestParam( 
-			@PathVariable(value = "name") String name) {
-		System.out.println("controller genericAdapterRepository is:" + genericAdapterRepository);
-		List<GenericAdapterEntry> ar = genericAdapterRepository.findByPropertyName(name);
-		if ( ar != null) {
-			System.out.println("Entry requested was: " + ar);
-		} else {
-			System.out.println("Entry request for "+ name + " is NULL");
+	@GetMapping(value="/properties/{param}",  produces = "application/json")
+	public String getJsonProperty(@PathVariable(value = "param") String param)  { //List<GenericAdapterEntry> getAllProperties() {
+
+		List<GenericAdapterEntry> ar = getAllProperties();
+		String arStr1 = null;
+
+		System.out.println("ar size :"+ ar.size() + ","+ar.toString());
+		arStr1 = "[";
+		System.out.println(ar);
+		GenericAdapterEntry ent = null;
+		for (int i = 0; i< ar.size(); i++) {
+			ent = ar.get(i);
+			if (ent.getPropertyName().equals(param) ) {
+				arStr1 = arStr1 + "{\"propertyName\": \"" + ent.getPropertyName() + "\",\"propertyValue\": \""+ ent.getPropertyValue() + "\"}";
+			}
+			
 		}
-		return ar;	
-	}
-	
-//	@Hidden
-//	@PostMapping("/properties/{name}")
-	
+		arStr1 = arStr1 + "]";
+		String arStr = arStr1.replace("\"", "\\\"");
+		System.out.println("arstr:" + arStr);
+		
+		String ret = "{\"InformationPackage\":{\"version\":\"1.0\",\"PackageType\":\"General\",";
+		ret = ret + "\"PackageDescription\":\"This is the value of the selected property of this repository\",";
+		ret = ret + "\"InformationObject\":{\"DataObject\":{\"EncodedObject\":{\"Encoding\":\"JSON:http://www.oais.info/oais-if/json-schema/gaproperties.schema.json\",\"EncodedContent\":\""+ arStr + "\"}},";
+		ret = ret + "\"RepresentationInformation\":{\"IdentifierObject\":{\"IdentifierType\":\"URI\",\"IdentifierString\":\"http://www.oais.info/oais-if/json-schema/GAPropertySemantics.txt\"}}";
+		ret = ret + "}}}";
+		
+		return ret;	
+	}	
+
 		
 	/**
 	 * baseuri/information-packages/{id}/{component}    where {id} is the identifier for the IP
 	 * 
 	 */
 	@ResponseBody
-	@Operation(summary = "Get the specified component from the IP with the given id. The component may be IO (InformationObject), DO (DataObject) or PDI")
+	@Operation(summary = "Get the specified component from the IP with the given id. The component may be IO (InformationObject), DO (DataObject), RI (RepresentationInformation) or PDI")
 	@ApiResponses(value = { 
 	  @ApiResponse(responseCode = "200", description = "Found the ", 
 	    content = { @Content(mediaType = "application/json") }),
@@ -155,24 +189,17 @@ public class GenericAdapterController {
 	@GetMapping(value="/information-packages/{id}/{component}", produces = "application/json")
 	public String getComponentByIPIDByRequestParam( 
 			@PathVariable(value = "id") String idStr, @PathVariable(value = "component") String compStr )  {
-		//String aipStr = getAIPByDOIDByRequestParam( doid);
-		//Properties appProps = new OaisIfConfig().getProperties("genericadapter.properties");
-		  
-		//String specificAdapterUrl = appProps.getProperty("SPECIFICADAPTER");
+
 /**
  * Need to create AIP then get PDI then package that as Info Object in IP
  */
-		//ArchivalInformationPackageRefImpl aip = null;
-		//aip = new Json2Java().json2Java(aipStr, ArchivalInformationPackageRefImpl.class);
-		//PreservationDescriptionInformation pdi = aip.getPDI();
-		//DGXXXX
 				
 	    System.out.println("XXXYYYZZZSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
 	    RestTemplate restTemplate = new RestTemplate();   
-//
+
 	    String cStr = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages/"+idStr+"/"+compStr, HttpMethod.GET, entity, String.class).getBody();
 	    System.out.println(compStr + " is:"+cStr);
 	    //return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the " + compStr + " of IP " + ipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
@@ -195,7 +222,9 @@ public class GenericAdapterController {
 	@GetMapping(value="/information-packages/{id}", produces = "application/json")
 	public String getIPByIPIDByRequestParam( 
 			@PathVariable(value = "id") String idStr)  {
-				
+		
+		JsonNode node=null;
+		ObjectMapper mapper = new ObjectMapper();
 	    System.out.println("XXXYYYSpecificAdapter is:" + specificAdapterUrl);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -204,7 +233,18 @@ public class GenericAdapterController {
 
 	    String cStr = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages/"+idStr, HttpMethod.GET, entity, String.class).getBody();
 	    System.out.println("IP is "+cStr);
+	    try {
+			node = mapper.readTree(cStr);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    //return "{ \"InformationPackage\": {\"version\": \"1.0\", \"PackageType\": \"General\", \"PackageDescription\": \"This is the " + compStr + " of IP " + ipid + "\",  \"InformationObject\": {\"PDI\":" + pdi + "}}}";
+	    
+
 	    return cStr;
 	}	
 	
@@ -214,7 +254,7 @@ public class GenericAdapterController {
 	 * @return The JSON for the IP
 	 */
 	@ResponseBody
-	@Operation(summary = "Get list of all IPs from the associated Specific Adapter")
+	@Operation(summary = "Get list of all IPs from the associated Specific Adapter. Use ?query=String to send a query, consistent with MYQUERYMETHOD")
 	@ApiResponses(value = { 
 	  @ApiResponse(responseCode = "200", description = "Found the list of IPs", 
 	    content = { @Content(mediaType = "application/json") }),
@@ -223,15 +263,24 @@ public class GenericAdapterController {
 	  @ApiResponse(responseCode = "404", description = "Specific Adapter not found", 
 	    content = @Content) })
 	@GetMapping(value="/information-packages", produces = "application/json")
-	public String getAllIPs() {
+	public String getAllIPs(@RequestParam(required = false) String query) {
 	    System.out.println("XXXXSpecificAdapter is:" + specificAdapterUrl);
+	    System.out.println("Query is " + query);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	    HttpEntity <String> entity = new HttpEntity<String>(headers);
-	    RestTemplate restTemplate = new RestTemplate();   
-
-	    String aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages", HttpMethod.GET, entity, String.class).getBody();
+	    RestTemplate restTemplate = new RestTemplate();  
 	    
+	    // Remove quotes around the query if necessary
+	    String queryStr = null;
+	    if (query != null) queryStr = query.replaceAll("^\"|\"$", "");
+	    
+	    String aips;
+	    if (queryStr != null) {
+	    	aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages"+"?query="+queryStr, HttpMethod.GET, entity, String.class).getBody();
+	    } else {
+	    	aips = restTemplate.exchange(specificAdapterUrl+"/oaisif/v1/specific-adapter/information-packages", HttpMethod.GET, entity, String.class).getBody();
+	    }
 	    return aips;
 	}
 	

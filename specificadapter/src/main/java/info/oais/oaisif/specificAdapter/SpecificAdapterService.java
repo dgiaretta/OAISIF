@@ -1,4 +1,4 @@
-package info.oais.oaisif.specificAdapter;
+package info.oais.oaisif.specificadapter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +47,6 @@ public class SpecificAdapterService {
         System.out.println("specificAdapterRepository is:" + specificAdapterRepository);
         System.out.println("Retrieve all records");
         System.out.println("Entries: " + specificAdapterRepository.findAll());
-    	//log.info("specificAdapter Entries: " + specificAdapterRepository.findByArchiveName("RRORI"));
 	}
 
 	

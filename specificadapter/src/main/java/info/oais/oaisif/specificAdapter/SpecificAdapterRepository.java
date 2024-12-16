@@ -1,4 +1,4 @@
-package info.oais.oaisif.specificAdapter;
+package info.oais.oaisif.specificadapter;
 
 import java.util.List;
 

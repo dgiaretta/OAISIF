@@ -63,9 +63,9 @@ public class GenericAdapterService {
 	       
 	        genericAdapterRepository.save(sbe);
         }
-        log.info("genericAdapterRepository is:" + genericAdapterRepository);
-        log.info("Retrieve all records");
-    	log.info("Entries: " + genericAdapterRepository.findAll());
+        System.out.println("genericAdapterRepository is:" + genericAdapterRepository);
+        System.out.println("Retrieve all records");
+        System.out.println("Entries: " + genericAdapterRepository.findAll());
  
 	}
 

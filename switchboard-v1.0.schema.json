@@ -1,0 +1,30 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "http://www.oais.info/oais-if/json-schema/switchboard-v1.0.schema.json",
+	"title": "OAISIF Switchboard schema",
+	"description": "A schema for the OAISIF switchboard response",
+	"type": "array",
+	"items": {
+		"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": "An identifier for the entry"
+				},
+				"archiveName": {
+					"type": "string",
+					"description": "The short name of the information source"
+				},
+				"archiveDescription": {
+					"type": "string",
+					"description": "A description of the source, sufficiently detailed for the user to judge whether it should be chosen"
+				},
+				"archiveURL": {
+					"type": "string",
+					"description": "URL, including port, to be used to as the base URL to access the source"
+				}
+			}
+		},
+	"required": ["id", "archiveName", "archiveDescription", "archiveURL"]
+	}
+}

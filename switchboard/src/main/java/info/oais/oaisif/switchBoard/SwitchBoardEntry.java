@@ -42,19 +42,6 @@ import lombok.*;
 		/**
 		 * AUTHENTICATION METHOD FOR COMMS
 		 */
-//		public String archiveAuth 			= null;
-//		/**
-//		 * SERIALISATION (JSON, XML,,,,) including VERSION
-//		 */
-//		public String archiveSerialisation 	= null;
-//		/**
-//		 * COMMUNICATION PROTOCOL (REST or MAL or ….)
-//		 */
-//		public String archiveComms			= null;
-//		/**
-//		 * QUERY LANGUAGE to use and QUERY PARAMETERS
-//		 */
-//		public String archiveQL				= null;
 
 		public SwitchBoardEntry() {
 			super();
@@ -131,78 +118,6 @@ import lombok.*;
 		public void setArchiveURL(String archiveURL) {
 			this.archiveURL = archiveURL;
 		}
-
-//		/**
-//		 * Get the Authentication method to use for the archive
-//		 * 
-//		 * @return Authentication method to use for the archive
-//		 */	
-//		public String getArchiveAuth() {
-//			return archiveAuth;
-//		}
-//
-//		/**
-//		 * Set the Authentication method to use for the archive
-//		 * 
-//		 * @param archiveAuth Authentication method to use for the archive
-//		 */	
-//		public void setArchiveAuth(String archiveAuth) {
-//			this.archiveAuth = archiveAuth;
-//		}
-//
-//		/**
-//		 * Get the serialisation method to use for the archive e.g. JSON or XML
-//		 * 
-//		 * @return serialisation method to use for the archive e.g. JSON or XML
-//		 */			
-//		public String getArchiveSerialisation() {
-//			return archiveSerialisation;
-//		}
-//
-//		/**
-//		 * Set the serialisation method to use for the archive e.g. JSON or XML
-//		 * 
-//		 * @param archiveSerialisation The serialisation method to use for the archive e.g. JSON or XML
-//		 */		
-//		public void setArchiveSerialisation(String archiveSerialisation) {
-//			this.archiveSerialisation = archiveSerialisation;
-//		}
-//
-//		/**
-//		 * Get the communication method to use for the archive e.g. REST
-//		 * 
-//		 * @return communication method to use for the archive e.g. REST
-//		 */	
-//		public String getArchiveComms() {
-//			return archiveComms;
-//		}
-//
-//		/**
-//		 * Set the communication method to use for the archive e.g. REST
-//		 * 
-//		 * @param archiveComms Communication method to use for the archive e.g. REST
-//		 */	
-//		public void setArchiveComms(String archiveComms) {
-//			this.archiveComms = archiveComms;
-//		}
-//
-//		/**
-//		 * Get the Query Language to use for the archive e.g. SQL
-//		 * 
-//		 * @return Query Language to use for the archive e.g. SQL
-//		 */	
-//		public String getArchiveQL() {
-//			return archiveQL;
-//		}
-//
-//		/**
-//		 * Set the Query Language to use for the archive e.g. SQL
-//		 * 
-//		 * @param archiveQL Query Language to use for the archive e.g. SQL
-//		 */	
-//		public void setArchiveQL(String archiveQL) {
-//			this.archiveQL = archiveQL;
-//		}
 
 
 		@Override

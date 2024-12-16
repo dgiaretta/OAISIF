@@ -8,5 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface GenericAdapterRepository extends CrudRepository<GenericAdapterEntry, Long> {
 	//@Query("SELECT u FROM oaisif-switchboard u WHERE u.archiveName = name")
 	List<GenericAdapterEntry> findByPropertyName(String name);
-	List<GenericAdapterEntry> findByIdLike(String name);
+	//String findByPropertyName(String name);
+	//List<GenericAdapterEntry> findByIdLike(String name);
 }

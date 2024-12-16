@@ -1,0 +1,178 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "http://www.oais.info/oais-if/json-schema/infopackage-v1.0.schema.json",
+    "title": "OAIS-IF Archival Information Package schema",
+    "description": "Description of the schema for the JSON serialisation of an OAIS Archival Information Package",
+    "type": "object",
+    "properties": {
+        "InformationPackage": {
+            "description": "The JSON structure for an OAIS-IF Information Package",
+            "type": "object",
+            "properties": {
+                "version": {
+                    "description": "The version of the package",
+                    "type": "string" 
+                },
+                "PackageType": {
+                    "description": "The type of the package",
+                    "type": "string",
+                    "enum": [
+                        "AIP","General","InfoObjectRequest","Query","QueryResponse","ObjectRequestResponse", "ErrorResponse"
+                    ]
+                },
+                "PackageDescription": {
+                    "description": "A description of the package contents",
+                    "type": "string"
+                },
+				"IsDeclaredComplete":{
+					"description": "Is the AIP complete, for example according to the archive",
+					"type": "boolean"					
+				},
+                "InformationObject": {
+                    "$ref": "#/$defs/InformationObject"
+				}
+			},
+			"required": [
+				"version",
+				"PackageType",
+				"PackageDescription",
+				"InformationObject"
+			]
+		},
+		"if": {    
+			"type": "object",
+			"properties": {
+				"PackageType": {
+					"const": "AIP"
+				}
+			}
+		},
+		"then":{
+			"type": "object",
+			"properties": {
+				"Provenance": {
+					"$ref": "#/$defs/InformationObject"
+				},
+				"Reference": {
+					"$ref": "#/$defs/InformationObject"
+				},
+				"Context": {
+					"$ref": "#/$defs/InformationObject"
+				},
+				"Fixity": {
+					"$ref": "#/$defs/InformationObject"
+				},
+				"AccessRights": {
+					"$ref": "#/$defs/InformationObject"
+				}
+			},
+			"required": [
+				"Provenance",
+				"Reference",
+				"Context",
+				"Fixity",
+				"AccessRights"
+			]
+		}
+    },
+    "required": [
+        "InformationPackage"
+    ],
+	"$defs":{
+		"InformationObject":{
+			"description":"The Information Object",
+			"type": "object",
+			"properties":{
+				"allOf":{
+					"$ref": "#/$defs/DataObject",
+					"$ref": "#/$defs/RepresentationInformation"
+				}
+			}
+		},
+		"DataObject":{
+			"description":"The Data Object - should be either an Identifier or an EncodedObject",
+			"type": "object",
+			"properties":{
+				"size": {
+					"description":"An estimate of the (arbitrarily large) size in bytes of the DataObject may be provided. If the value is not provided or negative then the size is not known. This is a string to allow BigInteger",
+					"type": "string" 
+				},
+				"oneOf":{
+					"$ref": "#/$defs/IdentifierObject",
+					"$ref": "#/$defs/EncodedObject"
+				}
+			}
+		},
+		"EncodedObject":{
+			"description":"The binary encoded object, together with the encoding used - essentially Structure Representation Information which allows the DigitalObject to be encoded in a way which can be transmitted in JSON.",
+			"type": "object",
+			"properties":{
+				"Encoding":{
+					"description":"The encoding method. For a text object then, for example, ASCII7 or UTF8. For a non-text object then, for example, base64 or base32, which encode the binary object into text.",
+					"type": "string"
+				},
+				"EncodedContent":{
+					"description":"The binary object encoded as a string, using the encoding specified by the encoding",
+					"type": "string"
+				}
+			},
+			"required":["encoding", "content"]
+		},
+		"IdentifierObject":{
+			"description":"The Identifier Object",
+			"type": "object",
+			"properties":{
+				"IdentifierType":{
+					"description":"The type of the identifier which is encoded in the Identifier e.g. URL, URN, JSONPath etc",
+					"type":"string"
+				},
+				"IdentifierString":{
+					"description":"The Identifier",
+					"type":"string"
+				}
+			},
+			"required":["IdentifierType","IdentifierString"]
+		},
+		"RepresentationInformation":{
+			"description":"The Representation Information  Object",
+			"type": "object",
+			"properties":{ 
+				"oneOf":{
+					"$ref": "#/$defs/InformationObject",
+					"$ref": "#/$defs/AndGroup",
+					"$ref": "#/$defs/OrGroup"
+				}
+			}
+		},
+		"AndGroup": {
+            "description": "A group of objects which are all needed",
+            "items": {
+                "items": {
+                    "$ref": "#/$defs/RepresentationInformation"
+                },
+                "type": "array"
+            },
+            "minItems": 0,
+            "type": "array"
+        },
+        "OrGroup": {
+            "description": "A group of objects which are alternatives, only one of which is needed",
+            "items": {
+                "items": {
+                    "$ref": "#/$defs/RepresentationInformation"
+                },
+                "type": "array"
+            },
+            "minItems": 0,
+            "type": "array"
+        },
+        "RICategory": {
+            "description": "The type of RepInfo e.g. Structure, Semantics or Other",
+            "enum": [
+                "StructureRI",
+                "SemanticRI",
+                "OtherRI"
+            ]
+        }
+   }
+}

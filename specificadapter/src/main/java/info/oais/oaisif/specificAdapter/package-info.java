@@ -7,4 +7,4 @@
  * @author David Giaretta
  * @version 1.0
  */
-package info.oais.oaisif.specificAdapter;
+package info.oais.oaisif.specificadapter;
