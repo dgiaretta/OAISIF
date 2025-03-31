@@ -71,3 +71,7 @@ http://www.oais.info:8083/oaisif/v1/representation-info-repository/information-p
 http://www.oais.info:8510/oaisif/v1/specific-adapter/information-packages
 - list all the IPs - including AIPs
 
+# Packagevalidator
+Download JAR from http://www.oais.info/oais-if/packagevalidator/packagevalidator-1.0-SNAPSHOT.jar
+
+Download code from http://www.oais.info/oais-if/packagevalidator/PackageValidator.java and maven pom from http://www.oais.info/oais-if/packagevalidator/pom.xml
